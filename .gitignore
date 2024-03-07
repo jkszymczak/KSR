@@ -1,3 +1,5 @@
 projectOne/.direnv
 projectOne/.idea
 projectOne/target
+.direnv
+.idea
