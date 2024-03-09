@@ -1,5 +1,7 @@
 package pl.KJJS.app;
 
+import java.util.Arrays;
+
 public class Article {
     String date;
     String [] topics;
@@ -63,5 +65,21 @@ public class Article {
         this.title = title;
         this.dateline = dateline;
         this.body = body;
+    }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "date='" + date + '\'' +
+                ", topics=" + Arrays.toString(topics) +
+                ", places=" + Arrays.toString(places) +
+                ", people=" + Arrays.toString(people) +
+                ", orgs=" + Arrays.toString(orgs) +
+                ", exchanges=" + Arrays.toString(exchanges) +
+                ", companies=" + Arrays.toString(companies) +
+                ", title='" + title + '\'' +
+                ", dateline='" + dateline + '\'' +
+                ", body='" + body + '\'' +
+                '}';
     }
 }
