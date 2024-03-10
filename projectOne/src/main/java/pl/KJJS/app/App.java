@@ -10,7 +10,7 @@ public class App
 {
     public static void main( String[] args ) throws FileNotFoundException {
         System.out.println( "Hello World!" );
-        Reader reader = new Reader();
-        reader.readArticles("input/reut2-000.sgm");
+
+        System.out.println(SGML.parseArticles("input/reut2-000.sgm"));
     }
 }
