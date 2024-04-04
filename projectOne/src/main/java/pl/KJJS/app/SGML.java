@@ -90,7 +90,7 @@ public class SGML {
 
     }
 
-    public static Article parseArticle(String s){
+    public static Article parseArticle(String s) throws IOException {
         System.out.println("[PARSE ARTICLE]");
         System.out.println(s);
         System.out.println("[PARSE ARTICLE END]");
@@ -130,7 +130,13 @@ public class SGML {
 
         List<Article> articles = scan.tokens().map(String::trim).filter((s)->{
             return !s.isEmpty();
-        }).map(SGML::parseArticle).toList();
+        }).map(s1 ->{
+            try{return parseArticle(s1);}
+            catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        } ).toList();
         scan.close();
         br.close();
         isr.close();

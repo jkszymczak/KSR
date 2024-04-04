@@ -1,5 +1,6 @@
 package pl.KJJS.app;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Article {
@@ -12,7 +13,7 @@ public class Article {
     String [] companies;
     String title;
     String dateline;
-    String body;
+    String[] body;
 
     public String getDate() {
         return date;
@@ -50,11 +51,12 @@ public class Article {
         return dateline;
     }
 
-    public String getBody() {
+    public String[] getBody() {
         return body;
     }
 
-    public Article(String date, String[] topics, String[] places, String[] people, String[] orgs, String[] exchanges, String[] companies, String title, String dateline, String body) {
+    public Article(String date, String[] topics, String[] places, String[] people, String[] orgs, String[] exchanges, String[] companies, String title, String dateline, String body) throws IOException {
+        Tokenizer t = new Tokenizer();
         this.date = date;
         this.topics = topics;
         this.places = places;
@@ -64,7 +66,7 @@ public class Article {
         this.companies = companies;
         this.title = title;
         this.dateline = dateline;
-        this.body = body;
+        this.body = t.tokenizeText(body);
     }
 
     @Override
