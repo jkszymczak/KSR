@@ -1,7 +1,9 @@
 package pl.KJJS.app;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,9 +17,17 @@ public class SGML {
      * */
     public static Result<String> parseToken(String text,String token){
         String [] buf = text.split("<"+token+">",2);
-        if(buf.length==1) return new Result<String>(null,text);
+        if(buf.length==1){
+//            System.out.println("buf is of length 1, first");
+//            System.out.println(text);
+            return new Result<String>(null,text);
+        }
         buf = buf[1].split("</"+token+">",2);
-        if(buf.length==1) return new Result<String>(null,text);
+        if(buf.length==1){
+//            System.out.println("buf is of length 1, second");
+//            System.out.println(text);
+            return new Result<String>(null,text);
+        }
         return new Result<String>(buf[0],buf[1]);
     }
 
@@ -81,8 +91,16 @@ public class SGML {
     }
 
     public static Article parseArticle(String s){
+        System.out.println("[PARSE ARTICLE]");
+        System.out.println(s);
+        System.out.println("[PARSE ARTICLE END]");
         String[] baseTokens = {"DATE","TOPICS","PLACES","PEOPLE","ORGS","EXCHANGES","COMPANIES"};
         Result<String[]> base = sequence(s,baseTokens);
+        if(base.token==null){
+//            System.out.println(s);
+//            System.out.println(base);
+        }
+
         String date = base.token[0];
         String[] topics = many(base.token[1],"D").token;
         String[] places = many(base.token[2],"D").token;
@@ -96,13 +114,27 @@ public class SGML {
 
         return new Article(date,topics,places,people,orgs,exchanges,companies,text[0],text[1],text[2]);
     }
-    public static List<Article> parseArticles(String path) throws FileNotFoundException {
+    public static List<Article> parseArticles(String path) throws IOException {
 
         File file = new File(path);
-        Scanner scan = new Scanner(file).useDelimiter("</?REUTERS.*>");
+        FileInputStream fis = new FileInputStream(file);
+        InputStreamReader isr = new InputStreamReader(fis);
+
+        Path p = Paths.get(path);
+        BufferedReader br = new BufferedReader(isr, (int) Files.size(p));
+
+        Scanner scan = new Scanner(br).useDelimiter("</?REUTERS.*>");
+
+        //Skip DOCTYPE
         scan.nextLine();
-        return scan.tokens().map(String::trim).filter((s)->{
+
+        List<Article> articles = scan.tokens().map(String::trim).filter((s)->{
             return !s.isEmpty();
         }).map(SGML::parseArticle).toList();
+        scan.close();
+        br.close();
+        isr.close();
+        fis.close();
+        return articles;
     }
 }

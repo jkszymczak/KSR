@@ -11,4 +11,12 @@ public class Result<T> {
     public Boolean isOk() {
         return !(token == null);
     }
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "token=" + token +
+                ", rest='" + rest + '\'' +
+                '}';
+    }
 }
