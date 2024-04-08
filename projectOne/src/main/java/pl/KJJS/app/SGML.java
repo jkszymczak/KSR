@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class SGML {
     /**
@@ -18,14 +19,10 @@ public class SGML {
     public static Result<String> parseToken(String text,String token){
         String [] buf = text.split("<"+token+">",2);
         if(buf.length==1){
-//            System.out.println("buf is of length 1, first");
-//            System.out.println(text);
             return new Result<String>(null,text);
         }
         buf = buf[1].split("</"+token+">",2);
         if(buf.length==1){
-//            System.out.println("buf is of length 1, second");
-//            System.out.println(text);
             return new Result<String>(null,text);
         }
         return new Result<String>(buf[0],buf[1]);
@@ -91,19 +88,17 @@ public class SGML {
     }
 
     public static Article parseArticle(String s) throws IOException {
-        System.out.println("[PARSE ARTICLE]");
-        System.out.println(s);
-        System.out.println("[PARSE ARTICLE END]");
+
         String[] baseTokens = {"DATE","TOPICS","PLACES","PEOPLE","ORGS","EXCHANGES","COMPANIES"};
+        String[] tmpCountries = {"uk","japan","canada","west-germany","usa"};
+        List<String > ts = Stream.of(tmpCountries).toList();
         Result<String[]> base = sequence(s,baseTokens);
-        if(base.token==null){
-//            System.out.println(s);
-//            System.out.println(base);
-        }
 
         String date = base.token[0];
         String[] topics = many(base.token[1],"D").token;
         String[] places = many(base.token[2],"D").token;
+        if(places.length != 1) return null;
+        if(!ts.contains(places[0])) return null;
         String[] people = many(base.token[3],"D").token;
         String[] orgs = many(base.token[4],"D").token;
         String[] exchanges = many(base.token[5],"D").token;
@@ -112,7 +107,7 @@ public class SGML {
 
         String[] text = parseText(txt);
 
-        return new Article(date,topics,places,people,orgs,exchanges,companies,text[0],text[1],text[2]);
+        return new Article(date,topics,places[0],people,orgs,exchanges,companies,text[0],text[1],text[2]);
     }
     public static List<Article> parseArticles(String path) throws IOException {
 
@@ -136,7 +131,7 @@ public class SGML {
                 e.printStackTrace();
                 return null;
             }
-        } ).toList();
+        } ).filter(a -> a!=null).toList();
         scan.close();
         br.close();
         isr.close();

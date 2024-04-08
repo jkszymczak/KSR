@@ -19,7 +19,9 @@ public class Tokenizer {
      */
     String[] tokenizeText(String text){
         String[] words = text.split("\\w+");
-        return Stream.of(words).map(String::toLowerCase).filter(s -> !stopList.contains(s)).collect(Collectors.toList()).toArray(new String[0]);
+        return Stream.of(words).map(String::toLowerCase).
+                filter(s -> !stopList.contains(s)).collect(Collectors.toList()).
+                toArray(new String[0]);
 
     }
 }

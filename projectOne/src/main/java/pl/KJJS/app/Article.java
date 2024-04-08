@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class Article {
     String date;
     String [] topics;
-    String [] places;
+    String place;
     String [] people;
     String [] orgs;
     String [] exchanges;
@@ -23,8 +23,8 @@ public class Article {
         return topics;
     }
 
-    public String[] getPlaces() {
-        return places;
+    public String getPlace() {
+        return place;
     }
 
     public String[] getPeople() {
@@ -55,11 +55,11 @@ public class Article {
         return body;
     }
 
-    public Article(String date, String[] topics, String[] places, String[] people, String[] orgs, String[] exchanges, String[] companies, String title, String dateline, String body) throws IOException {
+    public Article(String date, String[] topics, String place, String[] people, String[] orgs, String[] exchanges, String[] companies, String title, String dateline, String body) throws IOException {
         Tokenizer t = new Tokenizer();
         this.date = date;
         this.topics = topics;
-        this.places = places;
+        this.place = place;
         this.people = people;
         this.orgs = orgs;
         this.exchanges = exchanges;
@@ -74,7 +74,7 @@ public class Article {
         return "Article{" +
                 "date='" + date + '\'' +
                 ", topics=" + Arrays.toString(topics) +
-                ", places=" + Arrays.toString(places) +
+                ", places=" + place +
                 ", people=" + Arrays.toString(people) +
                 ", orgs=" + Arrays.toString(orgs) +
                 ", exchanges=" + Arrays.toString(exchanges) +
