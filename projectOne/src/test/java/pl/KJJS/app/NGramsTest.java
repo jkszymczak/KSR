@@ -1,6 +1,5 @@
 package pl.KJJS.app;
 
-import jdk.internal.vm.annotation.Hidden;
 import junit.framework.TestCase;
 
 public class NGramsTest extends TestCase {
