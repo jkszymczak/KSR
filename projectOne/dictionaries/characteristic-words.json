@@ -1,0 +1,72 @@
+{
+  "West Germany": [
+    "cold war",
+    "berlin wall",
+    "bonn",
+    "market economy",
+    "nato",
+    "division of germany",
+    "remilitarization",
+    "economic miracle",
+    "konrad adenauer"
+  ],
+  "USA": [
+    "freedom",
+    "american dream",
+    "hollywood",
+    "white house",
+    "silicon valley",
+    "nba",
+    "nfl",
+    "mlb",
+    "mcdonald's",
+    "statue of liberty"
+  ],
+  "France": [
+    "french revolution",
+    "grapes",
+    "wine",
+    "fashion",
+    "haute couture",
+    "baguette",
+    "louvre",
+    "impressionism",
+    "napoleon bonaparte",
+    "tour de france"
+  ],
+  "UK": [
+    "queen elizabeth ii",
+    "big ben",
+    "english tea",
+    "premier league",
+    "the beatles",
+    "cambridge",
+    "oxford",
+    "stonehenge"
+  ],
+  "Canada": [
+    "maple leaf",
+    "ice hockey",
+    "maple syrup",
+    "lakes",
+    "french and english",
+    "polar bear",
+    "rocky mountains",
+    "niagara",
+    "trudeau"
+  ],
+  "Japan": [
+    "samurai",
+    "sushi",
+    "ramen",
+    "manga",
+    "anime",
+    "mount fuji",
+    "emperor",
+    "technology",
+    "tea ceremony",
+    "cherry blossom",
+    "sakura",
+    "shinkansen"
+  ]
+}

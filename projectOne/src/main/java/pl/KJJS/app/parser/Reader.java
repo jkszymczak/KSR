@@ -4,12 +4,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Reader {
     ObjectMapper om;
-    Reader(){
+//    private HashMap<String, String[]> dict;
+
+    public Reader(){
         this.om = new ObjectMapper();
     }
     static List<Article> readArticles(String directory) throws IOException {
@@ -25,5 +30,23 @@ public class Reader {
 
     List<String> readStopList() throws IOException {
         return om.readValue(new File("dictionaries/stopList.json"),List.class);
+    }
+
+    private String[][] splitToArray(List<String> arr){
+        String[][] result = new String[arr.size()][];
+        for(int i=0;i<arr.size();i++){
+            String[] split= arr.get(i).split("\\W+");
+
+            result[i] = Stream.of(split).map(String::toLowerCase).filter(s -> !s.isEmpty()).toList().toArray(new String[0]);
+        }
+        return result;
+    }
+
+    public Dictionary readDict(String path) throws IOException {
+        HashMap<String,List<String>> dict = this.om.readValue(new File(path), HashMap.class);
+        HashMap<String ,String[][]> result = new HashMap<>();
+        dict.forEach((key,value) -> result.put(key,splitToArray(value)));
+
+        return new Dictionary(result);
     }
 }
