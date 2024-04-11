@@ -1,4 +1,4 @@
-package pl.KJJS.app;
+package pl.KJJS.app.parser;
 
 public class Result<T> {
     public T token;

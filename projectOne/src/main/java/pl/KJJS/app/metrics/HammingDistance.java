@@ -1,4 +1,4 @@
-package pl.KJJS.app;
+package pl.KJJS.app.metrics;
 
 public class HammingDistance {
     public static int calculateDistance(Boolean[] v1,Boolean[] v2){

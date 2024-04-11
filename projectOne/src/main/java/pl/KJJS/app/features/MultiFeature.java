@@ -1,4 +1,4 @@
-package pl.KJJS.app;
+package pl.KJJS.app.features;
 
 public interface MultiFeature {
     String[] getTextFeatures();

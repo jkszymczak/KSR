@@ -1,4 +1,4 @@
-package pl.KJJS.app;
+package pl.KJJS.app.metrics;
 
 import java.util.ArrayList;
 import java.util.List;
