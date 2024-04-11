@@ -49,4 +49,14 @@ public class Reader {
 
         return new Dictionary(result);
     }
+    public HashMap<Keys,Dictionary> readDicts() throws IOException {
+        String dir = "dictionaries/";
+        HashMap<Keys, Dictionary> result = new HashMap<>();
+//        String[] keys = {"architectural-objects","characteristic-words","cities","dates","fameous-people","geographic-locations","institutions","stopList"};
+        for(Keys key:Keys.values()){
+            result.put(key,readDict(dir+key+".json"));
+        }
+
+        return result;
+    }
 }

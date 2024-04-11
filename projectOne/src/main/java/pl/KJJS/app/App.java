@@ -29,7 +29,7 @@ public class App
 //        System.out.println();
 //        System.out.println(Reader.readArticles("input").size());
         Reader r = new Reader();
-        r.readDict("dictionaries/cities.json");
+        r.readDicts();
 //        System.out.println(r.readStopList());
     }
 

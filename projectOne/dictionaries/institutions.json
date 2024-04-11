@@ -48,7 +48,7 @@
         "lycée louis-le-grand",
         "sorbonne university",
         "university of paris",
-        "national school of administration",
+        "national school of administration"
     ],
     "UK":[
         "tower of london",
@@ -65,7 +65,7 @@
         "university of st andrews",
         "university of edinburgh",
         "university of bristol",
-        "university of birmingham",
+        "university of birmingham"
     ],
     "Canada":[
         "parliament hill",
@@ -82,7 +82,7 @@
         "university of british columbia",
         "university of montreal",
         "university of waterloo",
-        "university of ottawa",
+        "university of ottawa"
     ],
     "Japan":[
         "himeji castle",
@@ -99,6 +99,6 @@
         "tōdai-ji",
         "kyoto university",
         "tokyo institute of technology",
-        "waseda university",
+        "waseda university"
     ]
 }

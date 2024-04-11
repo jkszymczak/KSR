@@ -14,7 +14,7 @@
         "richard wagner",
         "georg wilhelm friedrich hegel",
         "clara schumann",
-        "ludwig van beethoven",
+        "ludwig van beethoven"
     ],
     "USA":[
         "thomas edison",
@@ -31,7 +31,7 @@
         "alexander graham bell",
         "john quincy adams",
         "john locke",
-        "thomas paine",
+        "thomas paine"
     ],
     "France":[
         "napoleon bonaparte",
@@ -48,7 +48,7 @@
         "blaise pascal",
         "antoine lavoisier",
         "jean-baptiste lamarck",
-        "pierre de fermat",
+        "pierre de fermat"
     ],
     "UK":[
         "william shakespeare",
@@ -65,7 +65,7 @@
         "oliver cromwell",
         "queen elizabeth ii",
         "john milton",
-        "geoffrey chaucer",
+        "geoffrey chaucer"
     ],
     "Canada":[
         "sir john a. macdonald",
@@ -82,7 +82,7 @@
         "tommy douglas",
         "emily stowe",
         "george brown",
-        "laura secord",
+        "laura secord"
     ],
     "Japan":[
         "shotaro ishinomori",
@@ -99,6 +99,6 @@
         "soichiro honda",
         "osamu tezuka",
         "hayao miyazaki",
-        "junichiro tanizaki",
+        "junichiro tanizaki"
     ]
 }
