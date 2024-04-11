@@ -1,4 +1,4 @@
-package pl.KJJS.app;
+package pl.KJJS.app.parser;
 
 import java.io.*;
 import java.nio.file.Files;

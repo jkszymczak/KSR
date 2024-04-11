@@ -1,25 +1,26 @@
-package pl.KJJS.app;
+package pl.KJJS.app.metrics;
 
-public class EuclideanMetric implements Metric {
+import pl.KJJS.app.features.MultiFeature;
 
+public class ManhattanMetric implements Metric {
     public double calculateLogic(Boolean[][] v1,Boolean[][] v2){
         double result =0;
         for (int i = 0; i < v1.length; i++) {
-            result+=Math.pow(HammingDistance.calculateDistance(v1[i],v2[i]),2);
+            result+=Math.abs(HammingDistance.calculateDistance(v1[i],v2[i]));
         }
         return result;
     }
     public double calculateText(String[] v1,String[] v2){
         double result =0;
         for (int i = 0; i < v1.length; i++) {
-            result+=Math.pow(NGrams.calculateDistance(v1[i],v2[i]),2);
+            result+=Math.abs(NGrams.calculateDistance(v1[i],v2[i]));
         }
         return result;
     }
     public double calculateNumeric(Double[] v1,Double[] v2){
         double result =0;
         for (int i = 0; i < v1.length; i++) {
-            result+=Math.pow((v1[i]-v2[i]),2);
+            result+=Math.abs((v1[i]-v2[i]));
         }
         return result;
     }
@@ -36,6 +37,6 @@ public class EuclideanMetric implements Metric {
         Double text = calculateText(firstTextFeatures,secondTextFeatures);
         Double numeric = calculateNumeric(firstNumericFeatures,secondNumericFeatures);
 
-        return Math.sqrt(numeric+logic+text);
+        return (numeric+logic+text);
     }
 }

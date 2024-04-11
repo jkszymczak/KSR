@@ -1,6 +1,7 @@
 package pl.KJJS.app;
 
 import junit.framework.TestCase;
+import pl.KJJS.app.metrics.HammingDistance;
 
 public class HammingDistanceTest extends TestCase {
 

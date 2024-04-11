@@ -1,11 +1,12 @@
 package pl.KJJS.app;
 
 import junit.framework.TestCase;
+import pl.KJJS.app.metrics.NGrams;
 
 public class NGramsTest extends TestCase {
 
     public void testF() {
-        assertEquals(0.056,NGrams.f(7,2,5),0.001);
+        assertEquals(0.056, NGrams.f(7,2,5),0.001);
     }
 
 

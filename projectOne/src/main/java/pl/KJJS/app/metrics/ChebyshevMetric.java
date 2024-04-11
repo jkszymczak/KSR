@@ -1,10 +1,12 @@
-package pl.KJJS.app;
+package pl.KJJS.app.metrics;
+
+import pl.KJJS.app.features.MultiFeature;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ChebyshevMetric implements Metric{
+public class ChebyshevMetric implements Metric {
     public List<Double> calculateLogic(Boolean[][] v1,Boolean[][] v2){
         List<Double> result = new LinkedList<>();
         for (int i = 0; i < v1.length; i++) {

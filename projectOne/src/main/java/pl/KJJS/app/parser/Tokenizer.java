@@ -1,4 +1,4 @@
-package pl.KJJS.app;
+package pl.KJJS.app.parser;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +18,7 @@ public class Tokenizer {
      * @return - tokenized text
      */
     String[] tokenizeText(String text){
-        String[] words = text.split("\\w+");
+        String[] words = text.split("\\W+");
         return Stream.of(words).map(String::toLowerCase).
                 filter(s -> !stopList.contains(s)).collect(Collectors.toList()).
                 toArray(new String[0]);
