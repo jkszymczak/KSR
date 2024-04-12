@@ -17,7 +17,7 @@ public class Reader {
     public Reader(){
         this.om = new ObjectMapper();
     }
-    static List<Article> readArticles(String directory) throws IOException {
+    public static List<Article> readArticles(String directory) throws IOException {
         File dir = new File(directory);
         File[] files = dir.listFiles();
         List<Article> articles = new LinkedList<Article>();
