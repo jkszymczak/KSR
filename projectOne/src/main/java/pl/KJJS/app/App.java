@@ -40,6 +40,8 @@ public class App
             add(Keys.fameous_people);
         }}, articles.get(index).getBody());
 
+        System.out.println(Arrays.toString(liczFeatures.getFeaturesAsVector()));
+
 //        String[][] dicts = {{"statue", "of", "liberty"},
 //                {"mountains", "of", "liberty"},
 //                {"new", "york"}};

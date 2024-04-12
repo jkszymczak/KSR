@@ -33,11 +33,19 @@ public class LiczFeatures {
         return this.features;
     }
 
-//    public Double[] getFeaturesAsVector() {
-//
-//
-//
-//    }
+    public Double[] getFeaturesAsVector() {
+        Double[] featuresVector = new Double[featuresNumbers];
+        int coreFeaturesLength;
+
+        for (int i = 0; i < features.size(); i++) {
+            coreFeaturesLength = features.get(ECoreFeature.values()[i]).size();
+            for (int j = 0; j < coreFeaturesLength; j++) {
+                featuresVector[j + i*coreFeaturesLength] = features.get(ECoreFeature.values()[i]).get(ECountries.values()[j]);
+            }
+        }
+
+        return featuresVector;
+    }
 
     public Double getFeature(ECoreFeature coreFeature, ECountries country) {
         return this.features.get(coreFeature).get(country);
