@@ -1,6 +1,5 @@
 package pl.KJJS.app.features;
 
-import pl.KJJS.app.parser.Dictionary;
 import pl.KJJS.app.parser.Keys;
 
 import java.util.HashMap;
