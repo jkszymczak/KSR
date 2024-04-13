@@ -22,10 +22,13 @@ public class App
 
         List<Article> articles = Reader.readArticles("input");
         Reader r = new Reader();
+//        System.out.println(Reader.readArticles("input").size());
+//        Reader r = new Reader();
+//        r.readDicts();
+//        System.out.println(r.readStopList());
 
         System.out.println("Number of articles: " + articles.size());
         System.out.println("Read done!");
-
         int index = 0;
 
         System.out.println(Arrays.toString(Stream.of(articles.get(index).getBody()).toArray()));
@@ -90,39 +93,6 @@ public class App
 
 // =================================================================
 
-
-
-//        String[][] dicts = {{"statue", "of", "liberty"},
-//                {"mountains", "of", "liberty"},
-//                {"new", "york"}};
-//        List<String> text = new ArrayList<>();
-//        text.add("example");
-//        text.add("statue");
-//        text.add("of");
-//        text.add("liberty");
-//        text.add("example");
-//        text.add("mountains");
-//        text.add("of");
-//        text.add("liberty");
-
-//        System.out.println(liczFeatures.calculateSingleFeature(dicts, text));
-//        double x = liczFeatures.getFeature(ECoreFeature.liczFeaturesGeo, ECountry.canada);
-
-//        List<Article> articles = SGML.parseArticles("input/reut2-017.sgm");
-//
-//        System.out.println(articles.get(0).getPlace());
-//        System.out.println(articles.get(0).getTitle());
-//        System.out.println(Arrays.toString(Stream.of(articles.get(0).getBody()).toArray()));
-//
-////        for(Article a : articles){
-////            System.out.println(a.getPlace());
-////        }
-////        System.out.println();
-////        System.out.println(Reader.readArticles("input").size());
-//        Reader r = new Reader();
-//        r.readDicts();
-//        System.out.println(r.readStopList());
         System.out.println( "Hello End!" );
-
     }
 }
