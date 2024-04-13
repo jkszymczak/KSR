@@ -103,9 +103,6 @@ public class CzyFeatures {
     }
 
     private void calculateFeaturesNumbers() {
-        featuresNumbers = 0;
-        for (int i = 0; i < features.size(); i++) {
-            featuresNumbers++;
-        }
+        featuresNumbers = features.size();
     }
 }

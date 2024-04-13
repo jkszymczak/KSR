@@ -55,15 +55,27 @@ public class App
 // =================================================================
 
 // =================================================================
+//
+//        CzyFeatures czyFeatures = new CzyFeatures();
+//        System.out.println(CzyFeatures.getFeaturesNumbers());
+//        czyFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
+//            add(Keys.institutions);
+//            add(Keys.cities);
+//            add(Keys.dates);
+//        }}, articles.get(index).getBody());
+//        System.out.println(Arrays.deepToString(czyFeatures.getFeaturesAsVector()));
+//
+// =================================================================
 
-        CzyFeatures czyFeatures = new CzyFeatures();
-        System.out.println(CzyFeatures.getFeaturesNumbers());
-        czyFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
-            add(Keys.institutions);
+// =================================================================
+
+        TekstFeatures tekstFeatures = new TekstFeatures();
+        System.out.println(TekstFeatures.getFeaturesNumbers());
+        tekstFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
             add(Keys.cities);
-            add(Keys.dates);
         }}, articles.get(index).getBody());
-        System.out.println(Arrays.deepToString(czyFeatures.getFeaturesAsVector()));
+
+        System.out.println(Arrays.toString(tekstFeatures.getFeaturesAsVector()));
 
 // =================================================================
 
