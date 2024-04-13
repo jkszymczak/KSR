@@ -69,15 +69,27 @@ public class App
 
 // =================================================================
 
-        TekstFeatures tekstFeatures = new TekstFeatures();
-        System.out.println(TekstFeatures.getFeaturesNumbers());
-        tekstFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
-            add(Keys.cities);
-        }}, articles.get(index).getBody());
-
-        System.out.println(Arrays.toString(tekstFeatures.getFeaturesAsVector()));
+//        TekstFeatures tekstFeatures = new TekstFeatures();
+//        System.out.println(TekstFeatures.getFeaturesNumbers());
+//        tekstFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
+//            add(Keys.cities);
+//        }}, articles.get(index).getBody());
+//
+//        System.out.println(Arrays.toString(tekstFeatures.getFeaturesAsVector()));
 
 // =================================================================
+
+
+// =================================================================
+
+        FeatureVector featureVector = new FeatureVector();
+        featureVector.calculateFeatures(r.readDicts(), articles.get(index).getBody());
+        System.out.println(Arrays.toString(featureVector.getNumericFeatures()));
+        System.out.println(Arrays.deepToString(featureVector.getLogicFeatures()));
+        System.out.println(Arrays.toString(featureVector.getTextFeatures()));
+
+// =================================================================
+
 
 
 //        String[][] dicts = {{"statue", "of", "liberty"},
