@@ -85,11 +85,35 @@ public class App
 
 // =================================================================
 
+//        FeatureVector featureVector = new FeatureVector();
+//        featureVector.calculateFeatures(r.readDicts(), articles.get(index).getBody());
+//        System.out.println(Arrays.toString(featureVector.getNumericFeatures()));
+//        System.out.println(Arrays.deepToString(featureVector.getLogicFeatures()));
+//        System.out.println(Arrays.toString(featureVector.getTextFeatures()));
+
+// =================================================================
+
+// =================================================================
+
+        //TODO próbuję zrobić listę featureVectors pomóż
+//        List<FeatureVector> featureVectors = new ArrayList<FeatureVector>();
+//        for (Article article : articles) {
+//            FeatureVector featureVector = new FeatureVector();
+//            featureVector.calculateFeatures(r.readDicts(), article.getBody());
+//            featureVectors.add(featureVector);
+//        }
+
         FeatureVector featureVector = new FeatureVector();
         featureVector.calculateFeatures(r.readDicts(), articles.get(index).getBody());
         System.out.println(Arrays.toString(featureVector.getNumericFeatures()));
         System.out.println(Arrays.deepToString(featureVector.getLogicFeatures()));
         System.out.println(Arrays.toString(featureVector.getTextFeatures()));
+        FeatureVector featureVector2 = new FeatureVector();
+
+        featureVector2.calculateFeatures(r.readDicts(), articles.get(2).getBody());
+        System.out.println(Arrays.toString(featureVector2.getNumericFeatures()));
+        System.out.println(Arrays.deepToString(featureVector2.getLogicFeatures()));
+        System.out.println(Arrays.toString(featureVector2.getTextFeatures()));
 
 // =================================================================
 

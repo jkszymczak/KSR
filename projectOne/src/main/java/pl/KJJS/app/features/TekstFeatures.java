@@ -37,8 +37,6 @@ public class TekstFeatures {
     }
 
     public void calculateFeatures(HashMap<Keys, HashMap<ECountries, String[][]>> dicts, List<Keys> keys, String[] text) {
-        // zrob slownik stolic jak w poprzednim pliku
-        // zrob zaahardkodowany slownik panstw jak w pliku 'ile'
         String featureValue;
         List<String> textAsArray= new ArrayList<String>(List.of(text));
         String[] element;
@@ -138,10 +136,9 @@ public class TekstFeatures {
             }
         }
 
-        Integer max = 0; // Ustawiamy początkową wartość na najmniejszą możliwą liczbę całkowitą
+        Integer max = 0;
         ECountries countryWithMaxValue = null;
 
-        // Iteruj po wszystkich wartościach w mapie i znajdź największą
         for (int i = 0; i < countriesCounter.size(); i++) {
             Integer value = countriesCounter.get(ECountries.values()[i]);
             if (value > max) {
