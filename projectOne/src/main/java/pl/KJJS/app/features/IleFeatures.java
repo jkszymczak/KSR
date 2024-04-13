@@ -62,14 +62,14 @@ public class IleFeatures {
         }
     }
 
-    public void calculateFeatures(HashMap<Keys, HashMap<ECountries,String[][]>> dicts, List<Keys> keys, String[] text) {
+    public void calculateFeatures(HashMap<Keys, HashMap<ECountries, String[][]>> dicts, List<Keys> keys, String[] text) {
         double featureValue;
-        List<String> textAsArray= new ArrayList<String>(List.of(text));
+        List<String> textAsArray = new ArrayList<String>(List.of(text));
         int i;
         for (i = 0; i < complexFeatures.size(); i++) {
             for (int j = 0; j < complexFeatures.get(ECoreFeature.values()[i + eCoreFeaturesBias]).size(); j++) {
                 featureValue = calculateSingleFeature(dicts.get(keys.get(i)).get(ECountries.values()[j]), textAsArray);
-                featureValue = normalize(featureValue, 0.0, (double) textAsArray.size() /2);
+                featureValue = normalize(featureValue, 0.0, (double) textAsArray.size() / 2);
                 complexFeatures.get(ECoreFeature.values()[i + eCoreFeaturesBias]).put(ECountries.values()[j], featureValue);
             }
         }
@@ -83,7 +83,7 @@ public class IleFeatures {
         for (int k = 0; k < simpleFeatures.size(); k++) {
             if (ECoreFeature.values()[k + i + eCoreFeaturesBias] == ECoreFeature.ileFeaturesNajKont) {
                 featureValue = calculateMostCommonContinentsFeature(tempContinentsDict, textAsArray);
-                featureValue = normalize(featureValue, 0.0, (double) textAsArray.size() /4);
+                featureValue = normalize(featureValue, 0.0, (double) textAsArray.size() / 4);
                 simpleFeatures.put(ECoreFeature.values()[k + i + eCoreFeaturesBias], featureValue);
             } else if (ECoreFeature.values()[k + i + eCoreFeaturesBias] == ECoreFeature.ileFeaturesDlTekst) {
                 featureValue = textAsArray.size();
@@ -102,10 +102,10 @@ public class IleFeatures {
             for (String[] row : dict) {
                 patternLengthCounter = 0;
                 for (int j = 0; j < row.length; j++) {
-                    if (i+patternLengthCounter >= textLength) {
+                    if (i + patternLengthCounter >= textLength) {
                         break;
                     }
-                    if (!row[j].equals(text.get(i+patternLengthCounter))) {
+                    if (!row[j].equals(text.get(i + patternLengthCounter))) {
                         break;
                     }
                     patternLengthCounter++;
@@ -127,10 +127,10 @@ public class IleFeatures {
             for (String[] row : dict) {
                 patternLengthCounter = 0;
                 for (int j = 0; j < row.length; j++) {
-                    if (i+patternLengthCounter >= textLength) {
+                    if (i + patternLengthCounter >= textLength) {
                         break;
                     }
-                    if (!row[j].equals(text.get(i+patternLengthCounter))) {
+                    if (!row[j].equals(text.get(i + patternLengthCounter))) {
                         break;
                     }
                     patternLengthCounter++;

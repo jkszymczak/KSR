@@ -7,5 +7,10 @@ public enum ECoreFeature {
     liczFeaturesOsob,
     ileFeaturesKlucz,
     ileFeaturesNajKont,
-    ileFeaturesDlTekst
+    ileFeaturesDlTekst,
+    czyFeaturesInst,
+    czyFeaturesSto,
+    czyFeaturesData,
+    tekstFeaturesSto,
+    tekstFeaturesNajPa
 }

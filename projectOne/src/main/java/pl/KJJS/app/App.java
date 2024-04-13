@@ -1,7 +1,6 @@
 package pl.KJJS.app;
 
-import pl.KJJS.app.features.IleFeatures;
-import pl.KJJS.app.features.LiczFeatures;
+import pl.KJJS.app.features.*;
 import pl.KJJS.app.parser.Article;
 import pl.KJJS.app.parser.Keys;
 import pl.KJJS.app.parser.Reader;
@@ -44,15 +43,29 @@ public class App
 //        System.out.println(Arrays.toString(liczFeatures.getFeaturesAsVector()));
 // =================================================================
 
-        IleFeatures ileFeatures = new IleFeatures();
-        System.out.println(IleFeatures.getFeaturesNumbers());
-        ileFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
-            add(Keys.characteristic_words);
-            // add dict to continents
+// =================================================================
+//        IleFeatures ileFeatures = new IleFeatures();
+//        System.out.println(IleFeatures.getFeaturesNumbers());
+//        ileFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
+//            add(Keys.characteristic_words);
+//            // add dict to continents
+//        }}, articles.get(index).getBody());
+//
+//        System.out.println(Arrays.toString(ileFeatures.getFeaturesAsVector()));
+// =================================================================
+
+// =================================================================
+
+        CzyFeatures czyFeatures = new CzyFeatures();
+        System.out.println(CzyFeatures.getFeaturesNumbers());
+        czyFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
+            add(Keys.institutions);
+            add(Keys.cities);
+            add(Keys.dates);
         }}, articles.get(index).getBody());
+        System.out.println(Arrays.deepToString(czyFeatures.getFeaturesAsVector()));
 
-        System.out.println(Arrays.toString(ileFeatures.getFeaturesAsVector()));
-
+// =================================================================
 
 
 //        String[][] dicts = {{"statue", "of", "liberty"},

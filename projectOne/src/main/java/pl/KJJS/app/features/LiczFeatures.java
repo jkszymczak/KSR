@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class LiczFeatures {
-    private static class FeaturesType extends HashMap<ECoreFeature, HashMap<ECountries, Double>> {}
-    private static int featuresNumbers;
-    private FeaturesType features = new FeaturesType();
+        private static class FeaturesType extends HashMap<ECoreFeature, HashMap<ECountries, Double>> {}
+        private static int featuresNumbers;
+        private FeaturesType features = new FeaturesType();
 
     public LiczFeatures() {
         initVariables();
