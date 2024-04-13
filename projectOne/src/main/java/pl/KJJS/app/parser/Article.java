@@ -1,12 +1,14 @@
 package pl.KJJS.app.parser;
 
+import pl.KJJS.app.features.ECountries;
+
 import java.io.IOException;
 import java.util.Arrays;
 
 public class Article {
     String date;
     String [] topics;
-    String place;
+    ECountries place;
     String [] people;
     String [] orgs;
     String [] exchanges;
@@ -23,7 +25,7 @@ public class Article {
         return topics;
     }
 
-    public String getPlace() {
+    public ECountries getPlace() {
         return place;
     }
 
@@ -59,7 +61,15 @@ public class Article {
         Tokenizer t = new Tokenizer();
         this.date = date;
         this.topics = topics;
-        this.place = place;
+        this.place = switch (place){
+            case "usa" -> ECountries.usa;
+            case "uk" -> ECountries.uk;
+            case "japan" -> ECountries.japan;
+            case "west-germany" -> ECountries.west_germany;
+            case "canada" -> ECountries.canada;
+            case "france" -> ECountries.france;
+            default -> ECountries.usa;
+        };
         this.people = people;
         this.orgs = orgs;
         this.exchanges = exchanges;

@@ -17,6 +17,7 @@ import java.util.stream.Stream;
  */
 public class App 
 {
+
     public static void main( String[] args ) throws IOException {
         System.out.println( "Hello World!" );
 
@@ -35,7 +36,7 @@ public class App
 
 // =================================================================
 //        LiczFeatures liczFeatures = new LiczFeatures();
-//        // !!! Keys must be the same order as the ECoreFeature enum !!!
+        // !!! Keys must be the same order as the ECoreFeature enum !!!
 //        liczFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
 //            add(Keys.geographic_locations);
 //            add(Keys.architectural_objects);
@@ -85,11 +86,11 @@ public class App
 
 // =================================================================
 
-//        FeatureVector featureVector = new FeatureVector();
-//        featureVector.calculateFeatures(r.readDicts(), articles.get(index).getBody());
-//        System.out.println(Arrays.toString(featureVector.getNumericFeatures()));
-//        System.out.println(Arrays.deepToString(featureVector.getLogicFeatures()));
-//        System.out.println(Arrays.toString(featureVector.getTextFeatures()));
+        FeatureVector featureVector = new FeatureVector();
+        featureVector.calculateFeatures(r.readDicts(), articles.get(index).getBody());
+        System.out.println(Arrays.toString(featureVector.getNumericFeatures()));
+        System.out.println(Arrays.deepToString(featureVector.getLogicFeatures()));
+        System.out.println(Arrays.toString(featureVector.getTextFeatures()));
 
 // =================================================================
 
@@ -103,17 +104,17 @@ public class App
 //            featureVectors.add(featureVector);
 //        }
 
-        FeatureVector featureVector = new FeatureVector();
-        featureVector.calculateFeatures(r.readDicts(), articles.get(index).getBody());
-        System.out.println(Arrays.toString(featureVector.getNumericFeatures()));
-        System.out.println(Arrays.deepToString(featureVector.getLogicFeatures()));
-        System.out.println(Arrays.toString(featureVector.getTextFeatures()));
-        FeatureVector featureVector2 = new FeatureVector();
-
-        featureVector2.calculateFeatures(r.readDicts(), articles.get(2).getBody());
-        System.out.println(Arrays.toString(featureVector2.getNumericFeatures()));
-        System.out.println(Arrays.deepToString(featureVector2.getLogicFeatures()));
-        System.out.println(Arrays.toString(featureVector2.getTextFeatures()));
+//        FeatureVector featureVector = new FeatureVector();
+//        featureVector.calculateFeatures(r.readDicts(), articles.get(index).getBody());
+//        System.out.println(Arrays.toString(featureVector.getNumericFeatures()));
+//        System.out.println(Arrays.deepToString(featureVector.getLogicFeatures()));
+//        System.out.println(Arrays.toString(featureVector.getTextFeatures()));
+//        FeatureVector featureVector2 = new FeatureVector();
+//
+//        featureVector2.calculateFeatures(r.readDicts(), articles.get(2).getBody());
+//        System.out.println(Arrays.toString(featureVector2.getNumericFeatures()));
+//        System.out.println(Arrays.deepToString(featureVector2.getLogicFeatures()));
+//        System.out.println(Arrays.toString(featureVector2.getTextFeatures()));
 
 // =================================================================
 

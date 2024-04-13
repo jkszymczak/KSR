@@ -55,7 +55,6 @@ public class LiczFeatures {
         } else {
             throw new IllegalArgumentException("The number of keys and the number of features are not equal!");
         }
-        System.out.println("To delete"); // create for breakpoint
     }
 
     private Double calculateSingleFeature(String[][] dict, List<String> text) {
