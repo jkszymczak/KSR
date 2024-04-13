@@ -1,11 +1,8 @@
 package pl.KJJS.app.quality;
 
-import pl.KJJS.app.features.Countries;
+import pl.KJJS.app.features.ECountries;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Quality {
     public Double calculateAccuracy(List<Label> articles){
@@ -15,7 +12,7 @@ public class Quality {
         }
         return (double) (accumulator/articles.size());
     }
-    public Double calculatePrecision(List<Label> articles, Countries c){
+    public Double calculatePrecision(List<Label> articles, ECountries c){
         Double all = 0.0;
         Double pk =0.0;
         for(Label a:articles){
@@ -26,7 +23,7 @@ public class Quality {
         }
         return pk/all;
     }
-    public Double calculateRecall(List<Label> articles,Countries c){
+    public Double calculateRecall(List<Label> articles,ECountries c){
         Double all = 0.0;
         Double pk =0.0;
         for(Label a:articles){
@@ -37,7 +34,7 @@ public class Quality {
         }
         return pk/all;
     }
-    public Double calculateF(List<Label>articles,Countries c){
+    public Double calculateF(List<Label>articles, ECountries c){
         Double acc = this.calculateAccuracy(articles);
         Double rec = this.calculateRecall(articles,c);
       return 2*(acc*rec)/(acc+rec);
