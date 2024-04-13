@@ -2,17 +2,18 @@ package pl.KJJS.app.quality;
 
 import pl.KJJS.app.features.ECountries;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Quality {
-    public Double calculateAccuracy(List<Label> articles){
+    public static Double calculateAccuracy(List<Label> articles){
         int accumulator = 0;
         for(Label a:articles){
             if(a.getExpected()==a.getResult()) accumulator++;
         }
         return (double) (accumulator/articles.size());
     }
-    public Double calculatePrecision(List<Label> articles, ECountries c){
+    public static Double calculatePrecision(List<Label> articles, ECountries c){
         Double all = 0.0;
         Double pk =0.0;
         for(Label a:articles){
@@ -21,9 +22,10 @@ public class Quality {
                 if(a.getResult()==a.getExpected()) pk++;
             }
         }
+        if(all == 0.0) return 0.0;
         return pk/all;
     }
-    public Double calculateRecall(List<Label> articles,ECountries c){
+    public static Double calculateRecall(List<Label> articles,ECountries c){
         Double all = 0.0;
         Double pk =0.0;
         for(Label a:articles){
@@ -32,12 +34,58 @@ public class Quality {
                 if(a.getExpected()==a.getResult()) pk++;
             }
         }
+        if(all == 0.0) return 0.0;
         return pk/all;
     }
-    public Double calculateF(List<Label>articles, ECountries c){
-        Double acc = this.calculateAccuracy(articles);
-        Double rec = this.calculateRecall(articles,c);
+    public static Double calculateF(List<Label>articles, ECountries c){
+        Double acc = Quality.calculateAccuracy(articles);
+        Double rec = Quality.calculateRecall(articles,c);
+        if(acc == 0.0 && rec == 0.0) return 0.0;
       return 2*(acc*rec)/(acc+rec);
+    }
+    public static Double calculateAgregation(List<Label> articles,Measures m){
+        HashMap<ECountries,Double> weights = new HashMap<>();
+        for (ECountries c:ECountries.values()){
+            weights.put(c,0.0);
+        }
+
+        for (Label a:articles){
+            weights.computeIfPresent(a.getExpected(),(k,v) -> v+1);
+        }
+        switch (m){
+            case f1 -> {
+                Double acc=0.0;
+                for (ECountries c:ECountries.values()){
+                    acc+=(Quality.calculateF(articles,c)*weights.get(c));
+                }
+                return acc/articles.size();
+            }
+            case precision -> {
+                Double acc=0.0;
+                for (ECountries c:ECountries.values()){
+                    acc+=(Quality.calculatePrecision(articles,c)*weights.get(c));
+                }
+                return acc/articles.size();
+            }
+            case recall -> {
+                Double acc=0.0;
+                for (ECountries c:ECountries.values()){
+                    acc+=(Quality.calculateRecall(articles,c)*weights.get(c));
+                }
+                return acc/articles.size();
+            }
+            case accuracy -> {
+                return Quality.calculateAccuracy(articles);
+            }
+        }
+        return null;
+    }
+    public static HashMap<Measures,Double> calculateAllAg(List<Label> articles){
+        HashMap<Measures,Double> result = new HashMap<>();
+        for (Measures m:Measures.values()){
+            result.put(m,calculateAgregation(articles,m));
+        }
+        return result;
     }
 
 
