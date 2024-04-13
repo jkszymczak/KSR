@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class LiczFeatures {
-    public static class FeaturesType extends HashMap<ECoreFeature, HashMap<ECountries, Double>> {}
+    private static class FeaturesType extends HashMap<ECoreFeature, HashMap<ECountries, Double>> {}
     private static int featuresNumbers;
     private FeaturesType features = new FeaturesType();
 
@@ -20,16 +20,7 @@ public class LiczFeatures {
         return featuresNumbers;
     }
 
-    public void calculateFeaturesNumbers() {
-        featuresNumbers = 0;
-        for (int i = 0; i < features.size(); i++) {
-            for (int j = 0; j < features.get(ECoreFeature.values()[i]).size(); j++) {
-                featuresNumbers++;
-            }
-        }
-    }
-
-    public FeaturesType getFeatures() {
+    public HashMap<ECoreFeature, HashMap<ECountries, Double>> getFeatures() {
         return this.features;
     }
 
@@ -53,7 +44,7 @@ public class LiczFeatures {
 
     public void calculateFeatures(HashMap<Keys, HashMap<ECountries,String[][]>> dicts, List<Keys> keys, String[] text) {
         if (keys.size() == features.size()) {
-            double featureValue = 0.;
+            double featureValue;
             List<String> textAsArray= new ArrayList<String>(List.of(text));
             for (int i = 0; i < features.size(); i++) {
                 for (int j = 0; j < features.get(ECoreFeature.values()[i]).size(); j++) {
@@ -109,6 +100,15 @@ public class LiczFeatures {
             features.get(ECoreFeature.liczFeaturesObi).put(ECountries.values()[i], 0.0);
             features.get(ECoreFeature.liczFeaturesMiast).put(ECountries.values()[i], 0.0);
             features.get(ECoreFeature.liczFeaturesOsob).put(ECountries.values()[i], 0.0);
+        }
+    }
+
+    private void calculateFeaturesNumbers() {
+        featuresNumbers = 0;
+        for (int i = 0; i < features.size(); i++) {
+            for (int j = 0; j < features.get(ECoreFeature.values()[i]).size(); j++) {
+                featuresNumbers++;
+            }
         }
     }
 

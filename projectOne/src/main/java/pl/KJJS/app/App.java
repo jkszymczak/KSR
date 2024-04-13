@@ -1,5 +1,6 @@
 package pl.KJJS.app;
 
+import pl.KJJS.app.features.IleFeatures;
 import pl.KJJS.app.features.LiczFeatures;
 import pl.KJJS.app.parser.Article;
 import pl.KJJS.app.parser.Keys;
@@ -26,21 +27,33 @@ public class App
         System.out.println("Number of articles: " + articles.size());
         System.out.println("Read done!");
 
-        int index = 1;
+        int index = 0;
 
         System.out.println(Arrays.toString(Stream.of(articles.get(index).getBody()).toArray()));
 
+// =================================================================
+//        LiczFeatures liczFeatures = new LiczFeatures();
+//        // !!! Keys must be the same order as the ECoreFeature enum !!!
+//        liczFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
+//            add(Keys.geographic_locations);
+//            add(Keys.architectural_objects);
+//            add(Keys.cities);
+//            add(Keys.fameous_people);
+//        }}, articles.get(index).getBody());
+//
+//        System.out.println(Arrays.toString(liczFeatures.getFeaturesAsVector()));
+// =================================================================
 
-
-        LiczFeatures liczFeatures = new LiczFeatures();
-        liczFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
-            add(Keys.geographic_locations);
-            add(Keys.architectural_objects);
-            add(Keys.cities);
-            add(Keys.fameous_people);
+        IleFeatures ileFeatures = new IleFeatures();
+        System.out.println(IleFeatures.getFeaturesNumbers());
+        ileFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
+            add(Keys.characteristic_words);
+            // add dict to continents
         }}, articles.get(index).getBody());
 
-        System.out.println(Arrays.toString(liczFeatures.getFeaturesAsVector()));
+        System.out.println(Arrays.toString(ileFeatures.getFeaturesAsVector()));
+
+
 
 //        String[][] dicts = {{"statue", "of", "liberty"},
 //                {"mountains", "of", "liberty"},

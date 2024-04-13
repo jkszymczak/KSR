@@ -4,5 +4,8 @@ public enum ECoreFeature {
     liczFeaturesGeo,
     liczFeaturesObi,
     liczFeaturesMiast,
-    liczFeaturesOsob
+    liczFeaturesOsob,
+    ileFeaturesKlucz,
+    ileFeaturesNajKont,
+    ileFeaturesDlTekst
 }
