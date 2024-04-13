@@ -22,7 +22,7 @@ public class Reader {
         File[] files = dir.listFiles();
         List<Article> articles = new LinkedList<Article>();
         for (File file : files){
-            System.out.println(file.getPath());
+//            System.out.println(file.getPath());
            articles.addAll(SGML.parseArticles(file.getPath()));
         }
         return articles;

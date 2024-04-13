@@ -123,7 +123,13 @@ public class IleFeatures {
         List<Double> featureValue = new ArrayList<>();
         int patternLengthCounter;
 
+        for (int i = 0; i < dict.length; i++) {
+            featureValue.add(0.0);
+        }
+
+        int k;
         for (int i = 0; i < textLength; i++) {
+            k=0;
             for (String[] row : dict) {
                 patternLengthCounter = 0;
                 for (int j = 0; j < row.length; j++) {
@@ -136,8 +142,9 @@ public class IleFeatures {
                     patternLengthCounter++;
                 }
                 if (patternLengthCounter == row.length) {
-                    featureValue.add((double) row.length);
+                    featureValue.set(k, featureValue.get(k) + 1.0);
                 }
+                k++;
             }
         }
         return Collections.max(featureValue);
