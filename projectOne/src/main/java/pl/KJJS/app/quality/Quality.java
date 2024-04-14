@@ -8,11 +8,11 @@ import java.util.List;
 
 public class Quality {
     public static Double calculateAccuracy(List<Result> articles){
-        int accumulator = 0;
+        Double accumulator = 0.0;
         for(Label a:articles){
             if(a.getExpected()==a.getResult()) accumulator++;
         }
-        return (double) (accumulator/articles.size());
+        return (accumulator/articles.size());
     }
     public static Double calculatePrecision(List<Result> articles, ECountries c){
         Double all = 0.0;

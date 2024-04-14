@@ -27,15 +27,15 @@ public class App
         System.out.println( "Hello World!" );
         Reader r = new Reader();
         HashMap<Keys, HashMap<ECountries, String[][]>> dicts = r.readDicts();
-        List<Article> articles =Reader.readArticles("input").stream().limit(100).toList();
+        List<Article> articles =Reader.readArticles("input").stream().limit(300).toList();
         List<ArticleFeature> vectors = new ArrayList<>();
 
         for (Article article : articles) {
             vectors.add(new ArticleFeature(article,dicts));
         }
-        List<ArticleFeature> learnSet = vectors.subList(0,20);
+        List<ArticleFeature> learnSet = vectors.subList(0,100);
         System.out.println(learnSet.size());
-        List<ArticleFeature> testSet = vectors.subList(20,100);
+        List<ArticleFeature> testSet = vectors.subList(100,300);
         System.out.println(testSet.size());
         KNN kNN = new KNN(learnSet);
         kNN.rateToFile(testSet, new EuclideanMetric(),new int[]{2,3,4,5,6,7,8,9,10},"test.csv");
