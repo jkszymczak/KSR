@@ -58,6 +58,14 @@ public class KNN {
         return results;
     }
 
+    public int countCountry(List<Result> results,ECountries country) {
+        int count = 0;
+        for (Result result : results) {
+            if(result.getExpected()==country) count++;
+        }
+        return count;
+    }
+
     /**
      * This method runs knn of each n given in array,
      * then runs quality measures for every result and saves to csv with N.
@@ -69,6 +77,15 @@ public class KNN {
         // Headers are N and every Measure
         List<String> headers = new ArrayList<>();
         headers.add("N");
+        for (ECountries c: ECountries.values()) {
+            headers.add(c.toString());
+        }
+        for (ECountries c: ECountries.values()) {
+            for (Measures measures:Measures.values()){
+                if(measures == Measures.accuracy) continue;
+                headers.add(c.toString()+"_"+measures.name());
+            }
+        }
         for (Measures measure : Measures.values()) {
             headers.add(measure.name());
         }
@@ -81,6 +98,16 @@ public class KNN {
             HashMap<Measures,Double> measures = Quality.calculateAllAg(results);
             // put element on line
             csvPrinter.print(i);
+            for (ECountries c: ECountries.values()) {
+                csvPrinter.print(this.countCountry(results,c));
+
+            }
+            for (ECountries c: ECountries.values()) {
+                csvPrinter.print(Quality.calculateRecall(results,c));
+                csvPrinter.print(Quality.calculatePrecision(results,c));
+                csvPrinter.print(Quality.calculateF(results,c));
+//                Quality.calculatePrecision(results,c);
+            }
             measures.forEach((k,v) -> {
                 try {
                     csvPrinter.print(v);
