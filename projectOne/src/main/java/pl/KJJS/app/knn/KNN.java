@@ -1,12 +1,19 @@
 package pl.KJJS.app.knn;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import pl.KJJS.app.features.ArticleFeature;
 import pl.KJJS.app.features.ECountries;
 import pl.KJJS.app.features.FeatureVector;
 import pl.KJJS.app.metrics.Metric;
 import pl.KJJS.app.parser.Article;
 import pl.KJJS.app.quality.Measures;
+import pl.KJJS.app.quality.Quality;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,7 +33,7 @@ public class KNN {
         }
         Map<ArticleFeature, Double> nBest = results
                 .entrySet().stream()
-                .sorted(Map.Entry.<ArticleFeature,Double>comparingByValue().reversed())
+                .sorted(Map.Entry.<ArticleFeature,Double>comparingByValue())
                 .limit(neighbours).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         HashMap<ECountries, Integer> labels = new HashMap<>();
@@ -49,5 +56,44 @@ public class KNN {
             results.add(i, classifyVector(featureVectors.get(i), neighbours, m));
         }
         return results;
+    }
+
+    /**
+     * This method runs knn of each n given in array,
+     * then runs quality measures for every result and saves to csv with N.
+     * IMPORTANT!!! Every run overwrites file AND there is NOTHING that saves what METRIC was used
+     * */
+    public void rateToFile(List<ArticleFeature> vectors,Metric m,int[] n,String filename) throws IOException {
+        // Preping CSV
+        StringWriter sw = new StringWriter();
+        // Headers are N and every Measure
+        List<String> headers = new ArrayList<>();
+        headers.add("N");
+        for (Measures measure : Measures.values()) {
+            headers.add(measure.name());
+        }
+        CSVFormat csvFormat = CSVFormat.DEFAULT.builder().setHeader(headers.toArray(new String[0])).build();
+        CSVPrinter csvPrinter = new CSVPrinter(sw,csvFormat);
+
+
+        for(int i:n){
+            List<Result> results = this.clasifyVectors(vectors,i,m);
+            HashMap<Measures,Double> measures = Quality.calculateAllAg(results);
+            // put element on line
+            csvPrinter.print(i);
+            measures.forEach((k,v) -> {
+                try {
+                    csvPrinter.print(v);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            // insert endline
+            csvPrinter.println();
+        }
+        FileWriter resultsFile = new FileWriter(filename);
+        resultsFile.write(sw.toString());
+        resultsFile.close();
+//        System.out.println(sw.toString());
     }
 }

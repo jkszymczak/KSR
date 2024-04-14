@@ -1,6 +1,9 @@
 package pl.KJJS.app;
 
 import pl.KJJS.app.features.*;
+import pl.KJJS.app.knn.KNN;
+import pl.KJJS.app.metrics.EuclideanMetric;
+import pl.KJJS.app.metrics.Metric;
 import pl.KJJS.app.parser.Article;
 import pl.KJJS.app.parser.Keys;
 import pl.KJJS.app.parser.Reader;
@@ -8,7 +11,9 @@ import pl.KJJS.app.parser.Reader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -20,19 +25,30 @@ public class App
 
     public static void main( String[] args ) throws IOException {
         System.out.println( "Hello World!" );
-
-        List<Article> articles = Reader.readArticles("input");
         Reader r = new Reader();
+        HashMap<Keys, HashMap<ECountries, String[][]>> dicts = r.readDicts();
+        List<Article> articles =Reader.readArticles("input").stream().limit(100).toList();
+        List<ArticleFeature> vectors = new ArrayList<>();
+
+        for (Article article : articles) {
+            vectors.add(new ArticleFeature(article,dicts));
+        }
+        List<ArticleFeature> learnSet = vectors.subList(0,20);
+        System.out.println(learnSet.size());
+        List<ArticleFeature> testSet = vectors.subList(20,100);
+        System.out.println(testSet.size());
+        KNN kNN = new KNN(learnSet);
+        kNN.rateToFile(testSet, new EuclideanMetric(),new int[]{2,3,4,5,6,7,8,9,10},"test.csv");
 //        System.out.println(Reader.readArticles("input").size());
 //        Reader r = new Reader();
 //        r.readDicts();
 //        System.out.println(r.readStopList());
 
-        System.out.println("Number of articles: " + articles.size());
-        System.out.println("Read done!");
-        int index = 0;
-
-        System.out.println(Arrays.toString(Stream.of(articles.get(index).getBody()).toArray()));
+//        System.out.println("Number of articles: " + articles.size());
+//        System.out.println("Read done!");
+//        int index = 0;
+//
+//        System.out.println(Arrays.toString(Stream.of(articles.get(index).getBody()).toArray()));
 
 // =================================================================
 //        LiczFeatures liczFeatures = new LiczFeatures();
@@ -86,11 +102,11 @@ public class App
 
 // =================================================================
 
-        FeatureVector featureVector = new FeatureVector();
-        featureVector.calculateFeatures(r.readDicts(), articles.get(index).getBody());
-        System.out.println(Arrays.toString(featureVector.getNumericFeatures()));
-        System.out.println(Arrays.deepToString(featureVector.getLogicFeatures()));
-        System.out.println(Arrays.toString(featureVector.getTextFeatures()));
+//        FeatureVector featureVector = new FeatureVector();
+//        featureVector.calculateFeatures(r.readDicts(), articles.get(index).getBody());
+//        System.out.println(Arrays.toString(featureVector.getNumericFeatures()));
+//        System.out.println(Arrays.deepToString(featureVector.getLogicFeatures()));
+//        System.out.println(Arrays.toString(featureVector.getTextFeatures()));
 
 // =================================================================
 

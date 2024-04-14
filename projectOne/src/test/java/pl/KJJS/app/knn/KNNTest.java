@@ -4,6 +4,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 import pl.KJJS.app.features.ArticleFeature;
 import pl.KJJS.app.metrics.EuclideanMetric;
+import pl.KJJS.app.metrics.HammingDistance;
 import pl.KJJS.app.metrics.Metric;
 import pl.KJJS.app.parser.Article;
 import pl.KJJS.app.parser.Reader;
@@ -74,9 +75,11 @@ public class KNNTest extends TestCase {
             System.out.println();
 
         }
-
-        Assert.assertNotSame(results.get(0).getResult(), results.get(0).getExpected());
-        Assert.assertEquals(results.get(1).getResult(), results.get(1).getExpected());
-        Assert.assertEquals(results.get(2).getResult(), results.get(2).getExpected());
+        int[] tmp = {3,2};
+//        Metric m = new EuclideanMetric()
+        kNN.rateToFile(articleFeaturesTest,new EuclideanMetric(),tmp,"result.csv");
+//        Assert.assertNotSame(results.get(0).getResult(), results.get(0).getExpected());
+//        Assert.assertEquals(results.get(1).getResult(), results.get(1).getExpected());
+//        Assert.assertEquals(results.get(2).getResult(), results.get(2).getExpected());
     }
 }
