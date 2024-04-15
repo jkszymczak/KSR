@@ -88,4 +88,13 @@ public class Reader {
     
             return result;
         }
+    public HashMap<Keys,HashMap<ECountries,String[][]>> readDicts(String dir) throws IOException {
+        HashMap<Keys, HashMap<ECountries,String[][]>> result = new HashMap<>();
+        //        String[] keys = {"architectural-objects","characteristic-words","cities","dates","fameous-people","geographic-locations","institutions","stopList"};
+        for(Keys key:Keys.values()){
+            result.put(key,readDict(dir+"/"+key+".json"));
+        }
+
+        return result;
+    }
 }

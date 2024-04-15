@@ -58,10 +58,17 @@ public class KNN {
         return results;
     }
 
-    public int countCountry(List<Result> results,ECountries country) {
+    public int countCountryExpected(List<Result> results,ECountries country) {
         int count = 0;
         for (Result result : results) {
             if(result.getExpected()==country) count++;
+        }
+        return count;
+    }
+    public int countCountryResult(List<Result> results,ECountries country) {
+        int count = 0;
+        for (Result result : results) {
+            if(result.getResult()==country) count++;
         }
         return count;
     }
@@ -78,7 +85,8 @@ public class KNN {
         List<String> headers = new ArrayList<>();
         headers.add("N");
         for (ECountries c: ECountries.values()) {
-            headers.add(c.toString());
+            headers.add(c.toString()+"_expected");
+            headers.add(c.toString()+"_result");
         }
         for (ECountries c: ECountries.values()) {
             for (Measures measures:Measures.values()){
@@ -99,7 +107,8 @@ public class KNN {
             // put element on line
             csvPrinter.print(i);
             for (ECountries c: ECountries.values()) {
-                csvPrinter.print(this.countCountry(results,c));
+                csvPrinter.print(this.countCountryExpected(results,c));
+                csvPrinter.print(this.countCountryResult(results,c));
 
             }
             for (ECountries c: ECountries.values()) {
