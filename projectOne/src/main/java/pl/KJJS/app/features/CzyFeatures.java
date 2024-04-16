@@ -2,11 +2,12 @@ package pl.KJJS.app.features;
 
 import pl.KJJS.app.parser.Keys;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CzyFeatures {
+public class CzyFeatures implements Serializable {
     private static class FeaturesType extends HashMap<ECoreFeature, HashMap<ECountries, Boolean>> {}
     public final static int eCoreFeaturesBias = 7;
     private static int featuresNumbers;

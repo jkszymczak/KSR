@@ -2,12 +2,13 @@ package pl.KJJS.app.features;
 
 import pl.KJJS.app.parser.Keys;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class IleFeatures {
+public class IleFeatures implements Serializable {
     private static class ComplexFeaturesType extends HashMap<ECoreFeature, HashMap<ECountries, Double>> {
     }
 

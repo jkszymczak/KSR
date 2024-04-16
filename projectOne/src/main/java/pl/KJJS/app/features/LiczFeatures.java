@@ -2,12 +2,13 @@ package pl.KJJS.app.features;
 
 import pl.KJJS.app.parser.Keys;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class LiczFeatures {
+public class LiczFeatures implements Serializable {
         private static class FeaturesType extends HashMap<ECoreFeature, HashMap<ECountries, Double>> {}
         private static int featuresNumbers;
         private FeaturesType features = new FeaturesType();

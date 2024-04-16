@@ -2,12 +2,13 @@ package pl.KJJS.app.features;
 
 import pl.KJJS.app.parser.Keys;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TekstFeatures {
-    private static class FeaturesType extends HashMap<ECoreFeature, String> {}
+public class TekstFeatures implements Serializable {
+    private static class FeaturesType extends HashMap<ECoreFeature, String> implements Serializable {}
     public final static int eCoreFeaturesBias = 10;
     private static int featuresNumbers;
     private FeaturesType features = new FeaturesType();

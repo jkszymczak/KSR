@@ -2,11 +2,12 @@ package pl.KJJS.app.features;
 
 import pl.KJJS.app.parser.Keys;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class FeatureVector implements MultiFeature {
+public class FeatureVector implements MultiFeature, Serializable {
     private LiczFeatures liczFeatures = new LiczFeatures();
     private IleFeatures ileFeatures = new IleFeatures();
     private CzyFeatures czyFeatures = new CzyFeatures();

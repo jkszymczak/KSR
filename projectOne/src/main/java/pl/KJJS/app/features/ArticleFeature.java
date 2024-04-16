@@ -5,9 +5,10 @@ import pl.KJJS.app.parser.Keys;
 import pl.KJJS.app.parser.Reader;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class ArticleFeature {
+public class ArticleFeature implements Serializable {
     ECountries country;
     FeatureVector featureVector;
 
