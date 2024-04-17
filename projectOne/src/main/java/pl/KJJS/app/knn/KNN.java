@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class KNN {
 
@@ -85,6 +86,7 @@ public class KNN {
         List<String> headers = new ArrayList<>();
         headers.add("N");
         for (ECountries c: ECountries.values()) {
+            headers.add(c.toString()+"_learning_set");
             headers.add(c.toString()+"_expected");
             headers.add(c.toString()+"_result");
         }
@@ -104,9 +106,16 @@ public class KNN {
         for(int i:n){
             List<Result> results = this.clasifyVectors(vectors,i,m);
             HashMap<Measures,Double> measures = Quality.calculateAllAg(results);
+            HashMap<ECountries,Integer> learningCount = new HashMap<>();
+            for (ECountries c: ECountries.values()) {
+                int count = this.learningSet.stream().filter(a -> a.getCountry()==c).toList().size();
+                learningCount.put(c,count);
+
+            }
             // put element on line
             csvPrinter.print(i);
             for (ECountries c: ECountries.values()) {
+                csvPrinter.print(learningCount.get(c));
                 csvPrinter.print(this.countCountryExpected(results,c));
                 csvPrinter.print(this.countCountryResult(results,c));
 

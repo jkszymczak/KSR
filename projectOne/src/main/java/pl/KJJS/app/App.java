@@ -108,7 +108,6 @@ public class App
         String input = cmd.getOptionValue("i");
         String output = cmd.getOptionValue("o");
         String dir = (cmd.getOptionValue("d")==null) ? "dictionaries" : cmd.getOptionValue("d");
-//        String[] kValues = cmd.getOptionValues("k");
         String[] prop = cmd.getOptionValues("p");
         String lim = cmd.getOptionValue("l");
         Metric m = matchMetric(cmd.getOptionValue("m"));
@@ -129,8 +128,6 @@ public class App
             vectors.add(new ArticleFeature(article,dicts));
         }
         System.out.print("\t DONE \n");
-
-        // TU DOKŁADNIE USTAWIASZ PROPORCJE!!!!!!
 
         List<ArticleFeature> learnSet = vectors.subList(0,200);
         System.out.println(learnSet.size());
