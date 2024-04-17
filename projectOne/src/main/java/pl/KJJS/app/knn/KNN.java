@@ -104,8 +104,11 @@ public class KNN {
 
 
         for(int i:n){
+            System.out.print("Starting kNN for k="+i+"...");
             List<Result> results = this.clasifyVectors(vectors,i,m);
             HashMap<Measures,Double> measures = Quality.calculateAllAg(results);
+            System.out.print("\t DONE \n");
+            System.out.print("Saving to "+filename+"...");
             HashMap<ECountries,Integer> learningCount = new HashMap<>();
             for (ECountries c: ECountries.values()) {
                 int count = this.learningSet.stream().filter(a -> a.getCountry()==c).toList().size();
@@ -135,10 +138,13 @@ public class KNN {
             });
             // insert endline
             csvPrinter.println();
+            System.out.print("\t DONE \n");
         }
+        System.out.print("Saving file "+filename+"...");
         FileWriter resultsFile = new FileWriter(filename);
         resultsFile.write(sw.toString());
         resultsFile.close();
+        System.out.print("\t DONE \n");
 //        System.out.println(sw.toString());
     }
 }

@@ -148,12 +148,16 @@ public class App
         int[] p = countProportions(prop,vectors.size());
 
         List<ArticleFeature> learnSet = vectors.subList(0,p[0]);
-        System.out.println(learnSet.size());
+        System.out.println("Learning set size: "+learnSet.size());
         List<ArticleFeature> testSet = vectors.subList(p[0], vectors.size());
-        System.out.println(testSet.size());
-        KNN kNN = new KNN(learnSet);
-        kNN.rateToFile(testSet,m,k,output);
+        System.out.println("Testing set size: "+testSet.size());
 
-        System.out.println( "Hello End!" );
+//        System.out.println(testSet.size());
+        KNN kNN = new KNN(learnSet);
+        System.out.println("Starting kNN...");
+        kNN.rateToFile(testSet,m,k,output);
+        System.out.println("kNN is DONE \n");
+
+
     }
 }
