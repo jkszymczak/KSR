@@ -84,7 +84,7 @@ public class KNN {
         StringWriter sw = new StringWriter();
         // Headers are N and every Measure
         List<String> headers = new ArrayList<>();
-        headers.add("N");
+        headers.add("K");
         for (ECountries c: ECountries.values()) {
             headers.add(c.toString()+"_learning_set");
             headers.add(c.toString()+"_expected");

@@ -13,6 +13,7 @@ import pl.KJJS.app.parser.Reader;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,10 +31,10 @@ public class App
         options.addOption(dict);
 
         Option inputs = new Option("i", "inputs", true, "directory from which to read all input files");
-        inputs.setRequired(true);
+//        inputs.setRequired(true);
         options.addOption(inputs);
 
-        Option kValue = Option.builder("k").hasArgs().valueSeparator(',').argName("k").desc( "n values of k of k-NN alghoritm").build();
+        Option kValue = Option.builder("k").hasArgs().valueSeparator(',').argName("k").desc( "n values of k of k-NN alghoritm, separated by ,").build();
         kValue.setRequired(true);
         options.addOption(kValue);
 
@@ -41,7 +42,7 @@ public class App
         options.addOption(metric);
 
         Option file = new Option("o", "output", true, "output file");
-        file.setRequired(true);
+//        file.setRequired(true);
         options.addOption(file);
 
         Option proportions = Option.builder("p").hasArgs()
@@ -95,9 +96,25 @@ public class App
                 k[i] = Integer.parseInt(input[i]);
             }
         } catch (NumberFormatException e){
-            throw new IllegalArgumentException("Input is not a number");
+            throw new IllegalArgumentException("Value of k is not a number");
         }
 
+        return k;
+    }
+
+    static int[] countProportions(String[] input,int size){
+        if(input.length != 2){
+            throw new IllegalArgumentException("Proportions must have exactly two integers");
+        }
+        int[] k = new int[input.length];
+        for (int i=0; i<input.length; i++){
+            k[i] = Integer.parseInt(input[i]);
+        }
+        int whole = Arrays.stream(k).sum();
+        int part = Math.floorDiv(size,whole);
+
+        k[0] *= part;
+        k[1] = size-k[0];
         return k;
     }
 
@@ -105,13 +122,12 @@ public class App
         CommandLine cmd = readArguments(declareOptions(),args);
 
 
-        String input = cmd.getOptionValue("i");
-        String output = cmd.getOptionValue("o");
+        String input = (cmd.getOptionValue("i")==null) ? "input" : cmd.getOptionValue("i");
+        String output = (cmd.getOptionValue("o")==null) ? "output.csv" : cmd.getOptionValue("o");
         String dir = (cmd.getOptionValue("d")==null) ? "dictionaries" : cmd.getOptionValue("d");
-        String[] prop = cmd.getOptionValues("p");
+        String[] prop = (cmd.getOptionValues("p")==null)? new String[]{"30", "70"} : cmd.getOptionValues("p");
         String lim = cmd.getOptionValue("l");
         Metric m = matchMetric(cmd.getOptionValue("m"));
-
         int[] k = readK(cmd.getOptionValues("k"));
 
         Reader r = new Reader();
@@ -129,9 +145,11 @@ public class App
         }
         System.out.print("\t DONE \n");
 
-        List<ArticleFeature> learnSet = vectors.subList(0,200);
+        int[] p = countProportions(prop,vectors.size());
+
+        List<ArticleFeature> learnSet = vectors.subList(0,p[0]);
         System.out.println(learnSet.size());
-        List<ArticleFeature> testSet = vectors.subList(200, vectors.size());
+        List<ArticleFeature> testSet = vectors.subList(p[0], vectors.size());
         System.out.println(testSet.size());
         KNN kNN = new KNN(learnSet);
         kNN.rateToFile(testSet,m,k,output);
