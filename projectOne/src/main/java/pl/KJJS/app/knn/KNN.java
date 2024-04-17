@@ -2,21 +2,18 @@ package pl.KJJS.app.knn;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+
 import pl.KJJS.app.features.ArticleFeature;
 import pl.KJJS.app.features.ECountries;
-import pl.KJJS.app.features.FeatureVector;
 import pl.KJJS.app.metrics.Metric;
-import pl.KJJS.app.parser.Article;
 import pl.KJJS.app.quality.Measures;
 import pl.KJJS.app.quality.Quality;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class KNN {
 
@@ -74,15 +71,7 @@ public class KNN {
         return count;
     }
 
-    /**
-     * This method runs knn of each n given in array,
-     * then runs quality measures for every result and saves to csv with N.
-     * IMPORTANT!!! Every run overwrites file AND there is NOTHING that saves what METRIC was used
-     * */
-    public void rateToFile(List<ArticleFeature> vectors,Metric m,int[] n,String filename) throws IOException {
-        // Preping CSV
-        StringWriter sw = new StringWriter();
-        // Headers are N and every Measure
+    List<String> prepareHeaders(){
         List<String> headers = new ArrayList<>();
         headers.add("K");
         for (ECountries c: ECountries.values()) {
@@ -99,6 +88,49 @@ public class KNN {
         for (Measures measure : Measures.values()) {
             headers.add(measure.name());
         }
+        return headers;
+    }
+    void addToCSV(CSVPrinter csvPrinter,int i ,List<Result> results, HashMap<Measures,Double> measures) throws IOException {
+        HashMap<ECountries,Integer> learningCount = new HashMap<>();
+        for (ECountries c: ECountries.values()) {
+            int count = this.learningSet.stream().filter(a -> a.getCountry()==c).toList().size();
+            learningCount.put(c,count);
+
+        }
+        // put element on line
+        csvPrinter.print(i);
+        for (ECountries c: ECountries.values()) {
+            csvPrinter.print(learningCount.get(c));
+            csvPrinter.print(this.countCountryExpected(results,c));
+            csvPrinter.print(this.countCountryResult(results,c));
+
+        }
+        for (ECountries c: ECountries.values()) {
+            csvPrinter.print(Quality.calculateRecall(results,c));
+            csvPrinter.print(Quality.calculatePrecision(results,c));
+            csvPrinter.print(Quality.calculateF(results,c));
+//                Quality.calculatePrecision(results,c);
+        }
+        measures.forEach((k,v) -> {
+            try {
+                csvPrinter.print(v);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        // insert endline
+        csvPrinter.println();
+        System.out.print("\t DONE \n");
+    }
+
+    /**
+     * This method runs knn of each n given in array,
+     * then runs quality measures for every result and saves to csv with N.
+     * IMPORTANT!!! Every run overwrites file AND there is NOTHING that saves what METRIC was used
+     * */
+    public void rateToFile(List<ArticleFeature> vectors,Metric m,int[] n,String filename) throws IOException {
+        StringWriter sw = new StringWriter();
+        List<String> headers = prepareHeaders();
         CSVFormat csvFormat = CSVFormat.DEFAULT.builder().setHeader(headers.toArray(new String[0])).build();
         CSVPrinter csvPrinter = new CSVPrinter(sw,csvFormat);
 
@@ -108,43 +140,14 @@ public class KNN {
             List<Result> results = this.clasifyVectors(vectors,i,m);
             HashMap<Measures,Double> measures = Quality.calculateAllAg(results);
             System.out.print("\t DONE \n");
-            System.out.print("Saving to "+filename+"...");
-            HashMap<ECountries,Integer> learningCount = new HashMap<>();
-            for (ECountries c: ECountries.values()) {
-                int count = this.learningSet.stream().filter(a -> a.getCountry()==c).toList().size();
-                learningCount.put(c,count);
+            System.out.print("Adding to "+filename+"...");
+            addToCSV(csvPrinter,i,results,measures);
 
-            }
-            // put element on line
-            csvPrinter.print(i);
-            for (ECountries c: ECountries.values()) {
-                csvPrinter.print(learningCount.get(c));
-                csvPrinter.print(this.countCountryExpected(results,c));
-                csvPrinter.print(this.countCountryResult(results,c));
-
-            }
-            for (ECountries c: ECountries.values()) {
-                csvPrinter.print(Quality.calculateRecall(results,c));
-                csvPrinter.print(Quality.calculatePrecision(results,c));
-                csvPrinter.print(Quality.calculateF(results,c));
-//                Quality.calculatePrecision(results,c);
-            }
-            measures.forEach((k,v) -> {
-                try {
-                    csvPrinter.print(v);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            // insert endline
-            csvPrinter.println();
-            System.out.print("\t DONE \n");
         }
         System.out.print("Saving file "+filename+"...");
         FileWriter resultsFile = new FileWriter(filename);
         resultsFile.write(sw.toString());
         resultsFile.close();
         System.out.print("\t DONE \n");
-//        System.out.println(sw.toString());
     }
 }

@@ -107,9 +107,14 @@ public class App
             throw new IllegalArgumentException("Proportions must have exactly two integers");
         }
         int[] k = new int[input.length];
-        for (int i=0; i<input.length; i++){
-            k[i] = Integer.parseInt(input[i]);
+        try{
+            for (int i=0; i<input.length; i++){
+                k[i] = Integer.parseInt(input[i]);
+            }
+        } catch (NumberFormatException e){
+            throw new IllegalArgumentException("Value of proportion is not a number");
         }
+
         int whole = Arrays.stream(k).sum();
         int part = Math.floorDiv(size,whole);
 
@@ -120,8 +125,6 @@ public class App
 
     public static void main( String[] args ) throws IOException {
         CommandLine cmd = readArguments(declareOptions(),args);
-
-
         String input = (cmd.getOptionValue("i")==null) ? "input" : cmd.getOptionValue("i");
         String output = (cmd.getOptionValue("o")==null) ? "output.csv" : cmd.getOptionValue("o");
         String dir = (cmd.getOptionValue("d")==null) ? "dictionaries" : cmd.getOptionValue("d");
@@ -130,15 +133,32 @@ public class App
         Metric m = matchMetric(cmd.getOptionValue("m"));
         int[] k = readK(cmd.getOptionValues("k"));
 
+        System.out.println("Parameters: ");
+        System.out.print("\t k = [ ");
+        for (int v:k){
+            System.out.print(v+" ");
+        }
+        System.out.print("] \n");
+        System.out.println("\t Metric: "+ m.getClass().getSimpleName());
+        System.out.println("\t Proportions: "+prop[0]+":"+prop[1]);
+        if(lim != null) System.out.println("\t Limited to: "+lim);
+        System.out.println("\t Input directory: "+input);
+        System.out.println("\t Output file: "+output);
+
+
         Reader r = new Reader();
+
         System.out.print("Loading dictionaries...");
         HashMap<Keys, HashMap<ECountries, String[][]>> dicts = r.readDicts(dir);
         System.out.print("\t DONE \n");
+
         System.out.print("Loading input files...");
         List<Article> articles = (lim == null) ? Reader.readArticles(input).stream().toList()
                 : Reader.readArticles(input).stream().limit(Integer.parseInt(lim)).toList();
         System.out.print("\t DONE \n");
+
         List<ArticleFeature> vectors = new ArrayList<>();
+
         System.out.print("Calculating feature vectors...");
         for (Article article : articles) {
             vectors.add(new ArticleFeature(article,dicts));
@@ -149,10 +169,10 @@ public class App
 
         List<ArticleFeature> learnSet = vectors.subList(0,p[0]);
         System.out.println("Learning set size: "+learnSet.size());
+
         List<ArticleFeature> testSet = vectors.subList(p[0], vectors.size());
         System.out.println("Testing set size: "+testSet.size());
 
-//        System.out.println(testSet.size());
         KNN kNN = new KNN(learnSet);
         System.out.println("Starting kNN...");
         kNN.rateToFile(testSet,m,k,output);
