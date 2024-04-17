@@ -71,44 +71,70 @@ public class App
     }
 
     static Metric matchMetric(String input){
+        List<String> metrics = new ArrayList<>();
+        metrics.add("Euclidean");
+        metrics.add("Manhattan");
+        metrics.add("Chebyshev");
+        if(!metrics.contains(input)){
+            throw new IllegalArgumentException("Input is not a metric");
+        }
 
-    }
-
-    public static void main( String[] args ) throws IOException, ClassNotFoundException {
-        CommandLine cmd = readArguments(declareOptions(),args);
-        String metricName = cmd.getOptionValue("m");
-
-        Metric m = switch (metricName){
+        Metric m = switch (input){
             case "Euclidean" -> new EuclideanMetric();
             case "Manhattan" -> new ManhattanMetric();
             case "Chebyshev" -> new ChebyshevMetric();
             default -> new EuclideanMetric();
         };
+        return m;
+    }
+
+    static int[] readK(String[] input){
+        int[] k = new int[input.length];
+        try{
+            for (int i = 0; i < input.length; i++) {
+                k[i] = Integer.parseInt(input[i]);
+            }
+        } catch (NumberFormatException e){
+            throw new IllegalArgumentException("Input is not a number");
+        }
+
+        return k;
+    }
+
+    public static void main( String[] args ) throws IOException {
+        CommandLine cmd = readArguments(declareOptions(),args);
+
 
         String input = cmd.getOptionValue("i");
         String output = cmd.getOptionValue("o");
         String dir = (cmd.getOptionValue("d")==null) ? "dictionaries" : cmd.getOptionValue("d");
-        String[] kValues = cmd.getOptionValues("k");
+//        String[] kValues = cmd.getOptionValues("k");
         String[] prop = cmd.getOptionValues("p");
         String lim = cmd.getOptionValue("l");
+        Metric m = matchMetric(cmd.getOptionValue("m"));
 
-        int[] k = new int[kValues.length];
-        for (int i = 0; i < kValues.length; i++) {
-            k[i] = Integer.parseInt(kValues[i]);
-        }
+        int[] k = readK(cmd.getOptionValues("k"));
 
         Reader r = new Reader();
+        System.out.print("Loading dictionaries...");
         HashMap<Keys, HashMap<ECountries, String[][]>> dicts = r.readDicts(dir);
+        System.out.print("\t DONE \n");
+        System.out.print("Loading input files...");
         List<Article> articles = (lim == null) ? Reader.readArticles(input).stream().toList()
                 : Reader.readArticles(input).stream().limit(Integer.parseInt(lim)).toList();
+        System.out.print("\t DONE \n");
         List<ArticleFeature> vectors = new ArrayList<>();
-//
+        System.out.print("Calculating feature vectors...");
         for (Article article : articles) {
             vectors.add(new ArticleFeature(article,dicts));
         }
+        System.out.print("\t DONE \n");
+
+        // TU DOKŁADNIE USTAWIASZ PROPORCJE!!!!!!
+
         List<ArticleFeature> learnSet = vectors.subList(0,200);
         System.out.println(learnSet.size());
-        List<ArticleFeature> testSet = vectors.subList(200,1000);
+        List<ArticleFeature> testSet = vectors.subList(200, vectors.size());
         System.out.println(testSet.size());
         KNN kNN = new KNN(learnSet);
         kNN.rateToFile(testSet,m,k,output);
