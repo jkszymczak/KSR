@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CzyFeatures implements Serializable {
     private static class FeaturesType extends HashMap<ECoreFeature, HashMap<ECountries, Boolean>> {}
-    public final static int eCoreFeaturesBias = 7;
+    public final static int eCoreFeaturesBias = 6;
     private static int featuresNumbers;
     private FeaturesType features = new FeaturesType();
 

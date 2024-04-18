@@ -86,11 +86,12 @@ public class IleFeatures implements Serializable {
                 featureValue = calculateMostCommonContinentsFeature(tempContinentsDict, textAsArray);
                 featureValue = normalize(featureValue, 0.0, (double) textAsArray.size() / 4);
                 simpleFeatures.put(ECoreFeature.values()[k + i + eCoreFeaturesBias], featureValue);
-            } else if (ECoreFeature.values()[k + i + eCoreFeaturesBias] == ECoreFeature.ileFeaturesDlTekst) {
-                featureValue = textAsArray.size();
-                featureValue = normalize(featureValue, 1.0, textAsArray.size());
-                simpleFeatures.put(ECoreFeature.values()[k + i + eCoreFeaturesBias], featureValue);
-            }
+            } 
+//            else if (ECoreFeature.values()[k + i + eCoreFeaturesBias] == ECoreFeature.ileFeaturesDlTekst) {
+//                featureValue = textAsArray.size();
+//                featureValue = normalize(featureValue, 1.0, textAsArray.size());
+//                simpleFeatures.put(ECoreFeature.values()[k + i + eCoreFeaturesBias], featureValue);
+//            }
         }
     }
 
@@ -168,7 +169,7 @@ public class IleFeatures implements Serializable {
         }
 
         simpleFeatures.put(ECoreFeature.ileFeaturesNajKont, 0.0);
-        simpleFeatures.put(ECoreFeature.ileFeaturesDlTekst, 0.0);
+//        simpleFeatures.put(ECoreFeature.ileFeaturesDlTekst, 0.0);
     }
 
     private void calculateFeaturesNumbers() {
