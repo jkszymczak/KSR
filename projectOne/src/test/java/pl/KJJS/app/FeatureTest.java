@@ -1,5 +1,7 @@
 package pl.KJJS.app;
 
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import junit.framework.TestCase;
 import pl.KJJS.app.features.ArticleFeature;
 import pl.KJJS.app.features.ECountries;
@@ -15,12 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FeatureTest extends TestCase {
-    public void testSimpleIleFeature() throws IOException {
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 2, 3})
+    public void testSimpleIleFeature(int index) throws IOException {
         System.out.println("Hello World!");
         Reader r = new Reader();
         HashMap<Keys, HashMap<ECountries, String[][]>> dicts = r.readDicts();
         List<Article> articles = Reader.readArticles("input").stream().limit(300).toList();
-        int index = 3;
 //        List<ArticleFeature> vectors = new ArrayList<>();
 //
 //        for (Article article : articles) {
@@ -45,12 +48,13 @@ public class FeatureTest extends TestCase {
         System.out.println("Hello End");
     }
 
-    public void testComplexIleFeature() throws IOException {
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 2, 3})
+    public void testComplexIleFeature(int index) throws IOException {
         System.out.println("Hello World!");
         Reader r = new Reader();
         HashMap<Keys, HashMap<ECountries, String[][]>> dicts = r.readDicts();
         List<Article> articles = Reader.readArticles("input").stream().limit(300).toList();
-        int index = 3;
 
         ArticleFeature articleFeature = new ArticleFeature(articles.get(index), dicts);
 
