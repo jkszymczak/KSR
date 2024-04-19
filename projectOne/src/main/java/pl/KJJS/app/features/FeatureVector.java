@@ -39,7 +39,7 @@ public class FeatureVector implements MultiFeature, Serializable {
         liczFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{
             add(Keys.geographic_locations);
             add(Keys.architectural_objects);
-            add(Keys.cities);
+//            add(Keys.cities);
             add(Keys.fameous_people);
         }}, text);
         ileFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{
@@ -48,7 +48,7 @@ public class FeatureVector implements MultiFeature, Serializable {
         }}, text);
         czyFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{
             add(Keys.institutions);
-            add(Keys.cities);
+//            add(Keys.cities);
             add(Keys.dates);
         }}, text);
         tekstFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{

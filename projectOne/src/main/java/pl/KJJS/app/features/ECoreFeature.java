@@ -3,13 +3,13 @@ package pl.KJJS.app.features;
 public enum ECoreFeature {
     liczFeaturesGeo,
     liczFeaturesObi,
-    liczFeaturesMiast,
+//    liczFeaturesMiast,
     liczFeaturesOsob,
     ileFeaturesKlucz,
-    ileFeaturesNajKont,
+//    ileFeaturesNajKont,
     ileFeaturesDlTekst,
     czyFeaturesInst,
-    czyFeaturesSto,
+//    czyFeaturesSto,
     czyFeaturesData,
     tekstFeaturesSto,
     tekstFeaturesNajPa

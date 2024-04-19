@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CzyFeatures implements Serializable {
     private static class FeaturesType extends HashMap<ECoreFeature, HashMap<ECountries, Boolean>> {}
-    public final static int eCoreFeaturesBias = 7;
+    public final static int eCoreFeaturesBias = 5;
     private static int featuresNumbers;
     private FeaturesType features = new FeaturesType();
 
@@ -46,18 +46,18 @@ public class CzyFeatures implements Serializable {
         List<String> textAsArray= new ArrayList<String>(List.of(text));
         String[][] dict = {{""}};
         for (int i = 0; i < features.size(); i++) {
-            if (ECoreFeature.values()[i + eCoreFeaturesBias] == ECoreFeature.czyFeaturesSto) {
-                for (int j = 0; j < features.get(ECoreFeature.values()[i + eCoreFeaturesBias]).size(); j++) {
-                    dict[0] = dicts.get(keys.get(i)).get(ECountries.values()[j])[0];
-                    featureValue = calculateSingleFeature(dict, textAsArray);
-                    features.get(ECoreFeature.values()[i + eCoreFeaturesBias]).put(ECountries.values()[j], featureValue);
-                }
-            } else {
+//            if (ECoreFeature.values()[i + eCoreFeaturesBias] == ECoreFeature.czyFeaturesSto) {
+//                for (int j = 0; j < features.get(ECoreFeature.values()[i + eCoreFeaturesBias]).size(); j++) {
+//                    dict[0] = dicts.get(keys.get(i)).get(ECountries.values()[j])[0];
+//                    featureValue = calculateSingleFeature(dict, textAsArray);
+//                    features.get(ECoreFeature.values()[i + eCoreFeaturesBias]).put(ECountries.values()[j], featureValue);
+//                }
+//            } else {
                 for (int j = 0; j < features.get(ECoreFeature.values()[i + eCoreFeaturesBias]).size(); j++) {
                     featureValue = calculateSingleFeature(dicts.get(keys.get(i)).get(ECountries.values()[j]), textAsArray);
                     features.get(ECoreFeature.values()[i + eCoreFeaturesBias]).put(ECountries.values()[j], featureValue);
                 }
-            }
+//            }
         }
     }
 
@@ -93,12 +93,12 @@ public class CzyFeatures implements Serializable {
 
     private void initFeaturesValues() {
         features.put(ECoreFeature.czyFeaturesInst, new HashMap<ECountries, Boolean>());
-        features.put(ECoreFeature.czyFeaturesSto, new HashMap<ECountries, Boolean>());
+//        features.put(ECoreFeature.czyFeaturesSto, new HashMap<ECountries, Boolean>());
         features.put(ECoreFeature.czyFeaturesData, new HashMap<ECountries, Boolean>());
 
         for (int i = 0; i < ECountries.values().length; i++) {
             features.get(ECoreFeature.czyFeaturesInst).put(ECountries.values()[i], false);
-            features.get(ECoreFeature.czyFeaturesSto).put(ECountries.values()[i], false);
+//            features.get(ECoreFeature.czyFeaturesSto).put(ECountries.values()[i], false);
             features.get(ECoreFeature.czyFeaturesData).put(ECountries.values()[i], false);
         }
     }
