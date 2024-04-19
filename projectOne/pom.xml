@@ -98,6 +98,11 @@
           <version>RELEASE</version>
           <scope>test</scope>
       </dependency>
+    <dependency>
+      <groupId>com.diogonunes</groupId>
+      <artifactId>JColor</artifactId>
+      <version>5.5.1</version>
+    </dependency>
   </dependencies>
 
 </project>

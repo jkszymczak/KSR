@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TekstFeatures implements Serializable {
     private static class FeaturesType extends HashMap<ECoreFeature, String> implements Serializable {}
-    public final static int eCoreFeaturesBias = 9;
+    public final static int eCoreFeaturesBias = 7;
     private static int featuresNumbers;
     private FeaturesType features = new FeaturesType();
 
@@ -48,37 +48,37 @@ public class TekstFeatures implements Serializable {
         }
 
         //TODO delete
-        String[][] dict2 = {
-                {"west", "germany"}
-        };
-        String[][] dict3 = {
-                {"usa"}
-        };
-        String[][] dict4 = {
-                {"france"}
-        };
-        String[][] dict5 = {
-                {"uk"}
-        };
-        String[][] dict6 = {
-                {"canada"}
-        };
-        String[][] dict7 = {
-                {"japan"}
-        };
-        HashMap<ECountries, String[][]> newDicts = new HashMap<>();
-        newDicts.put(ECountries.west_germany, dict2);
-        newDicts.put(ECountries.usa, dict3);
-        newDicts.put(ECountries.france, dict4);
-        newDicts.put(ECountries.uk, dict5);
-        newDicts.put(ECountries.canada, dict6);
-        newDicts.put(ECountries.japan, dict7);
+//        String[][] dict2 = {
+//                {"west", "germany"}
+//        };
+//        String[][] dict3 = {
+//                {"usa"}
+//        };
+//        String[][] dict4 = {
+//                {"france"}
+//        };
+//        String[][] dict5 = {
+//                {"uk"}
+//        };
+//        String[][] dict6 = {
+//                {"canada"}
+//        };
+//        String[][] dict7 = {
+//                {"japan"}
+//        };
+//        HashMap<ECountries, String[][]> newDicts = new HashMap<>();
+//        newDicts.put(ECountries.west_germany, dict2);
+//        newDicts.put(ECountries.usa, dict3);
+//        newDicts.put(ECountries.france, dict4);
+//        newDicts.put(ECountries.uk, dict5);
+//        newDicts.put(ECountries.canada, dict6);
+//        newDicts.put(ECountries.japan, dict7);
 
 
         featureValue = calculateFirstCapital(dict, textAsArray);
         features.put(ECoreFeature.tekstFeaturesSto, featureValue);
-        featureValue = calculateMostCommonCountry(newDicts, textAsArray);
-        features.put(ECoreFeature.tekstFeaturesNajPa, featureValue);
+//        featureValue = calculateMostCommonCountry(newDicts, textAsArray);
+//        features.put(ECoreFeature.tekstFeaturesNajPa, featureValue);
     }
 
     private String calculateFirstCapital(String[][] dict, List<String> text) {
@@ -168,7 +168,7 @@ public class TekstFeatures implements Serializable {
 
     private void initFeaturesValues() {
         features.put(ECoreFeature.tekstFeaturesSto, "");
-        features.put(ECoreFeature.tekstFeaturesNajPa, "");
+//        features.put(ECoreFeature.tekstFeaturesNajPa, "");
     }
 
     private void calculateFeaturesNumbers() {

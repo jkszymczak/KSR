@@ -1,5 +1,7 @@
 package pl.KJJS.app;
 
+import com.diogonunes.jcolor.AnsiFormat;
+import com.diogonunes.jcolor.Attribute;
 import org.apache.commons.cli.*;
 import pl.KJJS.app.features.*;
 import pl.KJJS.app.knn.KNN;
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.diogonunes.jcolor.Ansi.colorize;
 
 /**
  * Hello world!
@@ -124,6 +128,8 @@ public class App
     }
 
     public static void main( String[] args ) throws IOException {
+        AnsiFormat done = new AnsiFormat(Attribute.GREEN_TEXT(),Attribute.BOLD());
+        AnsiFormat info = new AnsiFormat(Attribute.ITALIC());
         CommandLine cmd = readArguments(declareOptions(),args);
         String input = (cmd.getOptionValue("i")==null) ? "input" : cmd.getOptionValue("i");
         String output = (cmd.getOptionValue("o")==null) ? "output.csv" : cmd.getOptionValue("o");
@@ -133,50 +139,50 @@ public class App
         Metric m = matchMetric(cmd.getOptionValue("m"));
         int[] k = readK(cmd.getOptionValues("k"));
 
-        System.out.println("Parameters: ");
-        System.out.print("\t k = [ ");
+        System.out.println(colorize("Parameters: ",Attribute.BOLD()));
+        System.out.print("\t "+colorize("k",info)+" = [ ");
         for (int v:k){
-            System.out.print(v+" ");
+            System.out.print(colorize(String.valueOf(v),Attribute.BOLD())+" ");
         }
         System.out.print("] \n");
-        System.out.println("\t Metric: "+ m.getClass().getSimpleName());
-        System.out.println("\t Proportions: "+prop[0]+":"+prop[1]);
-        if(lim != null) System.out.println("\t Limited to: "+lim);
-        System.out.println("\t Input directory: "+input);
-        System.out.println("\t Output file: "+output);
+        System.out.println("\t "+colorize("Metric",info)+": "+ colorize(m.getClass().getSimpleName(), Attribute.BOLD()));
+        System.out.println("\t "+colorize("Proportions",info)+": "+colorize(prop[0]+":"+prop[1], Attribute.BOLD()));
+        if(lim != null) System.out.println("\t "+colorize("Limited to",info)+": "+colorize(lim,Attribute.BOLD()));
+        System.out.println("\t "+colorize("Input directory",info)+": "+colorize(input,Attribute.BOLD()));
+        System.out.println("\t "+colorize("Output file",info)+": "+colorize(output,Attribute.BOLD()));
 
 
         Reader r = new Reader();
 
-        System.out.print("Loading dictionaries...");
+        System.out.print(colorize("Loading dictionaries...",info));
         HashMap<Keys, HashMap<ECountries, String[][]>> dicts = r.readDicts(dir);
-        System.out.print("\t DONE \n");
+        System.out.print(colorize("\t DONE \n",done));
 
-        System.out.print("Loading input files...");
+        System.out.print(colorize("Loading input files...",info));
         List<Article> articles = (lim == null) ? Reader.readArticles(input).stream().toList()
                 : Reader.readArticles(input).stream().limit(Integer.parseInt(lim)).toList();
-        System.out.print("\t DONE \n");
+        System.out.print(colorize("\t DONE \n",done));
 
         List<ArticleFeature> vectors = new ArrayList<>();
 
-        System.out.print("Calculating feature vectors...");
+        System.out.print(colorize("Calculating feature vectors...",info));
         for (Article article : articles) {
             vectors.add(new ArticleFeature(article,dicts));
         }
-        System.out.print("\t DONE \n");
+        System.out.print(colorize("\t DONE \n", done));
 
         int[] p = countProportions(prop,vectors.size());
 
         List<ArticleFeature> learnSet = vectors.subList(0,p[0]);
-        System.out.println("Learning set size: "+learnSet.size());
+        System.out.println(colorize("Learning set size",info)+": "+colorize(String.valueOf(learnSet.size()),Attribute.BOLD()));
 
         List<ArticleFeature> testSet = vectors.subList(p[0], vectors.size());
-        System.out.println("Testing set size: "+testSet.size());
+        System.out.println(colorize("Testing set size",info)+": "+colorize(String.valueOf(testSet.size()),Attribute.BOLD()));
 
         KNN kNN = new KNN(learnSet);
-        System.out.println("Starting kNN...");
+        System.out.println(colorize("Starting kNN...",Attribute.GREEN_BACK(),Attribute.ITALIC()));
         kNN.rateToFile(testSet,m,k,output);
-        System.out.println("kNN is DONE \n");
+        System.out.println(colorize("kNN is DONE \n",Attribute.GREEN_BACK(),Attribute.ITALIC()));
 
 
     }
