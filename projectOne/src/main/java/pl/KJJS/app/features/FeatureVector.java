@@ -38,7 +38,7 @@ public class FeatureVector implements MultiFeature, Serializable {
     public void calculateFeatures(HashMap<Keys, HashMap<ECountries, String[][]>> dicts, String[] text) {
         liczFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{
             add(Keys.geographic_locations);
-//            add(Keys.architectural_objects);
+            add(Keys.architectural_objects);
             add(Keys.cities);
             add(Keys.fameous_people);
         }}, text);
@@ -49,7 +49,7 @@ public class FeatureVector implements MultiFeature, Serializable {
         czyFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{
             add(Keys.institutions);
             add(Keys.cities);
-//            add(Keys.dates);
+            add(Keys.dates);
         }}, text);
         tekstFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{
             add(Keys.cities);

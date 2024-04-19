@@ -91,13 +91,13 @@ public class LiczFeatures implements Serializable {
 
     private void initFeaturesValues() {
         features.put(ECoreFeature.liczFeaturesGeo, new HashMap<ECountries, Double>());
-//        features.put(ECoreFeature.liczFeaturesObi, new HashMap<ECountries, Double>());
+        features.put(ECoreFeature.liczFeaturesObi, new HashMap<ECountries, Double>());
         features.put(ECoreFeature.liczFeaturesMiast, new HashMap<ECountries, Double>());
         features.put(ECoreFeature.liczFeaturesOsob, new HashMap<ECountries, Double>());
 
         for (int i = 0; i < ECountries.values().length; i++) {
             features.get(ECoreFeature.liczFeaturesGeo).put(ECountries.values()[i], 0.0);
-//            features.get(ECoreFeature.liczFeaturesObi).put(ECountries.values()[i], 0.0);
+            features.get(ECoreFeature.liczFeaturesObi).put(ECountries.values()[i], 0.0);
             features.get(ECoreFeature.liczFeaturesMiast).put(ECountries.values()[i], 0.0);
             features.get(ECoreFeature.liczFeaturesOsob).put(ECountries.values()[i], 0.0);
         }

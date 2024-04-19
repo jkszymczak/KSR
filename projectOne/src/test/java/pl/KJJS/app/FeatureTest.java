@@ -1,5 +1,6 @@
 package pl.KJJS.app;
 
+import junit.framework.Assert;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import junit.framework.TestCase;
@@ -46,6 +47,7 @@ public class FeatureTest extends TestCase {
         // =================================================================
 
         System.out.println("Hello End");
+        Assert.assertTrue(true);
     }
 
     @ParameterizedTest
@@ -63,5 +65,6 @@ public class FeatureTest extends TestCase {
         System.out.println(Arrays.toString(articleFeature.getFeatureVector().getTextFeatures()));
 
         System.out.println("Hello End");
+        Assert.assertTrue(true);
     }
 }

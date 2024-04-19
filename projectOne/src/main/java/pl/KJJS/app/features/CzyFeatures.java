@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CzyFeatures implements Serializable {
     private static class FeaturesType extends HashMap<ECoreFeature, HashMap<ECountries, Boolean>> {}
-    public final static int eCoreFeaturesBias = 5;
+    public final static int eCoreFeaturesBias = 7;
     private static int featuresNumbers;
     private FeaturesType features = new FeaturesType();
 
@@ -94,12 +94,12 @@ public class CzyFeatures implements Serializable {
     private void initFeaturesValues() {
         features.put(ECoreFeature.czyFeaturesInst, new HashMap<ECountries, Boolean>());
         features.put(ECoreFeature.czyFeaturesSto, new HashMap<ECountries, Boolean>());
-//        features.put(ECoreFeature.czyFeaturesData, new HashMap<ECountries, Boolean>());
+        features.put(ECoreFeature.czyFeaturesData, new HashMap<ECountries, Boolean>());
 
         for (int i = 0; i < ECountries.values().length; i++) {
             features.get(ECoreFeature.czyFeaturesInst).put(ECountries.values()[i], false);
             features.get(ECoreFeature.czyFeaturesSto).put(ECountries.values()[i], false);
-//            features.get(ECoreFeature.czyFeaturesData).put(ECountries.values()[i], false);
+            features.get(ECoreFeature.czyFeaturesData).put(ECountries.values()[i], false);
         }
     }
 
