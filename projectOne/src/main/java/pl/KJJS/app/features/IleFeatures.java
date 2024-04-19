@@ -15,7 +15,7 @@ public class IleFeatures implements Serializable {
     private static class SimpleFeaturesType extends HashMap<ECoreFeature, Double> {
     }
 
-    public final static int eCoreFeaturesBias = 4;
+    public final static int eCoreFeaturesBias = 3;
     private static int featuresNumbers;
     private ComplexFeaturesType complexFeatures = new ComplexFeaturesType();
     private SimpleFeaturesType simpleFeatures = new SimpleFeaturesType();

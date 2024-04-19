@@ -19,7 +19,7 @@ import java.util.List;
 public class FeatureTest extends TestCase {
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3})
-    public void testSimpleIleFeature(int index) throws IOException {
+    public void testIleFeature(int index) throws IOException {
         System.out.println("Hello World!");
         Reader r = new Reader();
         HashMap<Keys, HashMap<ECountries, String[][]>> dicts = r.readDicts();
@@ -49,8 +49,8 @@ public class FeatureTest extends TestCase {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2, 3})
-    public void testComplexIleFeature(int index) throws IOException {
+    @ValueSource(ints = {0, 1, 2, 3, 10, 100, 111, 122, 130, 150, 200})
+    public void testAllFeature(int index) throws IOException {
         System.out.println("Hello World!");
         Reader r = new Reader();
         HashMap<Keys, HashMap<ECountries, String[][]>> dicts = r.readDicts();
