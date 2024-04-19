@@ -1,5 +1,7 @@
 package pl.KJJS.app.knn;
 
+import com.diogonunes.jcolor.AnsiFormat;
+import com.diogonunes.jcolor.Attribute;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
@@ -15,9 +17,13 @@ import java.io.StringWriter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.diogonunes.jcolor.Ansi.colorize;
+
 public class KNN {
 
     List<ArticleFeature> learningSet;
+    AnsiFormat done = new AnsiFormat(Attribute.GREEN_TEXT(),Attribute.BOLD());
+    AnsiFormat info = new AnsiFormat(Attribute.ITALIC());
 
     public KNN (List<ArticleFeature> learningSet) {
         this.learningSet = learningSet;
@@ -120,7 +126,7 @@ public class KNN {
         });
         // insert endline
         csvPrinter.println();
-        System.out.print("\t DONE \n");
+        System.out.print(colorize("\t DONE \n",done));
     }
 
     /**
@@ -136,18 +142,18 @@ public class KNN {
 
 
         for(int i:n){
-            System.out.print("Starting kNN for k="+i+"...");
+            System.out.print(colorize("Starting kNN for k=",info)+colorize(String.valueOf(i),Attribute.BOLD())+"...");
             List<Result> results = this.clasifyVectors(vectors,i,m);
             HashMap<Measures,Double> measures = Quality.calculateAllAg(results);
-            System.out.print("\t DONE \n");
-            System.out.print("Adding to "+filename+"...");
+            System.out.print(colorize("\t DONE \n",done));
+            System.out.print(colorize("Adding to \t",info)+colorize(filename,Attribute.BOLD())+"...");
             addToCSV(csvPrinter,i,results,measures);
 
         }
-        System.out.print("Saving file "+filename+"...");
+        System.out.print(colorize("Saving file ",info)+colorize(filename,Attribute.BOLD())+"...");
         FileWriter resultsFile = new FileWriter(filename);
         resultsFile.write(sw.toString());
         resultsFile.close();
-        System.out.print("\t DONE \n");
+        System.out.print(colorize("\t DONE \n",done));
     }
 }
