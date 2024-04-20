@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TekstFeatures implements Serializable {
     private static class FeaturesType extends HashMap<ECoreFeature, String> implements Serializable {}
-    public final static int eCoreFeaturesBias = 7;
+    public final static int eCoreFeaturesBias = 9;
     private static int featuresNumbers;
     private FeaturesType features = new FeaturesType();
 

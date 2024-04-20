@@ -15,7 +15,7 @@ public class IleFeatures implements Serializable {
     private static class SimpleFeaturesType extends HashMap<ECoreFeature, Double> {
     }
 
-    public final static int eCoreFeaturesBias = 3;
+    public final static int eCoreFeaturesBias = 4;
     private static int featuresNumbers;
     private ComplexFeaturesType complexFeatures = new ComplexFeaturesType();
     private SimpleFeaturesType simpleFeatures = new SimpleFeaturesType();
@@ -82,17 +82,16 @@ public class IleFeatures implements Serializable {
                 {"north", "america"}};
 
         for (int k = 0; k < simpleFeatures.size(); k++) {
-//            if (ECoreFeature.values()[k + i + eCoreFeaturesBias] == ECoreFeature.ileFeaturesNajKont) {
-//                featureValue = calculateMostCommonContinentsFeature(tempContinentsDict, textAsArray);
-//                featureValue = normalize(featureValue, 0.0, (double) textAsArray.size() / 4);
-//                simpleFeatures.put(ECoreFeature.values()[k + i + eCoreFeaturesBias], featureValue);
-//            }
-//            else
-                if (ECoreFeature.values()[k + i + eCoreFeaturesBias] == ECoreFeature.ileFeaturesDlTekst) {
-                featureValue = textAsArray.size();
-                featureValue = normalize(featureValue, 1.0, textAsArray.size());
+            if (ECoreFeature.values()[k + i + eCoreFeaturesBias] == ECoreFeature.ileFeaturesNajKont) {
+                featureValue = calculateMostCommonContinentsFeature(tempContinentsDict, textAsArray);
+                featureValue = normalize(featureValue, 0.0, (double) textAsArray.size() / 4);
                 simpleFeatures.put(ECoreFeature.values()[k + i + eCoreFeaturesBias], featureValue);
             }
+//            else if (ECoreFeature.values()[k + i + eCoreFeaturesBias] == ECoreFeature.ileFeaturesDlTekst) {
+//                featureValue = textAsArray.size();
+//                featureValue = normalize(featureValue, 1.0, textAsArray.size());
+//                simpleFeatures.put(ECoreFeature.values()[k + i + eCoreFeaturesBias], featureValue);
+//            }
         }
     }
 
@@ -169,8 +168,8 @@ public class IleFeatures implements Serializable {
 
         }
 
-//        simpleFeatures.put(ECoreFeature.ileFeaturesNajKont, 0.0);
-        simpleFeatures.put(ECoreFeature.ileFeaturesDlTekst, 0.0);
+        simpleFeatures.put(ECoreFeature.ileFeaturesNajKont, 0.0);
+//        simpleFeatures.put(ECoreFeature.ileFeaturesDlTekst, 0.0);
     }
 
     private void calculateFeaturesNumbers() {
