@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TekstFeatures implements Serializable {
+public class TextFeatures implements Serializable {
     private static class FeaturesType extends HashMap<ECoreFeature, String> implements Serializable {}
     public final static int eCoreFeaturesBias = 9;
     private static int featuresNumbers;
     private FeaturesType features = new FeaturesType();
 
-    public TekstFeatures() {
+    public TextFeatures() {
         initVariables();
     }
 
@@ -76,9 +76,9 @@ public class TekstFeatures implements Serializable {
 
 
         featureValue = calculateFirstCapital(dict, textAsArray);
-        features.put(ECoreFeature.tekstFeaturesSto, featureValue);
+        features.put(ECoreFeature.textFeaturesCap, featureValue);
         featureValue = calculateMostCommonCountry(newDicts, textAsArray);
-        features.put(ECoreFeature.tekstFeaturesNajPa, featureValue);
+        features.put(ECoreFeature.textFeaturesFreqCou, featureValue);
     }
 
     private String calculateFirstCapital(String[][] dict, List<String> text) {
@@ -167,8 +167,8 @@ public class TekstFeatures implements Serializable {
     }
 
     private void initFeaturesValues() {
-        features.put(ECoreFeature.tekstFeaturesSto, "");
-        features.put(ECoreFeature.tekstFeaturesNajPa, "");
+        features.put(ECoreFeature.textFeaturesCap, "");
+        features.put(ECoreFeature.textFeaturesFreqCou, "");
     }
 
     private void calculateFeaturesNumbers() {

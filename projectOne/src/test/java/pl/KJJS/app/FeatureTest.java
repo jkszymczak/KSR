@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import junit.framework.TestCase;
 import pl.KJJS.app.features.ArticleFeature;
 import pl.KJJS.app.features.ECountries;
-import pl.KJJS.app.features.IleFeatures;
+import pl.KJJS.app.features.HowManyFeatures;
 import pl.KJJS.app.parser.Article;
 import pl.KJJS.app.parser.Keys;
 import pl.KJJS.app.parser.Reader;
@@ -36,14 +36,14 @@ public class FeatureTest extends TestCase {
 //        System.out.println(testSet.size());
 
         // =================================================================
-        IleFeatures ileFeatures = new IleFeatures();
-        System.out.println(IleFeatures.getFeaturesNumbers());
-        ileFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>() {{
+        HowManyFeatures howManyFeatures = new HowManyFeatures();
+        System.out.println(HowManyFeatures.getFeaturesNumbers());
+        howManyFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>() {{
             add(Keys.characteristic_words);
             // add dict to continents
         }}, articles.get(index).getBody());
 
-        System.out.println(Arrays.toString(ileFeatures.getFeaturesAsVector()));
+        System.out.println(Arrays.toString(howManyFeatures.getFeaturesAsVector()));
         // =================================================================
 
         System.out.println("Hello End");

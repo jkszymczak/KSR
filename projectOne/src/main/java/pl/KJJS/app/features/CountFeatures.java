@@ -6,14 +6,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Stream;
 
-public class LiczFeatures implements Serializable {
+public class CountFeatures implements Serializable {
         private static class FeaturesType extends HashMap<ECoreFeature, HashMap<ECountries, Double>> {}
         private static int featuresNumbers;
         private FeaturesType features = new FeaturesType();
 
-    public LiczFeatures() {
+    public CountFeatures() {
         initVariables();
     }
 
@@ -90,16 +89,16 @@ public class LiczFeatures implements Serializable {
     }
 
     private void initFeaturesValues() {
-        features.put(ECoreFeature.liczFeaturesGeo, new HashMap<ECountries, Double>());
-        features.put(ECoreFeature.liczFeaturesObi, new HashMap<ECountries, Double>());
-        features.put(ECoreFeature.liczFeaturesMiast, new HashMap<ECountries, Double>());
-        features.put(ECoreFeature.liczFeaturesOsob, new HashMap<ECountries, Double>());
+        features.put(ECoreFeature.countFeaturesGeo, new HashMap<ECountries, Double>());
+        features.put(ECoreFeature.countFeaturesObj, new HashMap<ECountries, Double>());
+        features.put(ECoreFeature.countFeaturesCit, new HashMap<ECountries, Double>());
+        features.put(ECoreFeature.countFeaturesPeop, new HashMap<ECountries, Double>());
 
         for (int i = 0; i < ECountries.values().length; i++) {
-            features.get(ECoreFeature.liczFeaturesGeo).put(ECountries.values()[i], 0.0);
-            features.get(ECoreFeature.liczFeaturesObi).put(ECountries.values()[i], 0.0);
-            features.get(ECoreFeature.liczFeaturesMiast).put(ECountries.values()[i], 0.0);
-            features.get(ECoreFeature.liczFeaturesOsob).put(ECountries.values()[i], 0.0);
+            features.get(ECoreFeature.countFeaturesGeo).put(ECountries.values()[i], 0.0);
+            features.get(ECoreFeature.countFeaturesObj).put(ECountries.values()[i], 0.0);
+            features.get(ECoreFeature.countFeaturesCit).put(ECountries.values()[i], 0.0);
+            features.get(ECoreFeature.countFeaturesPeop).put(ECountries.values()[i], 0.0);
         }
     }
 

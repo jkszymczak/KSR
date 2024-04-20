@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CzyFeatures implements Serializable {
+public class AreFeatures implements Serializable {
     private static class FeaturesType extends HashMap<ECoreFeature, HashMap<ECountries, Boolean>> {}
     public final static int eCoreFeaturesBias = 6;
     private static int featuresNumbers;
     private FeaturesType features = new FeaturesType();
 
-    public CzyFeatures() {
+    public AreFeatures() {
         initVariables();
     }
 
@@ -46,7 +46,7 @@ public class CzyFeatures implements Serializable {
         List<String> textAsArray= new ArrayList<String>(List.of(text));
         String[][] dict = {{""}};
         for (int i = 0; i < features.size(); i++) {
-            if (ECoreFeature.values()[i + eCoreFeaturesBias] == ECoreFeature.czyFeaturesSto) {
+            if (ECoreFeature.values()[i + eCoreFeaturesBias] == ECoreFeature.areFeaturesCap) {
                 for (int j = 0; j < features.get(ECoreFeature.values()[i + eCoreFeaturesBias]).size(); j++) {
                     dict[0] = dicts.get(keys.get(i)).get(ECountries.values()[j])[0];
                     featureValue = calculateSingleFeature(dict, textAsArray);
@@ -92,14 +92,14 @@ public class CzyFeatures implements Serializable {
     }
 
     private void initFeaturesValues() {
-        features.put(ECoreFeature.czyFeaturesInst, new HashMap<ECountries, Boolean>());
-        features.put(ECoreFeature.czyFeaturesSto, new HashMap<ECountries, Boolean>());
-        features.put(ECoreFeature.czyFeaturesData, new HashMap<ECountries, Boolean>());
+        features.put(ECoreFeature.areFeaturesInst, new HashMap<ECountries, Boolean>());
+        features.put(ECoreFeature.areFeaturesCap, new HashMap<ECountries, Boolean>());
+        features.put(ECoreFeature.areFeaturesData, new HashMap<ECountries, Boolean>());
 
         for (int i = 0; i < ECountries.values().length; i++) {
-            features.get(ECoreFeature.czyFeaturesInst).put(ECountries.values()[i], false);
-            features.get(ECoreFeature.czyFeaturesSto).put(ECountries.values()[i], false);
-            features.get(ECoreFeature.czyFeaturesData).put(ECountries.values()[i], false);
+            features.get(ECoreFeature.areFeaturesInst).put(ECountries.values()[i], false);
+            features.get(ECoreFeature.areFeaturesCap).put(ECountries.values()[i], false);
+            features.get(ECoreFeature.areFeaturesData).put(ECountries.values()[i], false);
         }
     }
 

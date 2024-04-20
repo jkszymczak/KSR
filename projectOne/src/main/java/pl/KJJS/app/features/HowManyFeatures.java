@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class IleFeatures implements Serializable {
+public class HowManyFeatures implements Serializable {
     private static class ComplexFeaturesType extends HashMap<ECoreFeature, HashMap<ECountries, Double>> {
     }
 
@@ -20,7 +20,7 @@ public class IleFeatures implements Serializable {
     private ComplexFeaturesType complexFeatures = new ComplexFeaturesType();
     private SimpleFeaturesType simpleFeatures = new SimpleFeaturesType();
 
-    public IleFeatures() {
+    public HowManyFeatures() {
         initVariables();
     }
 
@@ -82,7 +82,7 @@ public class IleFeatures implements Serializable {
                 {"north", "america"}};
 
         for (int k = 0; k < simpleFeatures.size(); k++) {
-            if (ECoreFeature.values()[k + i + eCoreFeaturesBias] == ECoreFeature.ileFeaturesNajKont) {
+            if (ECoreFeature.values()[k + i + eCoreFeaturesBias] == ECoreFeature.howManyFeaturesFreqCont) {
                 featureValue = calculateMostCommonContinentsFeature(tempContinentsDict, textAsArray);
                 featureValue = normalize(featureValue, 0.0, (double) textAsArray.size() / 4);
                 simpleFeatures.put(ECoreFeature.values()[k + i + eCoreFeaturesBias], featureValue);
@@ -162,13 +162,13 @@ public class IleFeatures implements Serializable {
     }
 
     private void initFeaturesValues() {
-        complexFeatures.put(ECoreFeature.ileFeaturesKlucz, new HashMap<ECountries, Double>());
+        complexFeatures.put(ECoreFeature.howManyFeaturesKeyW, new HashMap<ECountries, Double>());
         for (int i = 0; i < ECountries.values().length; i++) {
-            complexFeatures.get(ECoreFeature.ileFeaturesKlucz).put(ECountries.values()[i], 0.0);
+            complexFeatures.get(ECoreFeature.howManyFeaturesKeyW).put(ECountries.values()[i], 0.0);
 
         }
 
-        simpleFeatures.put(ECoreFeature.ileFeaturesNajKont, 0.0);
+        simpleFeatures.put(ECoreFeature.howManyFeaturesFreqCont, 0.0);
 //        simpleFeatures.put(ECoreFeature.ileFeaturesDlTekst, 0.0);
     }
 

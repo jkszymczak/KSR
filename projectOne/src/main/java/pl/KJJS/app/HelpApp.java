@@ -43,7 +43,7 @@ public class HelpApp {
 //        System.out.println(Arrays.toString(Stream.of(articles.get(index).getBody()).toArray()));
 
 // =================================================================
-//        LiczFeatures liczFeatures = new LiczFeatures();
+//        CountFeatures liczFeatures = new CountFeatures();
         // !!! Keys must be the same order as the ECoreFeature enum !!!
 //        liczFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
 //            add(Keys.geographic_locations);
@@ -56,8 +56,8 @@ public class HelpApp {
 // =================================================================
 
 // =================================================================
-//        IleFeatures ileFeatures = new IleFeatures();
-//        System.out.println(IleFeatures.getFeaturesNumbers());
+//        HowManyFeatures ileFeatures = new HowManyFeatures();
+//        System.out.println(HowManyFeatures.getFeaturesNumbers());
 //        ileFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
 //            add(Keys.characteristic_words);
 //            // add dict to continents
@@ -68,8 +68,8 @@ public class HelpApp {
 
 // =================================================================
 //
-//        CzyFeatures czyFeatures = new CzyFeatures();
-//        System.out.println(CzyFeatures.getFeaturesNumbers());
+//        AreFeatures czyFeatures = new AreFeatures();
+//        System.out.println(AreFeatures.getFeaturesNumbers());
 //        czyFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
 //            add(Keys.institutions);
 //            add(Keys.cities);
@@ -81,8 +81,8 @@ public class HelpApp {
 
 // =================================================================
 
-//        TekstFeatures tekstFeatures = new TekstFeatures();
-//        System.out.println(TekstFeatures.getFeaturesNumbers());
+//        TextFeatures tekstFeatures = new TextFeatures();
+//        System.out.println(TextFeatures.getFeaturesNumbers());
 //        tekstFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>(){{
 //            add(Keys.cities);
 //        }}, articles.get(index).getBody());

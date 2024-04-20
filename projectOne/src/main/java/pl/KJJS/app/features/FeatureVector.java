@@ -5,23 +5,22 @@ import pl.KJJS.app.parser.Keys;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class FeatureVector implements MultiFeature, Serializable {
-    private LiczFeatures liczFeatures = new LiczFeatures();
-    private IleFeatures ileFeatures = new IleFeatures();
-    private CzyFeatures czyFeatures = new CzyFeatures();
-    private TekstFeatures tekstFeatures = new TekstFeatures();
+    private CountFeatures countFeatures = new CountFeatures();
+    private HowManyFeatures howManyFeatures = new HowManyFeatures();
+    private AreFeatures areFeatures = new AreFeatures();
+    private TextFeatures textFeatures = new TextFeatures();
 
     @Override
     public Boolean[][] getLogicFeatures() {
-        return czyFeatures.getFeaturesAsVector();
+        return areFeatures.getFeaturesAsVector();
     }
 
     @Override
     public Double[] getNumericFeatures() {
-        Double[] numericFeatures_1 = liczFeatures.getFeaturesAsVector();
-        Double[] numericFeatures_2 = ileFeatures.getFeaturesAsVector();
+        Double[] numericFeatures_1 = countFeatures.getFeaturesAsVector();
+        Double[] numericFeatures_2 = howManyFeatures.getFeaturesAsVector();
         Double[] combinedFeatures = new Double[numericFeatures_1.length + numericFeatures_2.length];
 
         System.arraycopy(numericFeatures_1, 0, combinedFeatures, 0, numericFeatures_1.length);
@@ -32,26 +31,26 @@ public class FeatureVector implements MultiFeature, Serializable {
 
     @Override
     public String[] getTextFeatures() {
-        return tekstFeatures.getFeaturesAsVector();
+        return textFeatures.getFeaturesAsVector();
     }
 
     public void calculateFeatures(HashMap<Keys, HashMap<ECountries, String[][]>> dicts, String[] text) {
-        liczFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{
+        countFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{
             add(Keys.geographic_locations);
             add(Keys.architectural_objects);
             add(Keys.cities);
             add(Keys.fameous_people);
         }}, text);
-        ileFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{
+        howManyFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{
             add(Keys.characteristic_words);
             // add dict to continents
         }}, text);
-        czyFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{
+        areFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{
             add(Keys.institutions);
             add(Keys.cities);
             add(Keys.dates);
         }}, text);
-        tekstFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{
+        textFeatures.calculateFeatures(dicts, new ArrayList<Keys>() {{
             add(Keys.cities);
             // add dict to countries
         }}, text);
