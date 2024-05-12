@@ -18,6 +18,8 @@
         numpy
         pycodestyle
 	pip
+	matplotlib
+	seaborn
       ];
     in
       {
