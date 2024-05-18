@@ -1,5 +1,5 @@
 package FuzzyCalculations;
 
-public class LinguisticVariable {
-    Label[] labels;
+public interface LinguisticVariable {
+
 }

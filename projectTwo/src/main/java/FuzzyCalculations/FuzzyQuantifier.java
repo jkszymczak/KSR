@@ -1,4 +1,8 @@
 package FuzzyCalculations;
 
-public class FuzzyQuantifier extends LinguisticVariable{
+import java.util.List;
+
+public class FuzzyQuantifier implements LinguisticVariable{
+    List<QuantifierLabel> labels;
+    QuantifierType type;
 }
