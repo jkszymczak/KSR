@@ -2,7 +2,7 @@ package FuzzyCalculations;
 
 import java.util.List;
 
-public class FuzzySet {
+public class FuzzySet implements Label{
     MembershipFunction membershipFunction;
     List<Member> elements;
     String label;
@@ -10,7 +10,7 @@ public class FuzzySet {
     public FuzzySet(List<BlockGroup> candidates,MembershipFunction membershipFunction) {
         this.membershipFunction = membershipFunction;
     }
-    private void assignMembership(BlockGroup membership){
+    public void assignMembership(List<BlockGroup> candidates){
         return;
     }
 

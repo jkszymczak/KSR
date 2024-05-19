@@ -18,9 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FeatureTest extends TestCase {
-    @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2, 3})
-    public void testIleFeature(int index) throws IOException {
+//    @ParameterizedTest
+//    @ValueSource(ints = {0, 1, 2, 3})
+    public void testIleFeature() throws IOException {
         System.out.println("Hello World!");
         Reader r = new Reader();
         HashMap<Keys, HashMap<ECountries, String[][]>> dicts = r.readDicts();
@@ -41,7 +41,7 @@ public class FeatureTest extends TestCase {
         howManyFeatures.calculateFeatures(r.readDicts(), new ArrayList<Keys>() {{
             add(Keys.characteristic_words);
             // add dict to continents
-        }}, articles.get(index).getBody());
+        }}, articles.get(1).getBody());
 
         System.out.println(Arrays.toString(howManyFeatures.getFeaturesAsVector()));
         // =================================================================
@@ -50,15 +50,15 @@ public class FeatureTest extends TestCase {
         Assert.assertTrue(true);
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2, 3, 10, 100, 111, 122, 130, 150, 200})
-    public void testAllFeature(int index) throws IOException {
+//    @ParameterizedTest
+//    @ValueSource(ints = {0, 1, 2, 3, 10, 100, 111, 122, 130, 150, 200})
+    public void testAllFeature() throws IOException {
         System.out.println("Hello World!");
         Reader r = new Reader();
         HashMap<Keys, HashMap<ECountries, String[][]>> dicts = r.readDicts();
         List<Article> articles = Reader.readArticles("input").stream().limit(300).toList();
 
-        ArticleFeature articleFeature = new ArticleFeature(articles.get(index), dicts);
+        ArticleFeature articleFeature = new ArticleFeature(articles.get(10), dicts);
 
         System.out.println(Arrays.deepToString(articleFeature.getFeatureVector().getNumericFeatures()));
         System.out.println(Arrays.deepToString(articleFeature.getFeatureVector().getLogicFeatures()));

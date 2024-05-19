@@ -2,12 +2,13 @@ package FuzzyCalculations;
 
 public class LinguisticSummary {
     FuzzyQuantifier quantifier;
-    SumClass summarizator;
+    SummariserQualifier summarizator;
     String conjunction;
+    QualityMeasures qualityMeasures;
     public String[] generateSummaries(){
         return null;
     }
-    public double degreeOfTrue(){
+    public double degreeOfTruth(){
         return 0;
     };
 }
