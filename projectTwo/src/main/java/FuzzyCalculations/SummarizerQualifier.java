@@ -10,4 +10,13 @@ public class SummariserQualifier {
         return null;
     };
 
+    public SummariserQualifier setColumn(Columns column) {
+        this.column = column;
+        return this;
+    }
+    public SummariserQualifier setFuzzySet(FuzzySet fuzzySet) {
+        this.fuzzySet = fuzzySet;
+        return this;
+    }
+
 }
