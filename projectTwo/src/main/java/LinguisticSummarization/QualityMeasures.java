@@ -1,4 +1,6 @@
-package FuzzyCalculations;
+package LinguisticSummarization;
+
+import FuzzyCalculations.QuantifierLabel;
 
 public class QualityMeasures {
     double r(QuantifierLabel label){
@@ -29,7 +31,7 @@ public class QualityMeasures {
     double t8(){
         return 0;
     };
-    double t9(LinguisticSummarySecond linguisticSummary){
+    double t9(LinguisticSummary linguisticSummary){
         return 0;
     };
     double t10(){

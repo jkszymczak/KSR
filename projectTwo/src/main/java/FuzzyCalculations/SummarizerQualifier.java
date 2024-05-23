@@ -1,22 +1,27 @@
 package FuzzyCalculations;
 
-import java.util.List;
+import Database.BlockGroup;
 
-public class SummariserQualifier {
-    Columns column;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class SummarizerQualifier {
+//    Columns column;
     FuzzySet fuzzySet;
-    List<SummariserQualifier> elementalParts = null;
-    public SummariserQualifier and(SummariserQualifier sum2){
+    List<SummarizerQualifier> elementalParts = null;
+    public SummarizerQualifier and(SummarizerQualifier sum2){
+
         return null;
     };
-
-    public SummariserQualifier setColumn(Columns column) {
-        this.column = column;
-        return this;
+    private void setElementalParts(SummarizerQualifier part){
+        if(this.elementalParts == null){
+            this.elementalParts = new LinkedList<>();
+        }
+        this.elementalParts.add(part);
     }
-    public SummariserQualifier setFuzzySet(FuzzySet fuzzySet) {
-        this.fuzzySet = fuzzySet;
-        return this;
+    public static SummarizerBuilder build(){
+        return new SummarizerBuilder();
     }
 
 }

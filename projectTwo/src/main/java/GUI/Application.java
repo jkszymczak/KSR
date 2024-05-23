@@ -1,4 +1,4 @@
-package FuzzyCalculations;
+package GUI;
 
 public class Application {
 }
