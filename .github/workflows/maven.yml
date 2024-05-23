@@ -27,7 +27,10 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
+    - name: Testing
       run: |
-        cd projectOne
+        # cd projectOne
+        # mvn test
+        # cd ..
+        cd projectTwo
         mvn test
