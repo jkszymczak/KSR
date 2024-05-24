@@ -1,6 +1,6 @@
 package FuzzyCalculations;
 
-public class Label{
+public abstract class Label{
     MembershipFunction membershipFunction;
     String label;
 

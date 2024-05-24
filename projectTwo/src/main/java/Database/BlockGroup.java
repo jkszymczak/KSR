@@ -35,7 +35,13 @@ public class BlockGroup {
         return index;
     }
 
-    public String toString(){
-        return "Index: "+ this.index + ", value" + columns.toString() + "Label: " + label;
+
+    @Override
+    public String toString() {
+        return "BlockGroup{" +
+                "columns=" + columns +
+                ", label='" + label + '\'' +
+                ", index=" + index +
+                '}';
     }
 }

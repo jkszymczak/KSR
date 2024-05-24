@@ -8,8 +8,9 @@ public class SumQuaLabel extends Label{
         super(membershipFunction, label);
         this.column = column;
     }
+
     public double evaluate(BlockGroup x){
-        return this.membershipFunction.evaluate(x.getColumns().get(column));
+        return this.membershipFunction.evaluate(x.getColumns().get(column.toString()));
     }
 
     public Columns getColumn() {

@@ -17,7 +17,7 @@ public class FuzzyQuantifier {
     public List<Pair<String,Double>> calculateMemberships(double value){
         return labels.stream().map(
                 label -> new Pair<>(label.getLabel()
-                        ,label.evaluateMembership(value))
+                        ,label.evaluate(value))
         ).collect(Collectors.toList());
     }
 }

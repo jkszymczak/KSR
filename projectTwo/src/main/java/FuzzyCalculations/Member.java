@@ -17,4 +17,12 @@ public class Member{
     public BlockGroup getElement() {
         return element;
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "element=" + element.toString() +
+                ", membership=" + membership +
+                '}';
+    }
 }
