@@ -18,6 +18,7 @@ public class CSV {
                 Map<String, Object> rowMap = new HashMap<>();
                 csvRecord.toMap().forEach((key, value) -> {
                     try {
+//                        System.out.println(key);
                         rowMap.put(key, Double.parseDouble(value));
                     } catch (NumberFormatException e) {
                         rowMap.put(key, value); // Handle non-numeric values appropriately

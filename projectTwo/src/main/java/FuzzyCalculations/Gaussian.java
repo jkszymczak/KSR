@@ -42,16 +42,21 @@ public class Gaussian implements MembershipFunction{
         return this.range;
     }
 
-    public Gaussian(double mean, double sigma,double suppStart,double suppStop,double start,double stop) {
+    private void calculateSupp(){
+        double left = mean - Math.sqrt(-2 * sigma * sigma * Math.log(0.001));
+        double right = mean + Math.sqrt(-2 * sigma * sigma * Math.log(0.001));
+        this.supp = new Pair<>(left,right);
+    }
+
+    public Gaussian(double mean, double sigma,double start,double stop) {
         this.mean = mean;
         this.sigma = sigma;
-        this.supp = new Pair<>(suppStart,suppStop);
+        this.calculateSupp();
         this.range = new Pair<>(start,stop);
     }
-    public Gaussian(double mean, double sigma,double suppStart,double suppStop) {
+    public Gaussian(double mean, double sigma) {
         this.mean = mean;
         this.sigma = sigma;
-        this.supp = new Pair<>(suppStart,suppStop);
 
     }
     public void setRange(Pair<Double,Double> range){

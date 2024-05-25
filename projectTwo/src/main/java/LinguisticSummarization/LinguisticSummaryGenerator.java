@@ -57,40 +57,47 @@ public class LinguisticSummaryGenerator {
 //        }).collect(Collectors.toList());
 //    }
 
-//    public List<LinguisticSummary> generateSummaries() {
-//        return this.quantifier.getLabels().stream().map(label -> {
-//            String summary = (this.linguisticSummaryType == LinguisticSummaryType.First) ?
-//                    label.getLabel() + " " + this.subject + " " + this.summarizatorConjunction + " " + this.summarizator.getLabel() :
-//                    label.getLabel() + " " + this.subject + " " + this.qualifierConjunction + " " + this.qualifier.getLabel() +
-//                            " " + this.summarizatorConjunction + " " + this.summarizator.getLabel();
-//                    return new LinguisticSummary(this.summarizator,this.qualifier,label,summary,this.degreeOfTruth(label));
-//        }).collect(Collectors.toList());
+    public List<LinguisticSummary> generateSummaries() {
+        return this.quantifier.getLabels().stream().map(label -> {
+            String summary = (this.linguisticSummaryType == LinguisticSummaryType.First) ?
+                    label.getLabel() + " " + this.subject + " " + this.summarizatorConjunction + " " + this.summarizator.getLabel() :
+                    label.getLabel() + " " + this.subject + " " + this.qualifierConjunction + " " + this.qualifier.getLabel() +
+                            " " + this.summarizatorConjunction + " " + this.summarizator.getLabel();
+                    return new LinguisticSummary(this.summarizator,this.qualifier,label,summary,this.quantifier.getType(),this.degreeOfTruth(label));
+        }).collect(Collectors.toList());
+    }
+
+//    public double degreeOfTruth(LinguisticSummary linguisticSummary) {
+//        return this.qualityMeasures.t1(linguisticSummary.getSummarizer(), linguisticSummary.getQualifier(), linguisticSummary.getQuantifierLabel(), linguisticSummary.getQuantifierType());
 //    }
+public double degreeOfTruth(QuantifierLabel label) {
+    return this.qualityMeasures.t1(this.summarizator, this.qualifier, label, this.quantifier.getType());
+}
 
-    public double degreeOfTruth(LinguisticSummary linguisticSummary) {
-        return this.qualityMeasures.t1(linguisticSummary.getSummarizer(), linguisticSummary.getQualifier(), linguisticSummary.getQuantifierLabel(), linguisticSummary.getQuantifierType());
+    public void calculateQualityMeasures(List<Double> weights, LinguisticSummary linguisticSummary) {
+        linguisticSummary.setQualityMeasures(this.qualityMeasures.all_t(weights, linguisticSummary, this.blockGroupsCount));
     }
 
-    public void calculateQualityMeasures(LinguisticSummary linguisticSummary) {
-        linguisticSummary.setQualityMeasures(this.qualityMeasures.all_t(linguisticSummary, this.blockGroupsCount));
+    public double calculateT(List<Double> weights, LinguisticSummary linguisticSummary) {
+        return this.qualityMeasures.t(weights, linguisticSummary);
     }
 
-    public void calculateT(List<Double> weights, LinguisticSummary linguisticSummary) {
-        linguisticSummary.addTMeasure(this.qualityMeasures.t(weights, linguisticSummary, this.blockGroupsCount));
-    }
-
-    public LinguisticSummary calculateOptimalSummary(List<LinguisticSummary> summaries) {
-        List<Double> tValues = summaries.stream().map(LinguisticSummary::getT).collect(Collectors.toList());
-        int maxIndex = 0;
-        double maxValue = tValues.get(0);
-        for (int i = 1; i < tValues.size(); i++) {
-            if (tValues.get(i) > maxValue) {
-                maxValue = tValues.get(i);
-                maxIndex = i;
-            }
-        }
-        return summaries.get(maxIndex);
-    }
+//    public LinguisticSummary calculateOptimalSummary(List<LinguisticSummary> summaries) {
+//        List<Double> tValues = new ArrayList<>();
+//        for (LinguisticSummary summary : summaries) {
+//            tValues.add(summary.getQualityMeasures());
+//        }
+//        List<Double> tValues = summaries.stream().map(LinguisticSummary::getT).collect(Collectors.toList());
+//        int maxIndex = 0;
+//        double maxValue = tValues.get(0);
+//        for (int i = 1; i < tValues.size(); i++) {
+//            if (tValues.get(i) > maxValue) {
+//                maxValue = tValues.get(i);
+//                maxIndex = i;
+//            }
+//        }
+//        return summaries.get(maxIndex);
+//    }
     // TODO musimy dodać opcję generowania pojedyńczego zdania tylko dla jednego kwantyfikatora.
     //  Pod kątem że będziemy chcieli wygenerować zdanie tylko dla najlepszego podsumowania.
 

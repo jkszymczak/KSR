@@ -27,8 +27,8 @@ public class MembershipFunctionBuilder<T extends SetBuilder<?,?,?>>  implements 
         this.builded = new Trapezoidal(a, b, c,d);
         return this;
     }
-    public MembershipFunctionBuilder<T> createGaussian(double mean,double sigma,double start,double stop) {
-        this.builded = new Gaussian(mean,sigma,start,stop);
+    public MembershipFunctionBuilder<T> createGaussian(double mean,double sigma) {
+        this.builded = new Gaussian(mean,sigma);
         return this;
     }
     public MembershipFunctionBuilder<T> withRange(Pair<Double,Double> range){

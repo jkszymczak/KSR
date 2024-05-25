@@ -91,7 +91,20 @@ public class QualityMeasures {
         return this.t5(qualifier);
     }
 
-    List<Double> all_t(LinguisticSummary linguisticSummary, int allBlockGroups) {
+    double t(List<Double> weights, LinguisticSummary linguisticSummary) {
+        List<Double> results = linguisticSummary.getQualityMeasures();
+        double sum = 0.0;
+        int size = results.size();
+        if (results.size() >= 12) {
+            size = 11;
+        }
+        for (int i = 0; i < size; i++) {
+            sum += weights.get(i) * results.get(i);
+        }
+        return sum;
+    }
+
+    List<Double> all_t(List<Double> weights, LinguisticSummary linguisticSummary, int allBlockGroups) {
         List<Double> results = new ArrayList<>();
         results.add(t1(linguisticSummary.getSummarizer(), linguisticSummary.getQualifier(), linguisticSummary.getQuantifierLabel(), linguisticSummary.getQuantifierType()));
         results.add(t2(linguisticSummary.getSummarizer()));
@@ -104,18 +117,9 @@ public class QualityMeasures {
         results.add(t9(linguisticSummary.getQualifier()));
         results.add(t10(linguisticSummary.getQualifier()));
         results.add(t11(linguisticSummary.getQualifier()));
+        results.add(t(weights, linguisticSummary));
 
         return results;
     }
-
-    double t(List<Double> weights, LinguisticSummary linguisticSummary, int allBlockGroups) {
-        List<Double> results = all_t(linguisticSummary, allBlockGroups);
-        double sum = 0.0;
-        for (int i = 0; i < results.size(); i++) {
-            sum += weights.get(i) * results.get(i);
-        }
-        return sum;
-    }
-
 }
 

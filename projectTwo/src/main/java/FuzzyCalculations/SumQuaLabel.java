@@ -10,7 +10,13 @@ public class SumQuaLabel extends Label{
     }
 
     public double evaluate(BlockGroup x){
-        return this.membershipFunction.evaluate(x.getColumns().get(column.toString()));
+        System.out.println(column.toString());
+        try {
+            return this.membershipFunction.evaluate(x.getColumns().get(column.toString()));
+        } catch (Exception e){
+            throw e;
+        }
+
     }
 
     public Columns getColumn() {

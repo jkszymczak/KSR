@@ -29,8 +29,11 @@ public class FuzzySet {
     public void assignMemberships(List<BlockGroup> candidates){
 //        this.elements =
          this.elements = candidates.stream()
-                .map(v -> this.assignMembership(v))
-                .filter(v -> v.getMembership() != 0.0) // Yep this one
+                .map(v -> {
+                    System.out.println(v);
+                    return this.assignMembership(v);
+                })
+                .filter(v -> v.getMembership() != 0.0).distinct() // Yep this one
                 .collect(Collectors.toMap(k -> k.getElement().getIndex(), v->v));
     }
     public Member assignMembership(BlockGroup candidate){
