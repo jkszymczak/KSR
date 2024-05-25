@@ -44,10 +44,12 @@ public class QualityMeasures {
         return 0;
     };
 
-    double t7(){
-        return 0;
+    double t7(QuantifierLabel quantifier){
+
+        return 1-quantifier.getMembershipFunction().field();
     };
     double t8(){
+
         return 0;
     };
     double t9(LinguisticSummary linguisticSummary){
