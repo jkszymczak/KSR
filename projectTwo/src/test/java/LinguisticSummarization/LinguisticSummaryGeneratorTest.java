@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class LinguisticSummaryTest extends TestCase {
+public class LinguisticSummaryGeneratorTest extends TestCase {
 
     public void testGenerate(){
         Map<String,Object> m1 = new HashMap<>();
@@ -74,11 +74,11 @@ public class LinguisticSummaryTest extends TestCase {
                 .build()
                 .withType(QuantifierType.absolute)
                 .end();
-        LinguisticSummary summary = LinguisticSummaryBuilder.builder().withSubject("Block groups")
+        LinguisticSummaryGenerator summary = LinguisticSummaryBuilder.builder().withSubject("Block groups")
                 .withLinguisticSummaryType(LinguisticSummaryType.First).withSummarizatorConjunction("eee")
                 .withSummarizator(joined).withQualifier(clas).withQuantifier(quantifier).build();
         System.out.println(summary.generateSummaries().toString());
-        LinguisticSummary summary2 = LinguisticSummaryBuilder.builder().withSubject("Block groups")
+        LinguisticSummaryGenerator summary2 = LinguisticSummaryBuilder.builder().withSubject("Block groups")
                 .withLinguisticSummaryType(LinguisticSummaryType.Second).withSummarizatorConjunction("eee")
                 .withQualifierConjunction("hello")
                 .withSummarizator(joined).withQualifier(clas).withQuantifier(quantifier).build();

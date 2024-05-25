@@ -2,11 +2,11 @@ package Builders;
 
 import FuzzyCalculations.FuzzyQuantifier;
 import FuzzyCalculations.SummarizerQualifier;
-import LinguisticSummarization.LinguisticSummary;
+import LinguisticSummarization.LinguisticSummaryGenerator;
 import LinguisticSummarization.LinguisticSummaryType;
 import LinguisticSummarization.QualityMeasures;
 
-public class LinguisticSummaryBuilder implements Builder<LinguisticSummary,LinguisticSummary> {
+public class LinguisticSummaryBuilder implements Builder<LinguisticSummaryGenerator, LinguisticSummaryGenerator> {
     private FuzzyQuantifier quantifier;
     private SummarizerQualifier summarizator;
     private SummarizerQualifier qualifier;
@@ -71,8 +71,8 @@ public class LinguisticSummaryBuilder implements Builder<LinguisticSummary,Lingu
     }
 
     @Override
-    public LinguisticSummary build() {
-        return new LinguisticSummary(this.quantifier, this.summarizator,
+    public LinguisticSummaryGenerator build() {
+        return new LinguisticSummaryGenerator(this.quantifier, this.summarizator,
                 this.qualifier,this.summarizatorConjunction,
                 this.qualifierConjunction,this.subject,
                 this.qualityMeasures,this.linguisticSummaryType);
@@ -80,7 +80,7 @@ public class LinguisticSummaryBuilder implements Builder<LinguisticSummary,Lingu
     }
 
     @Override
-    public LinguisticSummary end() {
+    public LinguisticSummaryGenerator end() {
         return null;
     }
 
