@@ -56,36 +56,31 @@ public class LinguisticSummaryGenerator {
 //            return new Pair<>(summary, truth);
 //        }).collect(Collectors.toList());
 //    }
-    public List<LinguisticSummary> generateSummaries() {
-        return this.quantifier.getLabels().stream().map(label -> {
-            String summary = (this.linguisticSummaryType == LinguisticSummaryType.First) ?
-                    label.getLabel() + " " + this.subject + " " + this.summarizatorConjunction + " " + this.summarizator.getLabel() :
-                    label.getLabel() + " " + this.subject + " " + this.qualifierConjunction + " " + this.qualifier.getLabel() +
-                            " " + this.summarizatorConjunction + " " + this.summarizator.getLabel();
-                    return new LinguisticSummary(this.summarizator,this.qualifier,label,summary,this.degreeOfTruth(label));
-        }).collect(Collectors.toList());
+
+//    public List<LinguisticSummary> generateSummaries() {
+//        return this.quantifier.getLabels().stream().map(label -> {
+//            String summary = (this.linguisticSummaryType == LinguisticSummaryType.First) ?
+//                    label.getLabel() + " " + this.subject + " " + this.summarizatorConjunction + " " + this.summarizator.getLabel() :
+//                    label.getLabel() + " " + this.subject + " " + this.qualifierConjunction + " " + this.qualifier.getLabel() +
+//                            " " + this.summarizatorConjunction + " " + this.summarizator.getLabel();
+//                    return new LinguisticSummary(this.summarizator,this.qualifier,label,summary,this.degreeOfTruth(label));
+//        }).collect(Collectors.toList());
+//    }
+
+    public double degreeOfTruth(LinguisticSummary linguisticSummary) {
+        return this.qualityMeasures.t1(linguisticSummary.getSummarizer(), linguisticSummary.getQualifier(), linguisticSummary.getQuantifierLabel(), linguisticSummary.getQuantifierType());
     }
 
-    public double degreeOfTruth(QuantifierLabel label) {
-        return this.qualityMeasures.t1(this.summarizator, this.qualifier, label, this.quantifier.getType());
+    public void calculateQualityMeasures(LinguisticSummary linguisticSummary) {
+        linguisticSummary.setQualityMeasures(this.qualityMeasures.all_t(linguisticSummary, this.blockGroupsCount));
     }
 
-    ;
-
-    public List<List<Double>> calculateQualityMeasures() {
-        return this.quantifier.getLabels().stream().map(label -> {
-            return new ArrayList<>(this.qualityMeasures.all_t(this, label, this.blockGroupsCount));
-        }).collect(Collectors.toList());
+    public void calculateT(List<Double> weights, LinguisticSummary linguisticSummary) {
+        linguisticSummary.addTMeasure(this.qualityMeasures.t(weights, linguisticSummary, this.blockGroupsCount));
     }
 
-    public List<Double> calculateT(List<Double> weights) {
-        return this.quantifier.getLabels().stream().map(label -> {
-            return this.qualityMeasures.t(weights, this, label, this.blockGroupsCount);
-        }).collect(Collectors.toList());
-    }
-
-    public Pair<QuantifierLabel, Double> calculateOptimalSummary(List<Double> weights) {
-        List<Double> tValues = this.calculateT(weights);
+    public LinguisticSummary calculateOptimalSummary(List<LinguisticSummary> summaries) {
+        List<Double> tValues = summaries.stream().map(LinguisticSummary::getT).collect(Collectors.toList());
         int maxIndex = 0;
         double maxValue = tValues.get(0);
         for (int i = 1; i < tValues.size(); i++) {
@@ -94,13 +89,10 @@ public class LinguisticSummaryGenerator {
                 maxIndex = i;
             }
         }
-        return new Pair<>(new QuantifierLabel(
-                this.quantifier.getLabels().get(maxIndex).getMembershipFunction(),
-                this.quantifier.getLabels().get(maxIndex).getLabel()), maxValue);
+        return summaries.get(maxIndex);
     }
     // TODO musimy dodać opcję generowania pojedyńczego zdania tylko dla jednego kwantyfikatora.
     //  Pod kątem że będziemy chcieli wygenerować zdanie tylko dla najlepszego podsumowania.
-
 
 
     public LinguisticSummaryGenerator(FuzzyQuantifier quantifier,

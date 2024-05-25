@@ -76,7 +76,7 @@ public class QualityMeasures {
             double x = summ.getRange().second - summ.getRange().first;
             accumulator *= summ.cardinal() / x;
         }
-        return Math.pow(accumulator, 1 / summarizer.getElementalParts().size());
+        return Math.pow(accumulator, 1 / (double) summarizer.getElementalParts().size());
     }
 
     double t9(SummarizerQualifier qualifier) {
@@ -91,25 +91,25 @@ public class QualityMeasures {
         return this.t5(qualifier);
     }
 
-    List<Double> all_t(LinguisticSummaryGenerator linguisticSummaryGenerator, QuantifierLabel qualifierLabel, int allBlockGroups) {
+    List<Double> all_t(LinguisticSummary linguisticSummary, int allBlockGroups) {
         List<Double> results = new ArrayList<>();
-        results.add(t1(linguisticSummaryGenerator.summarizator, linguisticSummaryGenerator.qualifier, qualifierLabel, linguisticSummaryGenerator.quantifier.getType()));
-        results.add(t2(linguisticSummaryGenerator.summarizator));
-        results.add(t3(linguisticSummaryGenerator.summarizator, linguisticSummaryGenerator.qualifier));
-        results.add(t4(linguisticSummaryGenerator.summarizator, linguisticSummaryGenerator.qualifier, allBlockGroups));
-        results.add(t5(linguisticSummaryGenerator.summarizator));
-        results.add(t6(qualifierLabel));
-        results.add(t7(qualifierLabel));
-        results.add(t8(linguisticSummaryGenerator.summarizator));
-        results.add(t9(linguisticSummaryGenerator.qualifier));
-        results.add(t10(linguisticSummaryGenerator.qualifier));
-        results.add(t11(linguisticSummaryGenerator.qualifier));
+        results.add(t1(linguisticSummary.getSummarizer(), linguisticSummary.getQualifier(), linguisticSummary.getQuantifierLabel(), linguisticSummary.getQuantifierType()));
+        results.add(t2(linguisticSummary.getSummarizer()));
+        results.add(t3(linguisticSummary.getSummarizer(), linguisticSummary.getQualifier()));
+        results.add(t4(linguisticSummary.getSummarizer(), linguisticSummary.getQualifier(), allBlockGroups));
+        results.add(t5(linguisticSummary.getSummarizer()));
+        results.add(t6(linguisticSummary.getQuantifierLabel()));
+        results.add(t7(linguisticSummary.getQuantifierLabel()));
+        results.add(t8(linguisticSummary.getSummarizer()));
+        results.add(t9(linguisticSummary.getQualifier()));
+        results.add(t10(linguisticSummary.getQualifier()));
+        results.add(t11(linguisticSummary.getQualifier()));
 
         return results;
     }
 
-    double t(List<Double> weights, LinguisticSummaryGenerator linguisticSummaryGenerator, QuantifierLabel qualifierLabel, int allBlockGroups) {
-        List<Double> results = all_t(linguisticSummaryGenerator, qualifierLabel, allBlockGroups);
+    double t(List<Double> weights, LinguisticSummary linguisticSummary, int allBlockGroups) {
+        List<Double> results = all_t(linguisticSummary, allBlockGroups);
         double sum = 0.0;
         for (int i = 0; i < results.size(); i++) {
             sum += weights.get(i) * results.get(i);
