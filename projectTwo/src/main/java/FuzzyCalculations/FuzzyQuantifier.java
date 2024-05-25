@@ -9,6 +9,14 @@ public class FuzzyQuantifier {
     List<QuantifierLabel> labels;
     QuantifierType type;
 
+    public List<QuantifierLabel> getLabels() {
+        return labels;
+    }
+
+    public QuantifierType getType() {
+        return type;
+    }
+
     public FuzzyQuantifier(List<QuantifierLabel> labels, QuantifierType type) {
         this.labels = labels;
         this.type = type;

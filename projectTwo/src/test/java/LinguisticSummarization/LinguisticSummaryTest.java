@@ -1,7 +1,10 @@
-package FuzzyCalculations;
+package LinguisticSummarization;
 
+import Builders.FuzzyQuantifierBuilder;
+import Builders.LinguisticSummaryBuilder;
 import Builders.SummarizerQualifierBuilder;
 import Database.BlockGroup;
+import FuzzyCalculations.*;
 import junit.framework.TestCase;
 
 import java.util.HashMap;
@@ -9,9 +12,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class SummariserQualifierTest extends TestCase {
+public class LinguisticSummaryTest extends TestCase {
 
-    public void testAnd() {
+    public void testGenerate(){
         Map<String,Object> m1 = new HashMap<>();
         Map<String,Object> m2 = new HashMap<>();
         m1.put("index",1);
@@ -50,7 +53,18 @@ public class SummariserQualifierTest extends TestCase {
 //        System.out.println(sum1.fuzzySet.toString());
 //        System.out.println(sum2.fuzzySet.toString());
         SummarizerQualifier joined = sum1.and(sum2);
-//        System.out.println(joined.fuzzySet.toString());
-        assertEquals(joined.getElements().size(),2);
+        SummarizerQualifier clas = SummarizerQualifierBuilder.builder(false).createFuzzySet()
+                .withMembershipFuntion(new SetMembership()).withLabel("Whole").withCandidates(blockGroups).onColumn(Columns.households).build().end();
+        FuzzyQuantifier quantifier = FuzzyQuantifierBuilder.builder().createLabel()
+                .createMembershipFunction().createTriangle(0,2,3).build()
+                .withLabel("troche").build()
+                .createLabel().withLabel("więcej").createMembershipFunction().createTriangle(2,3,4).build()
+                .build().withType(QuantifierType.absolute).end();
+        LinguisticSummary summary = LinguisticSummaryBuilder.builder().withSubject("Block groups")
+                .withLinguisticSummaryType(LinguisticSummaryType.First).withSummarizatorConjunction("eee")
+                .withSummarizator(joined).withQualifier(clas).withQuantifier(quantifier).build();
+        System.out.println(summary.generateSummaries().toString());
+
     }
+
 }

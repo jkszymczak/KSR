@@ -1,5 +1,6 @@
 package FuzzyCalculations;
 
+import Builders.QuantifierLabelBuilder;
 import junit.framework.TestCase;
 
 import java.util.LinkedList;
@@ -19,8 +20,9 @@ public class FuzzyQuantifierTest extends TestCase {
         assertEquals(0.0,fq.calculateMemberships(20).get(0).second,0.001);
         assertEquals(1.0,fq.calculateMemberships(20).get(1).second,0.001);
         assertEquals(fq.calculateMemberships(15).get(0).second,fq.calculateMemberships(15).get(1).second,0.001);
-
-
-
+    }
+    public void testBuilder(){
+        QuantifierLabel test = QuantifierLabelBuilder.builder().createMembershipFunction().createTriangle(0,10,20).build().withLabel("mało").end();
+        System.out.println(test.label);
     }
 }

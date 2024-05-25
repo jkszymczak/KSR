@@ -11,6 +11,14 @@ public class SummarizerQualifier {
 //    Columns column;
     FuzzySet fuzzySet;
     List<SummarizerQualifier> elementalParts = null;
+    String conjunction = "AND";
+
+
+    public SummarizerQualifier(FuzzySet fuzzySet) {
+        this.fuzzySet = fuzzySet;
+    }
+
+
     public SummarizerQualifier and(SummarizerQualifier sum2){
         FuzzySet first = this.fuzzySet;
         FuzzySet second = sum2.fuzzySet;
@@ -39,6 +47,9 @@ public class SummarizerQualifier {
     }
     public String getLabel(){
         return this.fuzzySet.getLabel();
+    }
+    public Map<Integer,Member> getElements(){
+        return this.fuzzySet.getElements();
     }
 
 }

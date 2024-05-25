@@ -9,6 +9,8 @@ public class FuzzySet {
     private SumQuaLabel membershipFunction;
     private String label;
     private Map<Integer,Member> elements;
+    String conjunction = "AND";
+
 //    private String label;
 //    private Columns column;
 
@@ -59,7 +61,7 @@ public class FuzzySet {
             }
 
         }
-        return new FuzzySet(result,this.label+" AND "+other.getLabel());
+        return new FuzzySet(result,this.label+" "+this.conjunction+" "+other.getLabel());
     }
 
     public MembershipFunction getMembershipFunction() {
