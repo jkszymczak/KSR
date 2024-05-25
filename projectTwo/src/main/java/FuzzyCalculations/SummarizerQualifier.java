@@ -1,21 +1,22 @@
 package FuzzyCalculations;
 
-import Database.BlockGroup;
+import org.example.Pair;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class SummarizerQualifier {
 //    Columns column;
     FuzzySet fuzzySet;
-    List<SummarizerQualifier> elementalParts = null;
+    List<SummarizerQualifier> elementalParts;
     String conjunction = "AND";
 
 
     public SummarizerQualifier(FuzzySet fuzzySet) {
         this.fuzzySet = fuzzySet;
+        this.elementalParts = new LinkedList<>();
+        this.elementalParts.add(this);
     }
 
 
@@ -28,8 +29,13 @@ public class SummarizerQualifier {
 
     private SummarizerQualifier(SummarizerQualifier sum1, SummarizerQualifier sum2,FuzzySet fuzzySet) {
         this.elementalParts = new LinkedList<>();
-        this.elementalParts.add(sum1);
-        this.elementalParts.add(sum2);
+
+        if (sum1.isComplex()) this.elementalParts.addAll(sum1.elementalParts);
+        else this.elementalParts.add(sum1);
+
+        if (sum2.isComplex()) this.elementalParts.addAll(sum2.elementalParts);
+        else this.elementalParts.add(sum2);
+
         this.fuzzySet = fuzzySet;
     }
 
@@ -48,6 +54,24 @@ public class SummarizerQualifier {
     }
     public Map<Integer,Member> getElements(){
         return this.fuzzySet.getElements();
+    }
+    public double cardinal(){
+        return this.fuzzySet.cardinal();
+    }
+    public Pair<Double,Double> getRange(){
+        return this.fuzzySet.getMembershipFunction().getRange();
+    }
+    public Pair<Double, Double> getSupport() {
+        return this.fuzzySet.getMembershipFunction().getSupport();
+    }
+
+    public List<SummarizerQualifier> getElementalParts(){
+        return this.elementalParts;
+    }
+
+    private Boolean isComplex(){
+        if(this.elementalParts != null) return true;
+        return false;
     }
 
 }

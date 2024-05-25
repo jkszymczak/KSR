@@ -80,6 +80,14 @@ public class FuzzySet {
         return membershipFunction.getColumn();
     }
 
+    public double cardinal(){
+        double accumulator = 0.0;
+        for(Member member:this.elements.values()){
+            accumulator+= member.getMembership();
+        }
+        return accumulator;
+    }
+
     @Override
     public String toString() {
         return "FuzzySet{" +

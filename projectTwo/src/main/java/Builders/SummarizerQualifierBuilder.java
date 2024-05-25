@@ -2,11 +2,13 @@ package Builders;
 
 import FuzzyCalculations.FuzzySet;
 import FuzzyCalculations.SummarizerQualifier;
+import org.example.Pair;
 
 public class SummarizerQualifierBuilder implements Builder<LinguisticSummaryBuilder, SummarizerQualifier> {
     private LinguisticSummaryBuilder upper;
     private Boolean isSummerizer;
     private FuzzySet fuzzySet;
+    private Pair<Double,Double> range;
 
 
     public SummarizerQualifierBuilder(LinguisticSummaryBuilder upper, Boolean isSummerizer) {
@@ -25,6 +27,10 @@ public class SummarizerQualifierBuilder implements Builder<LinguisticSummaryBuil
     public static SummarizerQualifierBuilder builder(Boolean isSummerizer){
         return new SummarizerQualifierBuilder(isSummerizer);
     }
+    public SummarizerQualifierBuilder onRange(double start,double stop){
+        this.range = new Pair<>(start,stop);
+        return this;
+    }
 
     @Override
     public LinguisticSummaryBuilder build() {
@@ -34,6 +40,7 @@ public class SummarizerQualifierBuilder implements Builder<LinguisticSummaryBuil
 
     @Override
     public SummarizerQualifier end() {
+        this.fuzzySet.getMembershipFunction().setRange(this.range);
         return new SummarizerQualifier(this.fuzzySet);
 
     }

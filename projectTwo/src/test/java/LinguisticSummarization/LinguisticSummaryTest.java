@@ -44,22 +44,36 @@ public class LinguisticSummaryTest extends TestCase {
         blockGroups.add(b2);
         blockGroups.add(b3);
         blockGroups.add(b4);
-        SummarizerQualifier sum1 = SummarizerQualifierBuilder.builder(true).createFuzzySet()
+        SummarizerQualifier sum1 = SummarizerQualifierBuilder.builder(true)
+                .createFuzzySet()
                 .onColumn(Columns.population).withLabel("Mało").withCandidates(blockGroups).createMembershipFunction()
-                .createTriangle(0,10,20).build().build().end();
+                .createTriangle(0,10,20)
+                .build()
+                .build().end();
         SummarizerQualifier sum2 = SummarizerQualifierBuilder.builder(true).createFuzzySet()
                 .onColumn(Columns.households).withLabel("Tanie").withCandidates(blockGroups).createMembershipFunction()
                 .createTrapezoidal(10,20,30,40).build().build().end();
 //        System.out.println(sum1.fuzzySet.toString());
 //        System.out.println(sum2.fuzzySet.toString());
         SummarizerQualifier joined = sum1.and(sum2);
+
         SummarizerQualifier clas = SummarizerQualifierBuilder.builder(false).createFuzzySet()
                 .withMembershipFuntion(new SetMembership()).withLabel("Whole").withCandidates(blockGroups).onColumn(Columns.households).build().end();
-        FuzzyQuantifier quantifier = FuzzyQuantifierBuilder.builder().createLabel()
-                .createMembershipFunction().createTriangle(0,2,3).build()
-                .withLabel("troche").build()
-                .createLabel().withLabel("więcej").createMembershipFunction().createTriangle(2,3,4).build()
-                .build().withType(QuantifierType.absolute).end();
+        FuzzyQuantifier quantifier = FuzzyQuantifierBuilder.builder().onRange(0,1000)
+                .createLabel()
+                    .createMembershipFunction()
+                        .createTriangle(0,2,3)
+                    .build()
+                    .withLabel("troche")
+                .build()
+                .createLabel()
+                    .withLabel("więcej")
+                    .createMembershipFunction()
+                        .createTriangle(2,3,4)
+                    .build()
+                .build()
+                .withType(QuantifierType.absolute)
+                .end();
         LinguisticSummary summary = LinguisticSummaryBuilder.builder().withSubject("Block groups")
                 .withLinguisticSummaryType(LinguisticSummaryType.First).withSummarizatorConjunction("eee")
                 .withSummarizator(joined).withQualifier(clas).withQuantifier(quantifier).build();

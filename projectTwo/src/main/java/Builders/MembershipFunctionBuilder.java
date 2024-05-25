@@ -1,10 +1,12 @@
 package Builders;
 
 import FuzzyCalculations.*;
+import org.example.Pair;
 
 public class MembershipFunctionBuilder<T extends SetBuilder<?,?,?>>  implements Builder<T, MembershipFunction> {
     private T upper;
     private MembershipFunction builded;
+    private Pair<Double,Double> range;
 
     public MembershipFunctionBuilder(T upper) {
         this.upper = upper;
@@ -27,6 +29,10 @@ public class MembershipFunctionBuilder<T extends SetBuilder<?,?,?>>  implements 
     }
     public MembershipFunctionBuilder<T> createGaussian(double mean,double sigma,double start,double stop) {
         this.builded = new Gaussian(mean,sigma,start,stop);
+        return this;
+    }
+    public MembershipFunctionBuilder<T> withRange(Pair<Double,Double> range){
+        this.range = range;
         return this;
     }
 

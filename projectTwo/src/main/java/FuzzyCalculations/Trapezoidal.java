@@ -4,7 +4,9 @@ import org.example.Pair;
 
 public class Trapezoidal implements MembershipFunction{
     double a, b, c,d;
-    Pair<Double,Double> range;
+
+    Pair<Double,Double> supp;
+    Pair<Double, Double> range;
     @Override
     public double evaluate(double x) {
         if (a < x && x < b) return (x - a) / (b - a);
@@ -19,15 +21,31 @@ public class Trapezoidal implements MembershipFunction{
     }
 
     @Override
+    public Pair<Double, Double> getSupport() {
+        return this.supp;
+    }
+
+    @Override
     public Pair<Double, Double> getRange() {
         return this.range;
     }
 
+    public Trapezoidal(double a,double b,double c,double d,double start,double end) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.d = d;
+        this.supp = new Pair<>(a,d);
+        this.range = new Pair<>(start,end);
+    }
     public Trapezoidal(double a,double b,double c,double d) {
         this.a = a;
         this.b = b;
         this.c = c;
         this.d = d;
-        this.range = new Pair<>(a,d);
+        this.supp = new Pair<>(a,d);
+    }
+    public void setRange(Pair<Double,Double> range){
+        this.range=range;
     }
 }

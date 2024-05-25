@@ -1,5 +1,6 @@
 package LinguisticSummarization;
 
+import Database.BlockGroup;
 import FuzzyCalculations.FuzzyQuantifier;
 import FuzzyCalculations.QuantifierLabel;
 import FuzzyCalculations.SummarizerQualifier;
@@ -66,6 +67,21 @@ public class LinguisticSummary {
                              String subject,
                              QualityMeasures qualityMeasures,
                              LinguisticSummaryType linguisticSummaryType) {
+        this.quantifier = quantifier;
+        this.summarizator = summarizator;
+        this.qualifier = qualifier;
+        this.summarizatorConjunction = summarizatorConjunction;
+        this.qualifierConjunction = qualifierConjunction;
+        this.subject = subject;
+        this.qualityMeasures = new QualityMeasures();
+        this.linguisticSummaryType = linguisticSummaryType;
+    }
+    public LinguisticSummary(List<BlockGroup> candidates,
+                             FuzzyQuantifier quantifier,
+                             SummarizerQualifier summarizator,
+                             String summarizatorConjunction,
+                             String subject,
+                             QualityMeasures qualityMeasures) {
         this.quantifier = quantifier;
         this.summarizator = summarizator;
         this.qualifier = qualifier;
