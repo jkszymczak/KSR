@@ -39,9 +39,7 @@ public class SummarizerQualifier {
         }
         this.elementalParts.add(part);
     }
-    public static SummarizerBuilder build(){
-        return new SummarizerBuilder();
-    }
+
     public Columns getColumn(){
         return this.fuzzySet.getColumn();
     }

@@ -64,7 +64,11 @@ public class LinguisticSummaryTest extends TestCase {
                 .withLinguisticSummaryType(LinguisticSummaryType.First).withSummarizatorConjunction("eee")
                 .withSummarizator(joined).withQualifier(clas).withQuantifier(quantifier).build();
         System.out.println(summary.generateSummaries().toString());
-
+        LinguisticSummary summary2 = LinguisticSummaryBuilder.builder().withSubject("Block groups")
+                .withLinguisticSummaryType(LinguisticSummaryType.Second).withSummarizatorConjunction("eee")
+                .withQualifierConjunction("hello")
+                .withSummarizator(joined).withQualifier(clas).withQuantifier(quantifier).build();
+        System.out.println(summary2.generateSummaries().toString());
     }
 
 }

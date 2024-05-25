@@ -1,12 +1,13 @@
-package FuzzyCalculations;
+package Builders;
 
-import Builders.MembershipFunctionBuilder;
-import Builders.SummarizerQualifierBuilder;
 import Database.BlockGroup;
+import FuzzyCalculations.Columns;
+import FuzzyCalculations.FuzzySet;
+import FuzzyCalculations.MembershipFunction;
 
 import java.util.List;
 
-public class FuzzySetBuilder implements SetBuilder<SummarizerQualifierBuilder,FuzzySetBuilder,FuzzySet> {
+public class FuzzySetBuilder implements SetBuilder<SummarizerQualifierBuilder,FuzzySetBuilder, FuzzySet> {
     private SummarizerQualifierBuilder upper;
     private String label;
     private MembershipFunction membershipFunction;

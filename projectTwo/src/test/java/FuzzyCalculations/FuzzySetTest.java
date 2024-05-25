@@ -1,5 +1,6 @@
 package FuzzyCalculations;
 
+import Builders.FuzzySetBuilder;
 import Database.BlockGroup;
 import junit.framework.TestCase;
 

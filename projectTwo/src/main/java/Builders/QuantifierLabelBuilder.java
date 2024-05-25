@@ -2,7 +2,7 @@ package Builders;
 
 import FuzzyCalculations.MembershipFunction;
 import FuzzyCalculations.QuantifierLabel;
-import FuzzyCalculations.SetBuilder;
+
 
 public class QuantifierLabelBuilder implements SetBuilder<FuzzyQuantifierBuilder,QuantifierLabelBuilder, QuantifierLabel> {
     FuzzyQuantifierBuilder upper;

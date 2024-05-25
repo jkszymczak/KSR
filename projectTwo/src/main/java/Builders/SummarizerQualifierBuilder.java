@@ -1,7 +1,6 @@
 package Builders;
 
 import FuzzyCalculations.FuzzySet;
-import FuzzyCalculations.FuzzySetBuilder;
 import FuzzyCalculations.SummarizerQualifier;
 
 public class SummarizerQualifierBuilder implements Builder<LinguisticSummaryBuilder, SummarizerQualifier> {
