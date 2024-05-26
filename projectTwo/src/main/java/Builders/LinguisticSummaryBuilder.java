@@ -15,6 +15,7 @@ public class LinguisticSummaryBuilder implements Builder<LinguisticSummaryGenera
     private String subject;
     private QualityMeasures qualityMeasures;
     private LinguisticSummaryType linguisticSummaryType;
+    private int blockGroupCount;
 
     public static LinguisticSummaryBuilder builder() {
         return new LinguisticSummaryBuilder();
@@ -59,6 +60,10 @@ public class LinguisticSummaryBuilder implements Builder<LinguisticSummaryGenera
         this.linguisticSummaryType = linguisticSummaryType;
         return this;
     }
+    public LinguisticSummaryBuilder withBlockCount(int count){
+        this.blockGroupCount=count;
+        return this;
+    }
 
     public SummarizerQualifierBuilder createSummerizer() {
         return new SummarizerQualifierBuilder(this,true);
@@ -75,7 +80,7 @@ public class LinguisticSummaryBuilder implements Builder<LinguisticSummaryGenera
         return new LinguisticSummaryGenerator(this.quantifier, this.summarizator,
                 this.qualifier,this.summarizatorConjunction,
                 this.qualifierConjunction,this.subject,
-                this.qualityMeasures,this.linguisticSummaryType);
+                this.qualityMeasures,this.linguisticSummaryType,this.blockGroupCount);
 
     }
 

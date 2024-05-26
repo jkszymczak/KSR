@@ -30,7 +30,7 @@ public class FuzzySet {
 //        this.elements =
          this.elements = candidates.stream()
                 .map(v -> {
-                    System.out.println(v);
+//                    System.out.println(v);
                     return this.assignMembership(v);
                 })
                 .filter(v -> v.getMembership() != 0.0).distinct() // Yep this one

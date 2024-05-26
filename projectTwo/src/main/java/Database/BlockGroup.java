@@ -18,8 +18,7 @@ public class BlockGroup {
         this.columns = new HashMap<>();
         columns.forEach((k,v)->{
             if(k.equals("index")) {
-//                System.out.println(k);
-                this.index = (int)(double)v;
+                this.index = ((Double)v).intValue();
             } else if(v.getClass() == String.class) {
                 this.label = (String) v;
             } else {

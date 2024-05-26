@@ -19,6 +19,9 @@ public class SummarizerQualifierBuilder implements Builder<LinguisticSummaryBuil
     public SummarizerQualifierBuilder(Boolean isSummerizer) {
         this.isSummerizer = isSummerizer;
     }
+    public SummarizerQualifierBuilder() {
+
+    }
 
     public FuzzySetBuilder createFuzzySet() {
         return new FuzzySetBuilder(this);
@@ -26,6 +29,9 @@ public class SummarizerQualifierBuilder implements Builder<LinguisticSummaryBuil
 
     public static SummarizerQualifierBuilder builder(Boolean isSummerizer){
         return new SummarizerQualifierBuilder(isSummerizer);
+    }
+    public static SummarizerQualifierBuilder builder(){
+        return new SummarizerQualifierBuilder();
     }
     public SummarizerQualifierBuilder onRange(double start,double stop){
         this.range = new Pair<>(start,stop);

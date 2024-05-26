@@ -65,10 +65,11 @@ public class LinguisticSummary {
     public String toString() {
         return "LinguisticSummary{" +
                 "label='" + label + '\'' +
-                ", degree of truth= " + qualityMeasures.get(0) +
-                ", summarizer=" + summarizer +
-                ", qualifier=" + qualifier +
-                ", quantifierLabel=" + quantifierLabel +
-                '}';
+                ", degree of truth= " + degreeOfTruth +
+                ", Quality measures= "+ this.qualityMeasures.toString();
+//                ", summarizer=" + summarizer +
+//                ", qualifier=" + qualifier +
+//                ", quantifierLabel=" + quantifierLabel +
+//                '}';
     }
 }

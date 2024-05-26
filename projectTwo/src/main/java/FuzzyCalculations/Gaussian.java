@@ -43,8 +43,8 @@ public class Gaussian implements MembershipFunction{
     }
 
     private void calculateSupp(){
-        double left = mean - Math.sqrt(-2 * sigma * sigma * Math.log(0.001));
-        double right = mean + Math.sqrt(-2 * sigma * sigma * Math.log(0.001));
+        double left = mean - Math.sqrt(-2.0 * sigma * sigma * Math.log(0.001));
+        double right = mean + Math.sqrt(-2.0 * sigma * sigma * Math.log(0.001));
         this.supp = new Pair<>(left,right);
     }
 
@@ -57,6 +57,8 @@ public class Gaussian implements MembershipFunction{
     public Gaussian(double mean, double sigma) {
         this.mean = mean;
         this.sigma = sigma;
+        this.calculateSupp();
+
 
     }
     public void setRange(Pair<Double,Double> range){

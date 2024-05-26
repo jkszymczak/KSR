@@ -19,7 +19,7 @@ public class LinguisticSummaryGenerator {
     String subject;
     QualityMeasures qualityMeasures;
     LinguisticSummaryType linguisticSummaryType;
-    int blockGroupsCount; // TODO: Kuba musimy to uzupełnić
+    int blockGroupsCount;
 
     public FuzzyQuantifier getQuantifier() {
         return quantifier;
@@ -82,12 +82,12 @@ public double degreeOfTruth(QuantifierLabel label) {
         return this.qualityMeasures.t(weights, linguisticSummary);
     }
 
+    // This method required that summaries have qualityMeasures
 //    public LinguisticSummary calculateOptimalSummary(List<LinguisticSummary> summaries) {
 //        List<Double> tValues = new ArrayList<>();
 //        for (LinguisticSummary summary : summaries) {
-//            tValues.add(summary.getQualityMeasures());
+//            tValues.add(summary.getQualityMeasures().getLast());
 //        }
-//        List<Double> tValues = summaries.stream().map(LinguisticSummary::getT).collect(Collectors.toList());
 //        int maxIndex = 0;
 //        double maxValue = tValues.get(0);
 //        for (int i = 1; i < tValues.size(); i++) {
@@ -98,9 +98,6 @@ public double degreeOfTruth(QuantifierLabel label) {
 //        }
 //        return summaries.get(maxIndex);
 //    }
-    // TODO musimy dodać opcję generowania pojedyńczego zdania tylko dla jednego kwantyfikatora.
-    //  Pod kątem że będziemy chcieli wygenerować zdanie tylko dla najlepszego podsumowania.
-
 
     public LinguisticSummaryGenerator(FuzzyQuantifier quantifier,
                                       SummarizerQualifier summarizator,
@@ -109,7 +106,8 @@ public double degreeOfTruth(QuantifierLabel label) {
                                       String qualifierConjunction,
                                       String subject,
                                       QualityMeasures qualityMeasures,
-                                      LinguisticSummaryType linguisticSummaryType) {
+                                      LinguisticSummaryType linguisticSummaryType,
+                                      int blockGroupsCount) {
         this.quantifier = quantifier;
         this.summarizator = summarizator;
         this.qualifier = qualifier;
@@ -118,6 +116,7 @@ public double degreeOfTruth(QuantifierLabel label) {
         this.subject = subject;
         this.qualityMeasures = new QualityMeasures();
         this.linguisticSummaryType = linguisticSummaryType;
+        this.blockGroupsCount = blockGroupsCount;
     }
 
     public LinguisticSummaryGenerator(List<BlockGroup> candidates,
@@ -125,7 +124,8 @@ public double degreeOfTruth(QuantifierLabel label) {
                                       SummarizerQualifier summarizator,
                                       String summarizatorConjunction,
                                       String subject,
-                                      QualityMeasures qualityMeasures) {
+                                      QualityMeasures qualityMeasures,
+                                      int blockGroupsCount) {
         this.quantifier = quantifier;
         this.summarizator = summarizator;
         this.qualifier = qualifier;
@@ -134,5 +134,6 @@ public double degreeOfTruth(QuantifierLabel label) {
         this.subject = subject;
         this.qualityMeasures = new QualityMeasures();
         this.linguisticSummaryType = linguisticSummaryType;
+        this.blockGroupsCount = blockGroupsCount;
     }
 }

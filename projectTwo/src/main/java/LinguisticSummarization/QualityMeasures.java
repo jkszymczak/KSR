@@ -5,7 +5,7 @@ import org.example.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// TODO zapytać kogoś jak liczą range (universe of discurse) po and z sumaryzatorem
 public class QualityMeasures {
     double r(SummarizerQualifier summarizer, SummarizerQualifier qualifier, QuantifierType quantifierType) {
         SummarizerQualifier joined = summarizer.and(qualifier);
@@ -32,9 +32,11 @@ public class QualityMeasures {
     double t2(SummarizerQualifier summarizer) {
         double in = 1.;
         for (SummarizerQualifier single_summarizer : summarizer.getElementalParts()) {
-            Pair<Double, Double> supp = single_summarizer.getSupport();
+//            Pair<Double, Double> supp = single_summarizer.getSupport();
             Pair<Double, Double> range = single_summarizer.getRange();
-            in *= (supp.second - supp.first) / (range.second - range.first);
+//            in *= (supp.second - supp.first) / (range.second - range.first);
+            in *= (single_summarizer.getElements().size()) / (range.second - range.first);
+
         }
         double geometric_mean = Math.pow(in, 1.0 / summarizer.getElementalParts().size());
         return 1 - geometric_mean;
