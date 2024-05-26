@@ -64,30 +64,31 @@ public class LinguisticSummaryGenerator {
                     label.getLabel() + " " + this.subject + " " + this.summarizatorConjunction + " " + this.summarizator.getLabel() :
                     label.getLabel() + " " + this.subject + " " + this.qualifierConjunction + " " + this.qualifier.getLabel() +
                             " " + this.summarizatorConjunction + " " + this.summarizator.getLabel();
-                    return new LinguisticSummary(this.summarizator,this.qualifier,label,summary,this.quantifier.getType(),this.linguisticSummaryType,this.degreeOfTruth(label));
+            return new LinguisticSummary(this.summarizator, this.qualifier, label, summary, this.quantifier.getType(), this.linguisticSummaryType, this.degreeOfTruth(label));
         }).collect(Collectors.toList());
     }
 
-    /** Returns summary with highest degree of truth
-     * */
-    public LinguisticSummary generateBest(){
+    /**
+     * Returns summary with highest degree of truth
+     */
+    public LinguisticSummary generateBest() {
         List<LinguisticSummary> summaries = this.generateSummaries();
         return summaries.stream().max(Comparator.comparing(s -> s.getDegreeOfTruth())).get();
     }
 
-//    public double degreeOfTruth(LinguisticSummary linguisticSummary) {
+    //    public double degreeOfTruth(LinguisticSummary linguisticSummary) {
 //        return this.qualityMeasures.t1(linguisticSummary.getSummarizer(), linguisticSummary.getQualifier(), linguisticSummary.getQuantifierLabel(), linguisticSummary.getQuantifierType());
 //    }
-public double degreeOfTruth(QuantifierLabel label) {
-    return this.qualityMeasures.t1(this.summarizator, this.qualifier, label, this.quantifier.getType());
-}
+    public double degreeOfTruth(QuantifierLabel label) {
+        return this.qualityMeasures.t1(this.summarizator, this.qualifier, label, this.quantifier.getType());
+    }
 
     public void calculateQualityMeasures(List<Double> weights, LinguisticSummary linguisticSummary) {
         linguisticSummary.setQualityMeasures(this.qualityMeasures.all_t(weights, linguisticSummary, 10000));
     }
 
-    private void generateQualifierWholeSet( List<BlockGroup> data) {
-        if(this.linguisticSummaryType != LinguisticSummaryType.First) return;
+    private void generateQualifierWholeSet(List<BlockGroup> data) {
+        if (this.linguisticSummaryType != LinguisticSummaryType.First) return;
         List<SummarizerQualifier> qualifiers = this.summarizator.getElementalParts().stream().map(summarizer -> summarizer.generateFullSet(data)).toList();
         SummarizerQualifier qualifier = qualifiers.get(0);
         for (int i = 1; i < qualifiers.size(); i++) {
@@ -102,21 +103,21 @@ public double degreeOfTruth(QuantifierLabel label) {
     }
 
     // This method required that summaries have qualityMeasures
-//    public LinguisticSummary calculateOptimalSummary(List<LinguisticSummary> summaries) {
-//        List<Double> tValues = new ArrayList<>();
-//        for (LinguisticSummary summary : summaries) {
-//            tValues.add(summary.getQualityMeasures().getLast());
-//        }
-//        int maxIndex = 0;
-//        double maxValue = tValues.get(0);
-//        for (int i = 1; i < tValues.size(); i++) {
-//            if (tValues.get(i) > maxValue) {
-//                maxValue = tValues.get(i);
-//                maxIndex = i;
-//            }
-//        }
-//        return summaries.get(maxIndex);
-//    }
+    public LinguisticSummary calculateOptimalSummary(List<LinguisticSummary> summaries) {
+        List<Double> tValues = new ArrayList<>();
+        for (LinguisticSummary summary : summaries) {
+            tValues.add(summary.getQualityMeasures().get(summary.getQualityMeasures().size() - 1));
+        }
+        int maxIndex = 0;
+        double maxValue = tValues.get(0);
+        for (int i = 1; i < tValues.size(); i++) {
+            if (tValues.get(i) > maxValue) {
+                maxValue = tValues.get(i);
+                maxIndex = i;
+            }
+        }
+        return summaries.get(maxIndex);
+    }
 
     public LinguisticSummaryGenerator(FuzzyQuantifier quantifier,
                                       SummarizerQualifier summarizator,
@@ -143,7 +144,7 @@ public double degreeOfTruth(QuantifierLabel label) {
                                       SummarizerQualifier summarizator,
                                       String summarizatorConjunction,
                                       String subject
-                                      ) {
+    ) {
         this.quantifier = quantifier;
         this.summarizator = summarizator;
         this.summarizatorConjunction = summarizatorConjunction;

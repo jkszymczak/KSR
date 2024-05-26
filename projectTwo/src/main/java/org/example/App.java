@@ -7,10 +7,13 @@ import Builders.SummarizerQualifierBuilder;
 import Database.BlockGroup;
 import Database.CSV;
 import FuzzyCalculations.*;
+import LinguisticSummarization.LinguisticSummary;
 import LinguisticSummarization.LinguisticSummaryGenerator;
 import LinguisticSummarization.LinguisticSummaryType;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -553,7 +556,7 @@ public class App {
         LinguisticSummaryGenerator genForm1 = LinguisticSummaryBuilder.builder()
                 .withLinguisticSummaryType(LinguisticSummaryType.First)
                 .onSet(data).withSummarizator(medianIncome.getLabel("wealthy area"))
-                .withQuantifier(createAbsolute(data))
+                .withQuantifier(createRelative())
                 .withSubject("Block Groups")
                 .withSummarizatorConjunction("are in")
                 .build();
@@ -567,7 +570,7 @@ public class App {
 
         LinguisticSummaryGenerator gen3Form1 = LinguisticSummaryBuilder.builder()
                 .withLinguisticSummaryType(LinguisticSummaryType.First)
-                .onSet(data).withSummarizator(medianHouseAge.getLabel("aged"))
+                .onSet(data).withSummarizator(medianHouseAge.getLabel("recently built"))
                 .withQuantifier(createAbsolute(data))
                 .withSubject("houses in Block Groups")
                 .withSummarizatorConjunction("are")
@@ -680,5 +683,30 @@ public class App {
                 .withSummarizatorConjunction("have")
                 .withSummarizator(bedroomToRoomRatio.getLabel("balanced room distribution").and(medianHouseValue.getLabel("moderately priced homes")))
                 .build();
+
+        LinguisticSummaryGenerator gen5Form2complex = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.First)
+                .withQuantifier(createRelative())
+                .withSubject("Block Groups")
+                .withQualifierConjunction("are in")
+                .withQualifier(medianHouseAge.getLabel("new"))
+                .withSummarizatorConjunction("have")
+                .withSummarizator(population.getLabel("huge population"))
+                .build();
+
+        double weight = 1./11.;
+        List<Double> weights = new ArrayList<>(Arrays.asList(weight, weight, weight, weight, weight, weight,weight, weight, weight, weight, weight));
+
+        List<LinguisticSummary> summaries =  genForm2complex.generateSummaries();
+        for (LinguisticSummary summary : summaries) {
+            System.out.println(summary);
+            genForm1.calculateQualityMeasures(weights, summary);
+        }
+//        System.out.println("\n\n");
+//        System.out.println(genForm2complex.generateBest());
+//        System.out.println(genForm2complex.calculateOptimalSummary(summaries));
+
+
+        CSV.saveSummariesCSV("outputs/table2/form2_sum_2.csv", summaries);
     }
 }
