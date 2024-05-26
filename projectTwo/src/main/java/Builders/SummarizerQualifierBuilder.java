@@ -37,6 +37,10 @@ public class SummarizerQualifierBuilder implements Builder<LinguisticSummaryBuil
         this.range = new Pair<>(start,stop);
         return this;
     }
+    public SummarizerQualifierBuilder onRange(Pair<Double,Double> range){
+        this.range = range;
+        return this;
+    }
 
     @Override
     public LinguisticSummaryBuilder build() {

@@ -1,10 +1,13 @@
 package Builders;
 
+import Database.BlockGroup;
 import FuzzyCalculations.FuzzyQuantifier;
 import FuzzyCalculations.SummarizerQualifier;
 import LinguisticSummarization.LinguisticSummaryGenerator;
 import LinguisticSummarization.LinguisticSummaryType;
 import LinguisticSummarization.QualityMeasures;
+
+import java.util.List;
 
 public class LinguisticSummaryBuilder implements Builder<LinguisticSummaryGenerator, LinguisticSummaryGenerator> {
     private FuzzyQuantifier quantifier;
@@ -16,6 +19,7 @@ public class LinguisticSummaryBuilder implements Builder<LinguisticSummaryGenera
     private QualityMeasures qualityMeasures;
     private LinguisticSummaryType linguisticSummaryType;
     private int blockGroupCount;
+    private List<BlockGroup> candidates;
 
     public static LinguisticSummaryBuilder builder() {
         return new LinguisticSummaryBuilder();
@@ -60,6 +64,10 @@ public class LinguisticSummaryBuilder implements Builder<LinguisticSummaryGenera
         this.linguisticSummaryType = linguisticSummaryType;
         return this;
     }
+    public LinguisticSummaryBuilder onSet(List<BlockGroup> candidates){
+        this.candidates = candidates;
+        return this;
+    }
     public LinguisticSummaryBuilder withBlockCount(int count){
         this.blockGroupCount=count;
         return this;
@@ -77,10 +85,16 @@ public class LinguisticSummaryBuilder implements Builder<LinguisticSummaryGenera
 
     @Override
     public LinguisticSummaryGenerator build() {
+        if(this.linguisticSummaryType==LinguisticSummaryType.First){
+            return new LinguisticSummaryGenerator(this.candidates,this.quantifier
+                    ,this.summarizator,
+                    this.summarizatorConjunction,
+                    this.subject);
+        }
         return new LinguisticSummaryGenerator(this.quantifier, this.summarizator,
                 this.qualifier,this.summarizatorConjunction,
                 this.qualifierConjunction,this.subject,
-                this.qualityMeasures,this.linguisticSummaryType,this.blockGroupCount);
+                this.linguisticSummaryType,this.blockGroupCount);
 
     }
 

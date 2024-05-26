@@ -32,10 +32,11 @@ public class QualityMeasures {
     double t2(SummarizerQualifier summarizer) {
         double in = 1.;
         for (SummarizerQualifier single_summarizer : summarizer.getElementalParts()) {
-//            Pair<Double, Double> supp = single_summarizer.getSupport();
+            Pair<Double, Double> supp = single_summarizer.getSupport();
             Pair<Double, Double> range = single_summarizer.getRange();
-//            in *= (supp.second - supp.first) / (range.second - range.first);
-            in *= (single_summarizer.getElements().size()) / (range.second - range.first);
+            in *= (supp.second - supp.first) / (range.second - range.first);
+
+//            in *= (single_summarizer.getElements().size()) / 10000;
 
         }
         double geometric_mean = Math.pow(in, 1.0 / summarizer.getElementalParts().size());
@@ -45,6 +46,8 @@ public class QualityMeasures {
     double t3(SummarizerQualifier summarizer, SummarizerQualifier qualifier) {
         int numerator = summarizer.and(qualifier).getElements().size();
         int denominator = qualifier.getElements().size();
+//        int denominator = 10000;
+
         return (double) numerator / (double) denominator;
     }
 
@@ -69,16 +72,22 @@ public class QualityMeasures {
     }
 
     double t7(QuantifierLabel quantifier) {
-        return 1 - quantifier.getMembershipFunction().field();
+//        return 1 - quantifier.getMembershipFunction().field();
+        Pair<Double,Double> supp = quantifier.getMembershipFunction().getSupport();
+        Pair<Double,Double> range = quantifier.getMembershipFunction().getRange();
+
+        return 1- ((supp.second-supp.first)/ (range.second- range.first));
     }
 
     double t8(SummarizerQualifier summarizer) {
         double accumulator = 1.0;
         for (SummarizerQualifier summ : summarizer.getElementalParts()) {
-            double x = summ.getRange().second - summ.getRange().first;
-            accumulator *= summ.cardinal() / x;
+            double range = summ.getRange().second - summ.getRange().first;
+            double supp = summ.getSupport().second - summ.getSupport().first;
+
+            accumulator *= supp / range;
         }
-        return Math.pow(accumulator, 1 / (double) summarizer.getElementalParts().size());
+        return 1 - Math.pow(accumulator, 1 / (double) summarizer.getElementalParts().size());
     }
 
     double t9(SummarizerQualifier qualifier) {
@@ -119,6 +128,7 @@ public class QualityMeasures {
         results.add(t9(linguisticSummary.getQualifier()));
         results.add(t10(linguisticSummary.getQualifier()));
         results.add(t11(linguisticSummary.getQualifier()));
+        linguisticSummary.setQualityMeasures(results);
         results.add(t(weights, linguisticSummary));
 
         return results;

@@ -1,6 +1,8 @@
 package org.example;
 
+import Builders.ContainerBuilder;
 import Builders.FuzzyQuantifierBuilder;
+import Builders.LinguisticSummaryBuilder;
 import Builders.SummarizerQualifierBuilder;
 import Database.BlockGroup;
 import Database.CSV;
@@ -12,6 +14,7 @@ import LinguisticSummarization.QualityMeasures;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,7 +88,7 @@ public class App {
         return SummarizerQualifierBuilder.builder()
                 .onRange(1.0, 10.0)
                 .createFuzzySet().onColumn(Columns.ratio_rooms_bedrooms)
-                .withCandidates(data).withLabel("balanced room distribution")
+                .withCandidates(data).withLabel("excessive share of bedrooms")
                 .createMembershipFunction().createTrapezoidal(7, 9, 10, 10).build()
                 .build().end();
     }
@@ -421,7 +424,7 @@ public class App {
                 .onRange(8.0, 1000.0)
                 .createFuzzySet().onColumn(Columns.distance_SF)
                 .withCandidates(data)
-                .withLabel("within city bounds SF")
+                .withLabel("within city bounds")
                 .createMembershipFunction().createTrapezoidal(8, 10, 20, 30).build()
                 .build().end();
     }
@@ -479,26 +482,96 @@ public class App {
 
     public static void main( String[] args ) throws IOException {
         String path = "dataBasePrep/prepared.csv";
-
-//        System.out.println( "Hello World!" );
         List<BlockGroup> data = CSV.readCSV(path);
-//        System.out.println(data.get(10).toString());
-//        LinguisticSummaryGenerator lsG = new LinguisticSummaryGenerator(createAbsolute(data),createInsufficientShareOfBedrooms(data),fullDataSet(data),"have",null,"BlockGroups",new QualityMeasures(), LinguisticSummaryType.First, data.size());
-//
-//        LinguisticSummaryGenerator lsG2 = new LinguisticSummaryGenerator(createRelative(),createWealthyArea(data),createDistantSuburbs(data),"are in","in","BlockGroups",new QualityMeasures(), LinguisticSummaryType.Second, data.size());
-//        System.out.println(lsG2.generateSummaries().toString());
-        SummarizerQualifier joined = createWealthyArea(data).and(createNewHouses(data));
-        LinguisticSummaryGenerator lsG = new LinguisticSummaryGenerator(createAbsolute(data),joined,fullDataSet(data),"are in",null,"BlockGroups",new QualityMeasures(), LinguisticSummaryType.First, data.size());
-        List<Double> weights = new ArrayList<>(12);
-        for (int i = 0; i < 12; i++) {
-            weights.add(1.0);
+
+       Container bedroomToRoomRatio = ContainerBuilder.builder()
+               .withSummarizerQualifier(createInsufficientShareOfBedrooms(data))
+               .withSummarizerQualifier(createLowBedroomProportion(data))
+               .withSummarizerQualifier(createBalancedRoomDistribution(data))
+               .withSummarizerQualifier(createHighBedroomProportion(data))
+               .withSummarizerQualifier(createExcessiveShareOfBedrooms(data))
+               .build();
+
+       Container meanHouseholdType = ContainerBuilder.builder()
+               .withSummarizerQualifier(createStudioApartmentsDominant(data))
+               .withSummarizerQualifier(createPredominantlySingleSmallFamily(data))
+               .withSummarizerQualifier(createPredominantlySingleBigFamily(data))
+               .withSummarizerQualifier(createMultiFamilyPrevalent(data))
+               .build();
+
+        Container medianHouseAge = ContainerBuilder.builder()
+                .withSummarizerQualifier(createNewHouses(data))
+                .withSummarizerQualifier(createMiddleAgedHouses(data))
+                .withSummarizerQualifier(createRecentlyBuiltHouses(data))
+                .withSummarizerQualifier(createAgedHouses(data))
+                .build();
+
+        Container medianIncome = ContainerBuilder.builder()
+                .withSummarizerQualifier(createPoorArea(data))
+                .withSummarizerQualifier(createLowIncomeArea(data))
+                .withSummarizerQualifier(createBelowAverageIncome(data))
+                .withSummarizerQualifier(createAboveAverageIncome(data))
+                .withSummarizerQualifier(createWealthyArea(data))
+                .build();
+
+        Container population = ContainerBuilder.builder()
+                .withSummarizerQualifier(createPracticallyUnpopulated(data))
+                .withSummarizerQualifier(createLowPopulation(data))
+                .withSummarizerQualifier(createModeratelyPopulated(data))
+                .withSummarizerQualifier(createHighlyPopulated(data))
+                .withSummarizerQualifier(createHugePopulation(data))
+                .withSummarizerQualifier(createManToMan(data))
+                .build();
+        Container totalRoomsCount = ContainerBuilder.builder()
+                .withSummarizerQualifier(createFewRooms(data))
+                .withSummarizerQualifier(createSparseRoomDistribution(data))
+                .withSummarizerQualifier(createModerateRoomsCount(data))
+                .withSummarizerQualifier(createManyRooms(data))
+                .withSummarizerQualifier(createExtremelyHighRoomsCount(data))
+                .build();
+
+        Container medianHouseValue = ContainerBuilder.builder()
+                .withSummarizerQualifier(createPracticallyWorthless(data))
+                .withSummarizerQualifier(createLowValueHomes(data))
+                .withSummarizerQualifier(createModeratelyPricedHomes(data))
+                .withSummarizerQualifier(createAboveAverageHomeValue(data))
+                .withSummarizerQualifier(createHighValueResidentialAreas(data))
+                .withSummarizerQualifier(createLuxuryEstates(data))
+                .build();
+        Container distanceLA = ContainerBuilder.builder()
+                .withSummarizerQualifier(createWithinCityBounds(data))
+                .withSummarizerQualifier(createSuburbanProximity(data))
+                .withSummarizerQualifier(createDistantSuburbs(data))
+                .withSummarizerQualifier(createNearbyCity(data))
+                .withSummarizerQualifier(createRuralFringe(data))
+                .withSummarizerQualifier(createFarFromCity(data))
+                .build();
+        Container distanceSF = ContainerBuilder.builder()
+                .withSummarizerQualifier(createWithinCityBoundsSF(data))
+                .withSummarizerQualifier(createSuburbanProximitySF(data))
+                .withSummarizerQualifier(createDistantSuburbsSF(data))
+                .withSummarizerQualifier(createNearbyCitySF(data))
+                .withSummarizerQualifier(createRuralFringeSF(data))
+                .withSummarizerQualifier(createFarFromCitySF(data))
+                .build();
+
+        LinguisticSummaryGenerator lsG = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.Second)
+                .withSummarizator(distanceSF.getLabel("within city bounds"))
+                .withQualifier(medianHouseValue.getLabel("practically worthless").and(medianIncome.getLabel("poor area")))
+                .withQuantifier(createRelative())
+                .withSubject("Block Groups")
+                .withSummarizatorConjunction("are")
+                .withQualifierConjunction("that are")
+                .build();
+        System.out.println(lsG.generateSummaries());
+        List<Double> weights = new LinkedList<>();
+        for (int i = 0; i < 11; i++) {
+            weights.add(1.0/11.0);
         }
-        System.out.println(weights.toString());
-        List<LinguisticSummary> summaries =lsG.generateSummaries();
-        summaries.forEach(summarie -> summarie.setQualityMeasures(weights));
-        CSV.saveSummariesCSV("here.csv",summaries);
-//        summaries.stream().forEach(summary -> lsG.calculateQualityMeasures(weights.stream().map(w -> 1.0).collect(Collectors.toList()), summary));
-        System.out.println(summaries.toString());
+        LinguisticSummary ls = lsG.generateSummaries().get(0);
+        lsG.calculateQualityMeasures(weights,ls);
+        System.out.println(ls.toStringFull());
 
 
     }

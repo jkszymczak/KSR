@@ -1,5 +1,8 @@
 package FuzzyCalculations;
 
+import Builders.FuzzySetBuilder;
+import Builders.SummarizerQualifierBuilder;
+import Database.BlockGroup;
 import org.example.Pair;
 
 import java.util.LinkedList;
@@ -72,6 +75,16 @@ public class SummarizerQualifier {
     private Boolean isComplex(){
         if(this.elementalParts != null) return true;
         return false;
+    }
+    public SummarizerQualifier generateFullSet(List<BlockGroup> data){
+        return  SummarizerQualifierBuilder.builder().onRange(this.getRange())
+                .createFuzzySet()
+                .onColumn(this.getColumn()).withLabel("all")
+                .withCandidates(data)
+                .createMembershipFunction()
+                .createAlwaysIn()
+                .withRange(this.getRange())
+                .build().build().end();
     }
 
 }

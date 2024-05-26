@@ -9,16 +9,26 @@ import java.util.List;
 
 public class LinguisticSummary {
     private SummarizerQualifier summarizer;
+
+    public void setQualifier(SummarizerQualifier qualifier) {
+        this.qualifier = qualifier;
+    }
+
     private SummarizerQualifier qualifier;
     private QuantifierLabel quantifierLabel;
     private QuantifierType quantifierType;
     private String label;
     private Double degreeOfTruth;
     private List<Double> qualityMeasures;
+    private LinguisticSummaryType linguisticSummaryType;
+
+    public LinguisticSummaryType getLinguisticSummaryType() {
+        return linguisticSummaryType;
+    }
 
     public LinguisticSummary(SummarizerQualifier summarizer, SummarizerQualifier qualifier,
                              QuantifierLabel quantifierLabel, String label,
-                             QuantifierType quantifierType, Double degreeOfTruth) {
+                             QuantifierType quantifierType, LinguisticSummaryType linguisticSummaryType, Double degreeOfTruth) {
         this.summarizer = summarizer;
         this.qualifier = qualifier;
         this.quantifierLabel = quantifierLabel;
@@ -26,6 +36,7 @@ public class LinguisticSummary {
         this.label = label;
         this.degreeOfTruth = degreeOfTruth;
         this.qualityMeasures = new ArrayList<>();
+        this.linguisticSummaryType = linguisticSummaryType;
     }
 
     public SummarizerQualifier getSummarizer() {
@@ -63,13 +74,16 @@ public class LinguisticSummary {
 
     @Override
     public String toString() {
+        return "( " + label + " , " + degreeOfTruth + " )";
+    }
+    public String toStringFull() {
         return "LinguisticSummary{" +
                 "label='" + label + '\'' +
                 ", degree of truth= " + degreeOfTruth +
-                ", Quality measures= "+ this.qualityMeasures.toString();
-//                ", summarizer=" + summarizer +
-//                ", qualifier=" + qualifier +
-//                ", quantifierLabel=" + quantifierLabel +
-//                '}';
+                ", Quality measures= "+ this.qualityMeasures.toString() +
+                ", summarizer=" + summarizer +
+                ", qualifier=" + qualifier +
+                ", quantifierLabel=" + quantifierLabel +
+                '}';
     }
 }

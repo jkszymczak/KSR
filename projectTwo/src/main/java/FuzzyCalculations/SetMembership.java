@@ -3,6 +3,10 @@ package FuzzyCalculations;
 import org.example.Pair;
 
 public class SetMembership implements MembershipFunction{
+    private Pair<Double,Double> range;
+    private Pair<Double,Double> supp;
+
+
 
     @Override
     public double evaluate(double x) {
@@ -16,16 +20,17 @@ public class SetMembership implements MembershipFunction{
 
     @Override
     public Pair<Double, Double> getSupport() {
-        return null;
+        return this.supp;
     }
 
     @Override
     public Pair<Double, Double> getRange() {
-        return null;
+        return this.range;
     }
 
     @Override
     public void setRange(Pair<Double, Double> range) {
-
+        this.range=range;
+        this.supp = range;
     }
 }
