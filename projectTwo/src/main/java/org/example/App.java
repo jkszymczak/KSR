@@ -7,16 +7,11 @@ import Builders.SummarizerQualifierBuilder;
 import Database.BlockGroup;
 import Database.CSV;
 import FuzzyCalculations.*;
-import LinguisticSummarization.LinguisticSummary;
 import LinguisticSummarization.LinguisticSummaryGenerator;
 import LinguisticSummarization.LinguisticSummaryType;
-import LinguisticSummarization.QualityMeasures;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Hello world!
@@ -363,57 +358,57 @@ public class App {
     }
 
     // distance LA
-    static SummarizerQualifier createWithinCityBounds(List<BlockGroup> data) {
+    static SummarizerQualifier createWithinCityBoundsLA(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0.42, 1020.0)
                 .createFuzzySet().onColumn(Columns.distance_LA)
                 .withCandidates(data)
-                .withLabel("within city bounds")
+                .withLabel("within city bounds(LA)")
                 .createMembershipFunction().createTrapezoidal(0.42, 0.42, 30, 60).build()
                 .build().end();
     }
-    static SummarizerQualifier createSuburbanProximity(List<BlockGroup> data) {
+    static SummarizerQualifier createSuburbanProximityLA(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0.42, 1020.0)
                 .createFuzzySet().onColumn(Columns.distance_LA)
                 .withCandidates(data)
-                .withLabel("suburban proximity")
+                .withLabel("suburban proximity(LA)")
                 .createMembershipFunction().createTrapezoidal(40, 50, 70, 90).build()
                 .build().end();
     }
-    static SummarizerQualifier createDistantSuburbs(List<BlockGroup> data) {
+    static SummarizerQualifier createDistantSuburbsLA(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0.42, 1020.0)
                 .createFuzzySet().onColumn(Columns.distance_LA)
                 .withCandidates(data)
-                .withLabel("distant suburbs")
+                .withLabel("distant suburbs(LA)")
                 .createMembershipFunction().createTriangle(70, 100, 130).build()
                 .build().end();
     }
-    static SummarizerQualifier createNearbyCity(List<BlockGroup> data) {
+    static SummarizerQualifier createNearbyCityLA(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0.42, 1020.0)
                 .createFuzzySet().onColumn(Columns.distance_LA)
                 .withCandidates(data)
-                .withLabel("nearby city")
+                .withLabel("nearby city(LA)")
                 .createMembershipFunction().createTrapezoidal(110, 130, 200, 250).build()
                 .build().end();
     }
-    static SummarizerQualifier createRuralFringe(List<BlockGroup> data) {
+    static SummarizerQualifier createRuralFringeLA(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0.42, 1020.0)
                 .createFuzzySet().onColumn(Columns.distance_LA)
                 .withCandidates(data)
-                .withLabel("rural fringe")
+                .withLabel("rural fringe(LA)")
                 .createMembershipFunction().createTrapezoidal(200, 250, 380, 600).build()
                 .build().end();
     }
-    static SummarizerQualifier createFarFromCity(List<BlockGroup> data) {
+    static SummarizerQualifier createFarFromCityLA(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0.42, 1020.0)
                 .createFuzzySet().onColumn(Columns.distance_LA)
                 .withCandidates(data)
-                .withLabel("far from city")
+                .withLabel("far from city(LA)")
                 .createMembershipFunction().createTrapezoidal(350, 600, 1020, 1020).build()
                 .build().end();
     }
@@ -424,7 +419,7 @@ public class App {
                 .onRange(8.0, 1000.0)
                 .createFuzzySet().onColumn(Columns.distance_SF)
                 .withCandidates(data)
-                .withLabel("within city bounds")
+                .withLabel("within city bounds(SF)")
                 .createMembershipFunction().createTrapezoidal(8, 10, 20, 30).build()
                 .build().end();
     }
@@ -433,7 +428,7 @@ public class App {
                 .onRange(8.0, 1000.0)
                 .createFuzzySet().onColumn(Columns.distance_SF)
                 .withCandidates(data)
-                .withLabel("suburban proximity SF")
+                .withLabel("suburban proximity(SF)")
                 .createMembershipFunction().createTrapezoidal(20, 35, 50, 70).build()
                 .build().end();
     }
@@ -442,7 +437,7 @@ public class App {
                 .onRange(8.0, 1000.0)
                 .createFuzzySet().onColumn(Columns.distance_SF)
                 .withCandidates(data)
-                .withLabel("distant suburbs SF")
+                .withLabel("distant suburbs(SF)")
                 .createMembershipFunction().createTriangle(60, 80, 100).build()
                 .build().end();
     }
@@ -451,7 +446,7 @@ public class App {
                 .onRange(8.0, 1000.0)
                 .createFuzzySet().onColumn(Columns.distance_SF)
                 .withCandidates(data)
-                .withLabel("nearby city SF")
+                .withLabel("nearby city(SF)")
                 .createMembershipFunction().createTrapezoidal(80, 100, 150, 200).build()
                 .build().end();
     }
@@ -460,7 +455,7 @@ public class App {
                 .onRange(8.0, 1000.0)
                 .createFuzzySet().onColumn(Columns.distance_SF)
                 .withCandidates(data)
-                .withLabel("rural fringe SF")
+                .withLabel("rural fringe(SF)")
                 .createMembershipFunction().createTrapezoidal(150, 200, 350, 450).build()
                 .build().end();
     }
@@ -469,7 +464,7 @@ public class App {
                 .onRange(8.0, 1000.0)
                 .createFuzzySet().onColumn(Columns.distance_SF)
                 .withCandidates(data)
-                .withLabel("far from city SF")
+                .withLabel("far from city(SF)")
                 .createMembershipFunction().createTrapezoidal(300, 500, 1000, 1000).build()
                 .build().end();
     }
@@ -539,12 +534,12 @@ public class App {
                 .withSummarizerQualifier(createLuxuryEstates(data))
                 .build();
         Container distanceLA = ContainerBuilder.builder()
-                .withSummarizerQualifier(createWithinCityBounds(data))
-                .withSummarizerQualifier(createSuburbanProximity(data))
-                .withSummarizerQualifier(createDistantSuburbs(data))
-                .withSummarizerQualifier(createNearbyCity(data))
-                .withSummarizerQualifier(createRuralFringe(data))
-                .withSummarizerQualifier(createFarFromCity(data))
+                .withSummarizerQualifier(createWithinCityBoundsLA(data))
+                .withSummarizerQualifier(createSuburbanProximityLA(data))
+                .withSummarizerQualifier(createDistantSuburbsLA(data))
+                .withSummarizerQualifier(createNearbyCityLA(data))
+                .withSummarizerQualifier(createRuralFringeLA(data))
+                .withSummarizerQualifier(createFarFromCityLA(data))
                 .build();
         Container distanceSF = ContainerBuilder.builder()
                 .withSummarizerQualifier(createWithinCityBoundsSF(data))
@@ -555,24 +550,135 @@ public class App {
                 .withSummarizerQualifier(createFarFromCitySF(data))
                 .build();
 
-        LinguisticSummaryGenerator lsG = LinguisticSummaryBuilder.builder()
+        LinguisticSummaryGenerator genForm1 = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.First)
+                .onSet(data).withSummarizator(medianIncome.getLabel("wealthy area"))
+                .withQuantifier(createAbsolute(data))
+                .withSubject("Block Groups")
+                .withSummarizatorConjunction("are in")
+                .build();
+        LinguisticSummaryGenerator gen2Form1 = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.First)
+                .onSet(data).withSummarizator(meanHouseholdType.getLabel("predominantly single small family"))
+                .withQuantifier(createAbsolute(data))
+                .withSubject("houses in Block Groups")
+                .withSummarizatorConjunction("are")
+                .build();
+
+        LinguisticSummaryGenerator gen3Form1 = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.First)
+                .onSet(data).withSummarizator(medianHouseAge.getLabel("aged"))
+                .withQuantifier(createAbsolute(data))
+                .withSubject("houses in Block Groups")
+                .withSummarizatorConjunction("are")
+                .build();
+
+        LinguisticSummaryGenerator gen4Form1 = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.First)
+                .onSet(data)
+                .withQuantifier(createAbsolute(data))
+                .withSubject("Block Groups")
+                .withSummarizatorConjunction("have")
+                .withSummarizator(bedroomToRoomRatio.getLabel("excessive share of bedrooms"))
+                .build();
+
+        LinguisticSummaryGenerator gen5Form1 = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.First)
+                .onSet(data)
+                .withQuantifier(createAbsolute(data))
+                .withSubject("Block Groups")
+                .withSummarizatorConjunction("have")
+                .withSummarizator(population.getLabel("huge population"))
+                .build();
+
+
+        LinguisticSummaryGenerator gen1Form2 = LinguisticSummaryBuilder.builder()
                 .withLinguisticSummaryType(LinguisticSummaryType.Second)
-                .withSummarizator(distanceSF.getLabel("within city bounds"))
-                .withQualifier(medianHouseValue.getLabel("practically worthless").and(medianIncome.getLabel("poor area")))
+                .withSummarizator(distanceSF.getLabel("nearby city(SF)"))
+                .withQualifier(medianHouseValue.getLabel("practically worthless"))
                 .withQuantifier(createRelative())
                 .withSubject("Block Groups")
                 .withSummarizatorConjunction("are")
                 .withQualifierConjunction("that are")
                 .build();
-        System.out.println(lsG.generateSummaries());
-        List<Double> weights = new LinkedList<>();
-        for (int i = 0; i < 11; i++) {
-            weights.add(1.0/11.0);
-        }
-        LinguisticSummary ls = lsG.generateSummaries().get(0);
-        lsG.calculateQualityMeasures(weights,ls);
-        System.out.println(ls.toStringFull());
+
+        LinguisticSummaryGenerator gen2Form2 = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.Second)
+                .withQuantifier(createRelative())
+                .withSubject("Block Groups")
+                .withQualifierConjunction("that are")
+                .withQualifier(population.getLabel("practically unpopulated"))
+                .withSummarizatorConjunction("are")
+                .withSummarizator(distanceLA.getLabel("within city bounds(LA)"))
+                .build();
+        LinguisticSummaryGenerator gen3Form2 = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.Second)
+                .withQuantifier(createRelative())
+                .withSubject("Block Groups")
+                .withQualifierConjunction("where")
+                .withQualifier(meanHouseholdType.getLabel("studio apartments dominant"))
+                .withSummarizatorConjunction("are")
+                .withSummarizator(medianHouseValue.getLabel("practically worthless"))
+                .build();
+
+        LinguisticSummaryGenerator gen4Form2 = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.Second)
+                .withQuantifier(createRelative())
+                .withSubject("houses in Block Groups")
+                .withQualifierConjunction("that are")
+                .withQualifier(medianHouseAge.getLabel("new"))
+                .withSummarizatorConjunction("have")
+                .withSummarizator(bedroomToRoomRatio.getLabel("balanced room distribution"))
+                .build();
+
+        LinguisticSummaryGenerator gen5Form2 = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.Second)
+                .withQuantifier(createRelative())
+                .withSubject("Block Groups")
+                .withQualifierConjunction("that are in")
+                .withQualifier(medianIncome.getLabel("poor area"))
+                .withSummarizatorConjunction("have")
+                .withSummarizator(bedroomToRoomRatio.getLabel("insufficient share of bedrooms"))
+                .build();
+
+        LinguisticSummaryGenerator genForm1complex = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.First)
+                .onSet(data)
+                .withQuantifier(createAbsolute(data))
+                .withSubject("Block Groups")
+                .withSummarizatorConjunction("are in")
+                .withSummarizator(medianIncome.getLabel("wealthy area").and(distanceLA.getLabel("far from city(LA)")))
+                .build();
+
+        LinguisticSummaryGenerator genForm2complex = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.Second)
+                .withQuantifier(createRelative())
+                .withSubject("Block Groups")
+                .withQualifierConjunction("that are in")
+                .withQualifier(medianIncome.getLabel("poor area").and(bedroomToRoomRatio.getLabel("insufficient share of bedrooms")))
+                .withSummarizatorConjunction("are")
+                .withSummarizator(medianHouseValue.getLabel("practically worthless"))
+                .build();
+
+        LinguisticSummaryGenerator gen2Form2complex = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.Second)
+                .withQuantifier(createRelative())
+                .withSubject("Block Groups")
+                .withQualifierConjunction("that are")
+                .withQualifier(population.getLabel("practically unpopulated"))
+                .withSummarizatorConjunction("are")
+                .withSummarizator(distanceLA.getLabel("within city bounds(LA)").and(medianHouseValue.getLabel("luxury estates")))
+                .build();
 
 
+        LinguisticSummaryGenerator gen4Form2complex = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.Second)
+                .withQuantifier(createRelative())
+                .withSubject("houses in Block Groups")
+                .withQualifierConjunction("that are")
+                .withQualifier(medianHouseAge.getLabel("new").and(meanHouseholdType.getLabel("multi family prevalent")))
+                .withSummarizatorConjunction("have")
+                .withSummarizator(bedroomToRoomRatio.getLabel("balanced room distribution").and(medianHouseValue.getLabel("moderately priced homes")))
+                .build();
     }
 }

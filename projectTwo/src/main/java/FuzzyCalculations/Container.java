@@ -10,6 +10,7 @@ public class Container {
         this.labels = labels.stream().collect(Collectors.toMap(k -> k.getLabel(),v -> v));
     }
     public SummarizerQualifier getLabel(String label){
-        return labels.get(label);
+        if(labels.containsKey(label)) return labels.get(label);
+        throw new RuntimeException("There is no summarizer or qualifier with label "+label);
     }
 }

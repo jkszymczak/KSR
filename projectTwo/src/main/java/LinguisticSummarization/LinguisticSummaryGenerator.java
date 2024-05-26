@@ -7,6 +7,7 @@ import FuzzyCalculations.SummarizerQualifier;
 import org.example.Pair;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,6 +66,13 @@ public class LinguisticSummaryGenerator {
                             " " + this.summarizatorConjunction + " " + this.summarizator.getLabel();
                     return new LinguisticSummary(this.summarizator,this.qualifier,label,summary,this.quantifier.getType(),this.linguisticSummaryType,this.degreeOfTruth(label));
         }).collect(Collectors.toList());
+    }
+
+    /** Returns summary with highest degree of truth
+     * */
+    public LinguisticSummary generateBest(){
+        List<LinguisticSummary> summaries = this.generateSummaries();
+        return summaries.stream().max(Comparator.comparing(s -> s.getDegreeOfTruth())).get();
     }
 
 //    public double degreeOfTruth(LinguisticSummary linguisticSummary) {
