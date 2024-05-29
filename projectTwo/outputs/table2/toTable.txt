@@ -1,0 +1,9 @@
+nearly 1/3 houses in Block Groups that are new have moderately priced homes,0.5179647152383272
+most houses in Block Groups that are new AND multi family prevalent have moderately priced homes,0.5169949620043034
+most houses in Block Groups that are new AND multi family prevalent AND within city bounds(LA) have moderately priced homes,0.6841664610058592
+almost_none houses in Block Groups that are new have moderately priced homes AND within city bounds(LA),0.7244946724795134
+almost_none houses in Block Groups that are new have moderately priced homes AND within city bounds(LA) AND low income area,0.8284164373113525
+approximately half houses in Block Groups that are new AND multi family prevalent have balanced room distribution AND moderately priced homes,1.0
+most houses in Block Groups that are new AND multi family prevalent AND low income area have balanced room distribution AND moderately priced homes,0.4589697592084921
+almost_none houses in Block Groups that are new AND multi family prevalent AND low income area have balanced room distribution AND moderately priced homes AND huge population,1.0
+most houses in Block Groups that are new AND multi family prevalent AND low income area AND within city bounds(LA) have balanced room distribution AND moderately priced homes,0.6002823041401185

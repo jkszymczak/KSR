@@ -1,0 +1,26 @@
+close to 2000-3000 Block Groups are in wealthy area,0.5514929523809542
+approximately 5000 Block Groups are in wealthy area,0.2525307472950941
+nearly 6000 Block Groups are in wealthy area,0.06666856817068195
+nearly 1/3 Block Groups are in wealthy area,0.9191549206349234
+close to 2000-3000 houses in Block Groups are aged,0.6837333333332923
+approximately 5000 houses in Block Groups are aged,0.16229745263413126
+few houses in Block Groups are recently built,0.7434285714285711
+around 1000 houses in Block Groups are recently built,0.010025955486070747
+nearly 6000 houses in Block Groups are predominantly single small family,0.3712521782187623
+above 7500 houses in Block Groups are predominantly single small family,0.40774551793036423
+few houses in Block Groups are recently built,0.7434285714285711
+hundreds houses in Block Groups are recently built,0.0
+around 1000 houses in Block Groups are recently built,0.010025955486070747
+few Block Groups have excessive share of bedrooms,0.6083566976611207
+hundreds Block Groups have excessive share of bedrooms,0.18537577909303876
+above 7500 Block Groups have excessive share of bedrooms,0.0
+few Block Groups have huge population,0.9994819047619048
+almost_none Block Groups that are practically worthless are nearby city(SF),0.7544084666236809
+around 20 % Block Groups that are practically worthless are nearby city(SF),0.07722016855872783
+nearly 1/3 Block Groups that are practically worthless are nearby city(SF),0.0
+approximately half Block Groups that are practically unpopulated are within city bounds(LA),1.0
+almost_none Block Groups where studio apartments dominant are practically worthless,0.7495606099809526
+around 20 % Block Groups where studio apartments dominant are practically worthless,0.0797957538248037
+approximately half houses in Block Groups that are new have balanced room distribution,1.0
+around 20 % Block Groups that are in poor area have insufficient share of bedrooms,0.002304717839553943
+

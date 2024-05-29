@@ -18,21 +18,20 @@ import java.util.List;
 
 /**
  * Hello world!
- *
  */
 public class App {
 
-    static FuzzyQuantifier createAbsolute(List<BlockGroup> data){
+    static FuzzyQuantifier createAbsolute(List<BlockGroup> data) {
         return FuzzyQuantifierBuilder.builder()
                 .onRange(0, data.size())
                 .withType(QuantifierType.absolute)
-                .createLabel().withLabel("few").createMembershipFunction().createTriangle(0,0,350).build().build()
-                .createLabel().withLabel("hundreds").createMembershipFunction().createTrapezoidal(100,300,800,1000).build().build()
-                .createLabel().withLabel("around 1000").createMembershipFunction().createGaussian(1000,300).build().build()
-                .createLabel().withLabel("close to 2000-3000").createMembershipFunction().createTrapezoidal(1000,2000,3000,4500).build().build()
-                .createLabel().withLabel("approximately 5000").createMembershipFunction().createGaussian(5000,800).build().build()
-                .createLabel().withLabel("nearly 6000").createMembershipFunction().createGaussian(6000,1000).build().build()
-                .createLabel().withLabel("above 7500").createMembershipFunction().createTrapezoidal(7000,8000,11000,11000).build().build()
+                .createLabel().withLabel("few").createMembershipFunction().createTriangle(0, 0, 350).build().build()
+                .createLabel().withLabel("hundreds").createMembershipFunction().createTrapezoidal(100, 300, 800, 1000).build().build()
+                .createLabel().withLabel("around 1000").createMembershipFunction().createGaussian(1000, 300).build().build()
+                .createLabel().withLabel("close to 2000-3000").createMembershipFunction().createTrapezoidal(1000, 2000, 3000, 4500).build().build()
+                .createLabel().withLabel("approximately 5000").createMembershipFunction().createGaussian(5000, 800).build().build()
+                .createLabel().withLabel("nearly 6000").createMembershipFunction().createGaussian(6000, 1000).build().build()
+                .createLabel().withLabel("above 7500").createMembershipFunction().createTrapezoidal(7000, 8000, 11000, 11000).build().build()
                 .end();
     }
 
@@ -40,25 +39,27 @@ public class App {
         return FuzzyQuantifierBuilder.builder()
                 .onRange(0, 1)
                 .withType(QuantifierType.relative)
-                .createLabel().withLabel("almost_none").createMembershipFunction().createTrapezoidal(0,0,0.05,0.2).build().build()
-                .createLabel().withLabel("around 20 %").createMembershipFunction().createGaussian(0.2,0.05).build().build()
-                .createLabel().withLabel("nearly 1/3").createMembershipFunction().createTrapezoidal(0.25,0.3,0.36,0.45).build().build()
-                .createLabel().withLabel("approximately half").createMembershipFunction().createTrapezoidal(0.35,0.45,0.55,0.65).build().build()
-                .createLabel().withLabel("most").createMembershipFunction().createTrapezoidal(0.55,0.7,0.8,1).build().build()
-                .createLabel().withLabel("almost all").createMembershipFunction().createTrapezoidal(0.8,0.95,1,1).build().build()
+                .createLabel().withLabel("almost_none").createMembershipFunction().createTrapezoidal(0, 0, 0.05, 0.2).build().build()
+                .createLabel().withLabel("around 20 %").createMembershipFunction().createGaussian(0.2, 0.05).build().build()
+                .createLabel().withLabel("nearly 1/3").createMembershipFunction().createTrapezoidal(0.25, 0.3, 0.36, 0.45).build().build()
+                .createLabel().withLabel("approximately half").createMembershipFunction().createTrapezoidal(0.35, 0.45, 0.55, 0.65).build().build()
+                .createLabel().withLabel("most").createMembershipFunction().createTrapezoidal(0.55, 0.7, 0.8, 1).build().build()
+                .createLabel().withLabel("almost all").createMembershipFunction().createTrapezoidal(0.8, 0.95, 1, 1).build().build()
                 .end();
     }
+
     // Bedroom to Room ratio
-    static SummarizerQualifier createInsufficientShareOfBedrooms(List<BlockGroup> data){
+    static SummarizerQualifier createInsufficientShareOfBedrooms(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
-                .onRange(1.0,10.0)
+                .onRange(1.0, 10.0)
                 .createFuzzySet().onColumn(Columns.ratio_rooms_bedrooms)
-                    .withCandidates(data).withLabel("insufficient share of bedrooms")
-                    .createMembershipFunction().createTrapezoidal(0,1,1.5,2.5).build()
+                .withCandidates(data).withLabel("insufficient share of bedrooms")
+                .createMembershipFunction().createTrapezoidal(0, 1, 1.5, 2.5).build()
                 .build().end();
 
     }
-    static SummarizerQualifier createLowBedroomProportion(List<BlockGroup> data){
+
+    static SummarizerQualifier createLowBedroomProportion(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(1.0, 10.0)
                 .createFuzzySet().onColumn(Columns.ratio_rooms_bedrooms)
@@ -66,7 +67,8 @@ public class App {
                 .createMembershipFunction().createTriangle(1.5, 3, 4).build()
                 .build().end();
     }
-    static SummarizerQualifier createBalancedRoomDistribution(List<BlockGroup> data){
+
+    static SummarizerQualifier createBalancedRoomDistribution(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(1.0, 10.0)
                 .createFuzzySet().onColumn(Columns.ratio_rooms_bedrooms)
@@ -74,7 +76,8 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(3, 4, 5, 6).build()
                 .build().end();
     }
-    static SummarizerQualifier createHighBedroomProportion(List<BlockGroup> data){
+
+    static SummarizerQualifier createHighBedroomProportion(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(1.0, 10.0)
                 .createFuzzySet().onColumn(Columns.ratio_rooms_bedrooms)
@@ -82,7 +85,8 @@ public class App {
                 .createMembershipFunction().createGaussian(7, 1).build()
                 .build().end();
     }
-    static SummarizerQualifier createExcessiveShareOfBedrooms(List<BlockGroup> data){
+
+    static SummarizerQualifier createExcessiveShareOfBedrooms(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(1.0, 10.0)
                 .createFuzzySet().onColumn(Columns.ratio_rooms_bedrooms)
@@ -92,7 +96,7 @@ public class App {
     }
 
     // median household type
-    static SummarizerQualifier createStudioApartmentsDominant(List<BlockGroup> data){
+    static SummarizerQualifier createStudioApartmentsDominant(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(1.0, 20.0)
                 .createFuzzySet().onColumn(Columns.ratio_population_households)
@@ -101,7 +105,8 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(0, 0, 1, 2.5).build()
                 .build().end();
     }
-    static SummarizerQualifier createPredominantlySingleSmallFamily(List<BlockGroup> data){
+
+    static SummarizerQualifier createPredominantlySingleSmallFamily(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(1.0, 20.0)
                 .createFuzzySet().onColumn(Columns.ratio_population_households)
@@ -110,7 +115,8 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(1.5, 2, 3, 4).build()
                 .build().end();
     }
-    static SummarizerQualifier createPredominantlySingleBigFamily(List<BlockGroup> data){
+
+    static SummarizerQualifier createPredominantlySingleBigFamily(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(1.0, 20.0)
                 .createFuzzySet().onColumn(Columns.ratio_population_households)
@@ -119,7 +125,8 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(3, 4, 6, 8).build()
                 .build().end();
     }
-    static SummarizerQualifier createMultiFamilyPrevalent(List<BlockGroup> data){
+
+    static SummarizerQualifier createMultiFamilyPrevalent(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(1.0, 20.0)
                 .createFuzzySet().onColumn(Columns.ratio_population_households)
@@ -139,6 +146,7 @@ public class App {
                 .createMembershipFunction().createGaussian(7.5, 2).build()
                 .build().end();
     }
+
     static SummarizerQualifier createMiddleAgedHouses(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0, 60)
@@ -147,6 +155,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(8, 13, 30, 45).build()
                 .build().end();
     }
+
     static SummarizerQualifier createRecentlyBuiltHouses(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0, 60)
@@ -155,6 +164,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(0, 0, 2, 7).build()
                 .build().end();
     }
+
     static SummarizerQualifier createAgedHouses(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0, 60)
@@ -173,6 +183,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(0.49, 0.49, 1.5, 3).build()
                 .build().end();
     }
+
     static SummarizerQualifier createLowIncomeArea(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0, 20)
@@ -181,6 +192,7 @@ public class App {
                 .createMembershipFunction().createTriangle(1.5, 3, 5.5).build()
                 .build().end();
     }
+
     static SummarizerQualifier createBelowAverageIncome(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0, 20)
@@ -189,6 +201,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(3.5, 5.5, 6.5, 8).build()
                 .build().end();
     }
+
     static SummarizerQualifier createAboveAverageIncome(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0, 20)
@@ -197,6 +210,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(6.5, 8.5, 9.5, 12.5).build()
                 .build().end();
     }
+
     static SummarizerQualifier createWealthyArea(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0, 20)
@@ -216,6 +230,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(3, 3, 500, 2000).build()
                 .build().end();
     }
+
     static SummarizerQualifier createLowPopulation(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(3.0, 29000.0)
@@ -225,6 +240,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(3, 3000, 6000, 8400).build()
                 .build().end();
     }
+
     static SummarizerQualifier createModeratelyPopulated(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(3.0, 29000.0)
@@ -234,6 +250,7 @@ public class App {
                 .createMembershipFunction().createGaussian(10000, 2000).build()
                 .build().end();
     }
+
     static SummarizerQualifier createHighlyPopulated(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(3.0, 29000.0)
@@ -243,6 +260,7 @@ public class App {
                 .createMembershipFunction().createGaussian(14500, 3000).build()
                 .build().end();
     }
+
     static SummarizerQualifier createHugePopulation(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(3.0, 29000.0)
@@ -252,6 +270,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(15000, 18000, 23000, 26000).build()
                 .build().end();
     }
+
     static SummarizerQualifier createManToMan(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(3.0, 29000.0)
@@ -271,6 +290,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(2, 2, 1000, 3000).build()
                 .build().end();
     }
+
     static SummarizerQualifier createSparseRoomDistribution(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(3.0, 33000.0)
@@ -279,6 +299,7 @@ public class App {
                 .createMembershipFunction().createTriangle(300, 4000, 7700).build()
                 .build().end();
     }
+
     static SummarizerQualifier createModerateRoomsCount(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(3.0, 33000.0)
@@ -287,6 +308,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(3000, 7000, 11000, 15000).build()
                 .build().end();
     }
+
     static SummarizerQualifier createManyRooms(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(3.0, 33000.0)
@@ -295,6 +317,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(11000, 15000, 21000, 27000).build()
                 .build().end();
     }
+
     static SummarizerQualifier createExtremelyHighRoomsCount(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(3.0, 33000.0)
@@ -314,6 +337,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(14999, 14999, 40000, 100000).build()
                 .build().end();
     }
+
     static SummarizerQualifier createLowValueHomes(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(14999.0, 500001.0)
@@ -323,6 +347,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(40000, 110000, 150000, 180000).build()
                 .build().end();
     }
+
     static SummarizerQualifier createModeratelyPricedHomes(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(14999.0, 500001.0)
@@ -332,6 +357,7 @@ public class App {
                 .createMembershipFunction().createGaussian(200000, 25000).build()
                 .build().end();
     }
+
     static SummarizerQualifier createAboveAverageHomeValue(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(14999.0, 500001.0)
@@ -341,6 +367,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(210000, 250000, 270000, 320000).build()
                 .build().end();
     }
+
     static SummarizerQualifier createHighValueResidentialAreas(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(14999.0, 500001.0)
@@ -350,6 +377,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(280000, 320000, 400000, 430000).build()
                 .build().end();
     }
+
     static SummarizerQualifier createLuxuryEstates(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(14999.0, 500001.0)
@@ -370,6 +398,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(0.42, 0.42, 30, 60).build()
                 .build().end();
     }
+
     static SummarizerQualifier createSuburbanProximityLA(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0.42, 1020.0)
@@ -379,6 +408,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(40, 50, 70, 90).build()
                 .build().end();
     }
+
     static SummarizerQualifier createDistantSuburbsLA(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0.42, 1020.0)
@@ -388,6 +418,7 @@ public class App {
                 .createMembershipFunction().createTriangle(70, 100, 130).build()
                 .build().end();
     }
+
     static SummarizerQualifier createNearbyCityLA(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0.42, 1020.0)
@@ -397,6 +428,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(110, 130, 200, 250).build()
                 .build().end();
     }
+
     static SummarizerQualifier createRuralFringeLA(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0.42, 1020.0)
@@ -406,6 +438,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(200, 250, 380, 600).build()
                 .build().end();
     }
+
     static SummarizerQualifier createFarFromCityLA(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(0.42, 1020.0)
@@ -426,6 +459,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(8, 10, 20, 30).build()
                 .build().end();
     }
+
     static SummarizerQualifier createSuburbanProximitySF(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(8.0, 1000.0)
@@ -435,6 +469,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(20, 35, 50, 70).build()
                 .build().end();
     }
+
     static SummarizerQualifier createDistantSuburbsSF(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(8.0, 1000.0)
@@ -444,6 +479,7 @@ public class App {
                 .createMembershipFunction().createTriangle(60, 80, 100).build()
                 .build().end();
     }
+
     static SummarizerQualifier createNearbyCitySF(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(8.0, 1000.0)
@@ -453,6 +489,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(80, 100, 150, 200).build()
                 .build().end();
     }
+
     static SummarizerQualifier createRuralFringeSF(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(8.0, 1000.0)
@@ -462,6 +499,7 @@ public class App {
                 .createMembershipFunction().createTrapezoidal(150, 200, 350, 450).build()
                 .build().end();
     }
+
     static SummarizerQualifier createFarFromCitySF(List<BlockGroup> data) {
         return SummarizerQualifierBuilder.builder()
                 .onRange(8.0, 1000.0)
@@ -473,29 +511,29 @@ public class App {
     }
 
 
-    static SummarizerQualifier fullDataSet(List<BlockGroup> data){
-        FuzzySet fuzzySet = new FuzzySet(data,new SetMembership(),"all",Columns.population);
+    static SummarizerQualifier fullDataSet(List<BlockGroup> data) {
+        FuzzySet fuzzySet = new FuzzySet(data, new SetMembership(), "all", Columns.population);
         return new SummarizerQualifier(fuzzySet);
     }
 
-    public static void main( String[] args ) throws IOException {
+    public static void main(String[] args) throws IOException {
         String path = "dataBasePrep/prepared.csv";
         List<BlockGroup> data = CSV.readCSV(path);
 
-       Container bedroomToRoomRatio = ContainerBuilder.builder()
-               .withSummarizerQualifier(createInsufficientShareOfBedrooms(data))
-               .withSummarizerQualifier(createLowBedroomProportion(data))
-               .withSummarizerQualifier(createBalancedRoomDistribution(data))
-               .withSummarizerQualifier(createHighBedroomProportion(data))
-               .withSummarizerQualifier(createExcessiveShareOfBedrooms(data))
-               .build();
+        Container bedroomToRoomRatio = ContainerBuilder.builder()
+                .withSummarizerQualifier(createInsufficientShareOfBedrooms(data))
+                .withSummarizerQualifier(createLowBedroomProportion(data))
+                .withSummarizerQualifier(createBalancedRoomDistribution(data))
+                .withSummarizerQualifier(createHighBedroomProportion(data))
+                .withSummarizerQualifier(createExcessiveShareOfBedrooms(data))
+                .build();
 
-       Container meanHouseholdType = ContainerBuilder.builder()
-               .withSummarizerQualifier(createStudioApartmentsDominant(data))
-               .withSummarizerQualifier(createPredominantlySingleSmallFamily(data))
-               .withSummarizerQualifier(createPredominantlySingleBigFamily(data))
-               .withSummarizerQualifier(createMultiFamilyPrevalent(data))
-               .build();
+        Container meanHouseholdType = ContainerBuilder.builder()
+                .withSummarizerQualifier(createStudioApartmentsDominant(data))
+                .withSummarizerQualifier(createPredominantlySingleSmallFamily(data))
+                .withSummarizerQualifier(createPredominantlySingleBigFamily(data))
+                .withSummarizerQualifier(createMultiFamilyPrevalent(data))
+                .build();
 
         Container medianHouseAge = ContainerBuilder.builder()
                 .withSummarizerQualifier(createNewHouses(data))
@@ -684,20 +722,44 @@ public class App {
                 .withSummarizator(bedroomToRoomRatio.getLabel("balanced room distribution").and(medianHouseValue.getLabel("moderately priced homes")))
                 .build();
 
-        LinguisticSummaryGenerator gen5Form2complex = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.First)
+
+
+
+        LinguisticSummaryGenerator genForm2_1 = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.Second)
                 .withQuantifier(createRelative())
                 .withSubject("Block Groups")
-                .withQualifierConjunction("are in")
-                .withQualifier(medianHouseAge.getLabel("new"))
+                .withQualifierConjunction("that are")
+                .withQualifier(medianHouseAge.getLabel("aged").and(medianHouseValue.getLabel("practically worthless")))
                 .withSummarizatorConjunction("have")
-                .withSummarizator(population.getLabel("huge population"))
+                .withSummarizator(meanHouseholdType.getLabel("predominantly single big family"))
                 .build();
 
-        double weight = 1./11.;
-        List<Double> weights = new ArrayList<>(Arrays.asList(weight, weight, weight, weight, weight, weight,weight, weight, weight, weight, weight));
+        LinguisticSummaryGenerator genForm2_2 = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.Second)
+                .withQuantifier(createRelative())
+                .withSubject("Block Groups")
+                .withQualifierConjunction("that have")
+                .withQualifier(meanHouseholdType.getLabel("predominantly single big family").and(medianHouseValue.getLabel("practically worthless")))
+                .withSummarizatorConjunction("are")
+                .withSummarizator(medianHouseAge.getLabel("aged"))
+                .build();
 
-        List<LinguisticSummary> summaries =  genForm2complex.generateSummaries();
+        LinguisticSummaryGenerator genForm2_3 = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.Second)
+                .withQuantifier(createRelative())
+                .withSubject("Block Groups")
+                .withQualifierConjunction("that are")
+                .withQualifier(medianHouseValue.getLabel("practically worthless"))
+                .withSummarizatorConjunction("are")
+                .withSummarizator(medianHouseAge.getLabel("aged").and(meanHouseholdType.getLabel("predominantly single big family")))
+                .build();
+
+
+        double weight = 1. / 11.;
+        List<Double> weights = new ArrayList<>(Arrays.asList(weight, weight, weight, weight, weight, weight, weight, weight, weight, weight, weight));
+
+        List<LinguisticSummary> summaries = genForm2_2.generateSummaries();
         for (LinguisticSummary summary : summaries) {
             System.out.println(summary);
             genForm1.calculateQualityMeasures(weights, summary);
@@ -707,6 +769,6 @@ public class App {
 //        System.out.println(genForm2complex.calculateOptimalSummary(summaries));
 
 
-        CSV.saveSummariesCSV("outputs/table2/form2_sum_2.csv", summaries);
+        CSV.saveSummariesCSV("outputs/table3/form2_W2_W3_S1.csv", summaries);
     }
 }
