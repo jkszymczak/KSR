@@ -1,0 +1,33 @@
+around 20 % Block Groups are aged,0.012936393735233342
+nearly 1/3 Block Groups are aged,1.0
+around 20 % Block Groups have predominantly single big family,0.8829719325001962
+almost_none Block Groups are practically worthless,0.836536666666667
+around 20 % Block Groups are practically worthless,0.04289194743907028
+almost_none Block Groups are aged AND predominantly single big family,0.7104559743033553
+around 20 % Block Groups are aged AND predominantly single big family,0.10317129525227096
+almost_none Block Groups are aged AND practically worthless,1.0
+around 20 % Block Groups are aged AND practically worthless,0.002338948203839752
+almost_none Block Groups have predominantly single big family AND practically worthless,1.0
+almost_none Block Groups are aged AND predominantly single big family AND practically worthless,1.0
+around 20 % Block Groups that are aged have predominantly single big family,0.38680379930731884
+nearly 1/3 Block Groups that are aged have predominantly single big family,0.3782871203370398
+almost_none Block Groups that are aged are practically worthless,0.8352329418988498
+around 20 % Block Groups that are aged are practically worthless,0.04331469597704526
+nearly 1/3 Block Groups that have predominantly single big family are aged,0.38498866973612045
+approximately half Block Groups that have predominantly single big family are aged,0.6535101972374916
+almost_none Block Groups that have predominantly single big family are practically worthless,0.5151998631550857
+around 20 % Block Groups that have predominantly single big family are practically worthless,0.3028738049690235
+around 20 % Block Groups that are practically worthless are aged,0.012257102037801426
+nearly 1/3 Block Groups that are practically worthless are aged,1.0
+nearly 1/3 Block Groups that are practically worthless are predominantly single big family,0.8839418606065437
+approximately half Block Groups that are practically worthless are predominantly single big family,0.2044523254541108
+almost_none Block Groups that are aged are predominantly single big family AND practically worthless,1.0
+almost_none Block Groups that have predominantly single big family are aged AND practically worthless,1.0
+almost_none Block Groups that are practically worthless are aged AND predominantly single big family,0.4789887105888586
+around 20 % Block Groups that are practically worthless are aged AND predominantly single big family,0.35613840986938794
+almost_none Block Groups that are aged AND predominantly single big family are practically worthless,0.6519222102431806
+around 20 % Block Groups that are aged AND predominantly single big family are practically worthless,0.1477089409219204
+nearly 1/3 Block Groups that are aged AND practically worthless have predominantly single big family,0.9124430759655088
+approximately half Block Groups that are aged AND practically worthless have predominantly single big family,0.17880123163104217
+around 20 % Block Groups that have predominantly single big family AND practically worthless are aged,0.014126876215070099
+nearly 1/3 Block Groups that have predominantly single big family AND practically worthless are aged,1.0
