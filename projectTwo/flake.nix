@@ -13,7 +13,7 @@
         name = "Empty";
         buildInputs = with pkgs;[
           texliveFull
-          jdk21
+          (pkgs.jdk21.override { enableJavaFX = true; })
           maven
       ];
     };
