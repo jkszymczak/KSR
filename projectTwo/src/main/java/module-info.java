@@ -1,4 +1,4 @@
-module org.example.projecttwogui {
+module GUI {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
