@@ -86,9 +86,11 @@
                   <Label fx:id="label_T_9" layoutX="862.0" layoutY="149.0" text="T_9" />
                   <Label fx:id="label_T_8" layoutX="795.0" layoutY="149.0" text="T_8" />
                   <Label fx:id="label_T_1" layoutX="649.0" layoutY="118.0" text="T_1" />
-                  <Label fx:id="descriptionOfWeights" layoutX="511.0" layoutY="91.0" prefHeight="36.0" prefWidth="126.0" text="The sum of all weights must add up to 1" wrapText="true" />
-                  <Button fx:id="equalsWeightsButton" layoutX="510.0" layoutY="137.0" mnemonicParsing="false" onAction="#setEqualsWeightsButtonClick" text="Equal weights" />
-                  <Button fx:id="resetWeightsButton" layoutX="510.0" layoutY="173.0" mnemonicParsing="false" onAction="#setDefaultWeightsButtonClick" text="Reset weights" />
+                  <Label fx:id="descriptionOfWeights" layoutX="428.0" layoutY="90.0" prefHeight="36.0" prefWidth="126.0" text="The sum of all weights must add up to 1" wrapText="true" />
+                  <Button fx:id="equalsWeightsButton" layoutX="428.0" layoutY="137.0" mnemonicParsing="false" onAction="#setEqualsWeightsButtonClick" text="Equal weights" />
+                  <Button fx:id="resetWeightsButton" layoutX="428.0" layoutY="173.0" mnemonicParsing="false" onAction="#setDefaultWeightsButtonClick" text="Reset weights" />
+                  <Label fx:id="label_actualSum" layoutX="547.0" layoutY="177.0" text="Actual Sum:" />
+                  <Label fx:id="label_SumWeights" layoutX="623.0" layoutY="177.0" />
                     </children>
                 </Pane>
             </children>

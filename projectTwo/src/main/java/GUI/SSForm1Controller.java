@@ -104,6 +104,10 @@ public class SSForm1Controller {
     @FXML
     private Label descriptionOfWeights;
     @FXML
+    private Label label_actualSum;
+    @FXML
+    private Label label_SumWeights;
+    @FXML
     private Button equalsWeightsButton;
     @FXML
     private Button resetWeightsButton;
@@ -170,25 +174,25 @@ public class SSForm1Controller {
         SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory1 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
         doubleFactory1.setAmountToStepBy(0.01);
         SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory2 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory1.setAmountToStepBy(0.01);
+        doubleFactory2.setAmountToStepBy(0.01);
         SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory3 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory1.setAmountToStepBy(0.01);
+        doubleFactory3.setAmountToStepBy(0.01);
         SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory4 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory1.setAmountToStepBy(0.01);
+        doubleFactory4.setAmountToStepBy(0.01);
         SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory5 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory1.setAmountToStepBy(0.01);
+        doubleFactory5.setAmountToStepBy(0.01);
         SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory6 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory1.setAmountToStepBy(0.01);
+        doubleFactory6.setAmountToStepBy(0.01);
         SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory7 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory1.setAmountToStepBy(0.01);
+        doubleFactory7.setAmountToStepBy(0.01);
         SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory8 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory1.setAmountToStepBy(0.01);
+        doubleFactory8.setAmountToStepBy(0.01);
         SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory9 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory1.setAmountToStepBy(0.01);
+        doubleFactory9.setAmountToStepBy(0.01);
         SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory10 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory1.setAmountToStepBy(0.01);
+        doubleFactory10.setAmountToStepBy(0.01);
         SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory11 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory1.setAmountToStepBy(0.01);
+        doubleFactory11.setAmountToStepBy(0.01);
 
         T_1Spinner.setValueFactory(doubleFactory1);
         T_2Spinner.setValueFactory(doubleFactory2);
@@ -203,6 +207,20 @@ public class SSForm1Controller {
         T_11Spinner.setValueFactory(doubleFactory11);
         setDefaultWeights();
 
+        // Add listeners to weights spinners
+        addSpinnerListener(T_1Spinner);
+        addSpinnerListener(T_2Spinner);
+        addSpinnerListener(T_3Spinner);
+        addSpinnerListener(T_4Spinner);
+        addSpinnerListener(T_5Spinner);
+        addSpinnerListener(T_6Spinner);
+        addSpinnerListener(T_7Spinner);
+        addSpinnerListener(T_8Spinner);
+        addSpinnerListener(T_9Spinner);
+        addSpinnerListener(T_10Spinner);
+        addSpinnerListener(T_11Spinner);
+        calculateSumOfWeights();
+
 
         // Init linguisticVariables' names
         linguisticVariables = new ArrayList<>(Arrays.asList("Bedroom to room ratio", "Median house age", "Mean household type",
@@ -214,6 +232,7 @@ public class SSForm1Controller {
         // Set up ComboBoxes for Quantifier and Conjunction
         chosenQuantifier.getItems().addAll("Absolute", "Relative");
         summarizatorConjunction.getItems().addAll("are", "have", "are in");
+        summarizatorConjunction.setValue(summarizatorConjunction.getItems().getFirst());
 
         // Set up ComboBoxes for Summarizers
         chosenSummarizer_1.getItems().addAll(linguisticVariables);
@@ -661,6 +680,8 @@ public class SSForm1Controller {
         descriptionOfWeights.setVisible(true);
         resetWeightsButton.setVisible(true);
         equalsWeightsButton.setVisible(true);
+        label_actualSum.setVisible(true);
+        label_SumWeights.setVisible(true);
         T_1Spinner.setVisible(true);
         T_2Spinner.setVisible(true);
         T_3Spinner.setVisible(true);
@@ -689,6 +710,8 @@ public class SSForm1Controller {
         descriptionOfWeights.setVisible(false);
         resetWeightsButton.setVisible(false);
         equalsWeightsButton.setVisible(false);
+        label_actualSum.setVisible(false);
+        label_SumWeights.setVisible(false);
         T_1Spinner.setVisible(false);
         T_2Spinner.setVisible(false);
         T_3Spinner.setVisible(false);
@@ -753,6 +776,17 @@ public class SSForm1Controller {
 
     public boolean isAlmostOne(double number, double margin) {
         return Math.abs(1.0 - number) <= margin;
+    }
+
+    private void addSpinnerListener(Spinner<Double> spinner) {
+        spinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+            calculateSumOfWeights();
+        });
+    }
+
+    private void calculateSumOfWeights() {
+        double sum = T_1Spinner.getValue() + T_2Spinner.getValue() + T_3Spinner.getValue() + T_4Spinner.getValue() + T_5Spinner.getValue() + T_6Spinner.getValue() + T_7Spinner.getValue() + T_8Spinner.getValue() + T_9Spinner.getValue() + T_10Spinner.getValue() + T_11Spinner.getValue();
+        label_SumWeights.setText(String.format("%.2f", sum));
     }
 
 }
