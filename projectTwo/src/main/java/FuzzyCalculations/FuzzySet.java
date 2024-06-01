@@ -4,6 +4,7 @@ import Database.BlockGroup;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FuzzySet {
     private SumQuaLabel membershipFunction;
@@ -89,6 +90,14 @@ public class FuzzySet {
             accumulator+= member.getMembership();
         }
         return accumulator;
+    }
+
+    public FuzzySet removeOtherThan(String label){
+        Map<Integer,Member> filtered = new HashMap<>();
+        for (Map.Entry<Integer,Member> v: this.elements.entrySet()){
+            if(v.getValue().getElement().getLabel().equals(label)) filtered.put(v.getKey(),v.getValue());
+        }
+        return new FuzzySet(filtered,this.label);
     }
 
     @Override

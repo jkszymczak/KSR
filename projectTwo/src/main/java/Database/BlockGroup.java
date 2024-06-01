@@ -34,7 +34,9 @@ public class BlockGroup {
     public int getIndex() {
         return index;
     }
-
+    public String getLabel(){
+        return this.label;
+    }
 
     @Override
     public String toString() {

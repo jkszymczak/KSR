@@ -5,6 +5,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
+import org.example.Pair;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -59,7 +60,27 @@ public class CSV {
         FileWriter results = new FileWriter(path);
         results.write(sw.toString());
         results.close();
+    }
 
+    public static void save_pairs(String path, List<Pair<String ,Double>> summaries) throws IOException {
+        StringWriter sw = new StringWriter();
+        List<String> headers = new LinkedList<>();
+        headers.add("content");
+        headers.add("T");
+        CSVFormat csvFormat = CSVFormat.DEFAULT.builder().setHeader(headers.toArray(new String[0])).build();
+        CSVPrinter csvPrinter = new CSVPrinter(sw,csvFormat);
+        summaries.forEach(s -> {
+            try {
+                csvPrinter.print(s.first);
+                csvPrinter.print(s.second);
+                csvPrinter.println();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        FileWriter results = new FileWriter(path);
+        results.write(sw.toString());
+        results.close();
 
     }
 
