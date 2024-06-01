@@ -2,10 +2,14 @@ package GUI;
 
 import Builders.ContainerBuilder;
 import Builders.FuzzyQuantifierBuilder;
+import Builders.LinguisticSummaryBuilder;
 import Builders.SummarizerQualifierBuilder;
 import Database.BlockGroup;
 import Database.CSV;
 import FuzzyCalculations.*;
+import LinguisticSummarization.LinguisticSummary;
+import LinguisticSummarization.LinguisticSummaryGenerator;
+import LinguisticSummarization.LinguisticSummaryType;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
@@ -13,13 +17,28 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class SSForm1Controller {
+    private LinguisticSummaryGenerator genForm1;
+    private List<LinguisticSummary> summaries;
+    private List<Double> weights;
+    private Double margin = 0.01;
     private List<String> linguisticVariables;
+    private List<BlockGroup> data;
+    private Container bedroomToRoomRatio;
+    private Container meanHouseholdType;
+    private Container medianHouseAge;
+    private Container medianIncome;
+    private Container population;
+    private Container totalRoomsCount;
+    private Container medianHouseValue;
+    private Container distanceLA;
+    private Container distanceSF;
     @FXML
     private Spinner<Integer> numberSummarizerSpinner;
     @FXML
@@ -54,17 +73,113 @@ public class SSForm1Controller {
     private TextArea textArea;
     @FXML
     private Label status;
+    @FXML
+    private Button saveSummariesButton;
+    @FXML
+    private Button saveSummariesCSVButton;
+    @FXML
+    private Spinner<Double> T_1Spinner;
+    @FXML
+    private Spinner<Double> T_2Spinner;
+    @FXML
+    private Spinner<Double> T_3Spinner;
+    @FXML
+    private Spinner<Double> T_4Spinner;
+    @FXML
+    private Spinner<Double> T_5Spinner;
+    @FXML
+    private Spinner<Double> T_6Spinner;
+    @FXML
+    private Spinner<Double> T_7Spinner;
+    @FXML
+    private Spinner<Double> T_8Spinner;
+    @FXML
+    private Spinner<Double> T_9Spinner;
+    @FXML
+    private Spinner<Double> T_10Spinner;
+    @FXML
+    private Spinner<Double> T_11Spinner;
+    @FXML
+    private Label label_T_1;
+    @FXML
+    private Label label_T_2;
+    @FXML
+    private Label label_T_3;
+    @FXML
+    private Label label_T_4;
+    @FXML
+    private Label label_T_5;
+    @FXML
+    private Label label_T_6;
+    @FXML
+    private Label label_T_7;
+    @FXML
+    private Label label_T_8;
+    @FXML
+    private Label label_T_9;
+    @FXML
+    private Label label_T_10;
+    @FXML
+    private Label label_T_11;
+    @FXML
+    private CheckBox defaultWeightsCheckBox;
+    @FXML
+    private Label descriptionOfWeights;
+    @FXML
+    private Button equalsWeightsButton;
+    @FXML
+    private Button resetWeightsButton;
 
 
     @FXML
     public void initialize() {
         numberSummarizerSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 4, 1));
+        numberSummarizerSpinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+            numberSummarizerConfirmClicked();
+        });
+
+        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory1 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
+        doubleFactory1.setAmountToStepBy(0.01);
+        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory2 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
+        doubleFactory1.setAmountToStepBy(0.01);
+        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory3 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
+        doubleFactory1.setAmountToStepBy(0.01);
+        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory4 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
+        doubleFactory1.setAmountToStepBy(0.01);
+        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory5 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
+        doubleFactory1.setAmountToStepBy(0.01);
+        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory6 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
+        doubleFactory1.setAmountToStepBy(0.01);
+        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory7 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
+        doubleFactory1.setAmountToStepBy(0.01);
+        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory8 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
+        doubleFactory1.setAmountToStepBy(0.01);
+        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory9 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
+        doubleFactory1.setAmountToStepBy(0.01);
+        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory10 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
+        doubleFactory1.setAmountToStepBy(0.01);
+        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory11 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
+        doubleFactory1.setAmountToStepBy(0.01);
+
+        T_1Spinner.setValueFactory(doubleFactory1);
+        T_2Spinner.setValueFactory(doubleFactory2);
+        T_3Spinner.setValueFactory(doubleFactory3);
+        T_4Spinner.setValueFactory(doubleFactory4);
+        T_5Spinner.setValueFactory(doubleFactory5);
+        T_6Spinner.setValueFactory(doubleFactory6);
+        T_7Spinner.setValueFactory(doubleFactory7);
+        T_8Spinner.setValueFactory(doubleFactory8);
+        T_9Spinner.setValueFactory(doubleFactory9);
+        T_10Spinner.setValueFactory(doubleFactory10);
+        T_11Spinner.setValueFactory(doubleFactory11);
+        setDefaultWeights();
+
         String path = "dataBasePrep/prepared.csv";
-        List<BlockGroup> data = CSV.readCSV(path);
+        data = CSV.readCSV(path);
         linguisticVariables = new ArrayList<>(Arrays.asList("Bedroom to room ratio", "Median house age", "Mean household type",
                 "Median income", "Population", "Total rooms count", "Median house value", "Distance LA", "Distance SF"));
 
-        Container bedroomToRoomRatio = ContainerBuilder.builder()
+        bedroomToRoomRatio = ContainerBuilder.builder()
                 .withSummarizerQualifier(createInsufficientShareOfBedrooms(data))
                 .withSummarizerQualifier(createLowBedroomProportion(data))
                 .withSummarizerQualifier(createBalancedRoomDistribution(data))
@@ -72,21 +187,21 @@ public class SSForm1Controller {
                 .withSummarizerQualifier(createExcessiveShareOfBedrooms(data))
                 .build();
 
-        Container meanHouseholdType = ContainerBuilder.builder()
+        meanHouseholdType = ContainerBuilder.builder()
                 .withSummarizerQualifier(createStudioApartmentsDominant(data))
                 .withSummarizerQualifier(createPredominantlySingleSmallFamily(data))
                 .withSummarizerQualifier(createPredominantlySingleBigFamily(data))
                 .withSummarizerQualifier(createMultiFamilyPrevalent(data))
                 .build();
 
-        Container medianHouseAge = ContainerBuilder.builder()
+        medianHouseAge = ContainerBuilder.builder()
                 .withSummarizerQualifier(createNewHouses(data))
                 .withSummarizerQualifier(createMiddleAgedHouses(data))
                 .withSummarizerQualifier(createRecentlyBuiltHouses(data))
                 .withSummarizerQualifier(createAgedHouses(data))
                 .build();
 
-        Container medianIncome = ContainerBuilder.builder()
+        medianIncome = ContainerBuilder.builder()
                 .withSummarizerQualifier(createPoorArea(data))
                 .withSummarizerQualifier(createLowIncomeArea(data))
                 .withSummarizerQualifier(createBelowAverageIncome(data))
@@ -94,7 +209,7 @@ public class SSForm1Controller {
                 .withSummarizerQualifier(createWealthyArea(data))
                 .build();
 
-        Container population = ContainerBuilder.builder()
+        population = ContainerBuilder.builder()
                 .withSummarizerQualifier(createPracticallyUnpopulated(data))
                 .withSummarizerQualifier(createLowPopulation(data))
                 .withSummarizerQualifier(createModeratelyPopulated(data))
@@ -102,7 +217,7 @@ public class SSForm1Controller {
                 .withSummarizerQualifier(createHugePopulation(data))
                 .withSummarizerQualifier(createManToMan(data))
                 .build();
-        Container totalRoomsCount = ContainerBuilder.builder()
+        totalRoomsCount = ContainerBuilder.builder()
                 .withSummarizerQualifier(createFewRooms(data))
                 .withSummarizerQualifier(createSparseRoomDistribution(data))
                 .withSummarizerQualifier(createModerateRoomsCount(data))
@@ -110,7 +225,7 @@ public class SSForm1Controller {
                 .withSummarizerQualifier(createExtremelyHighRoomsCount(data))
                 .build();
 
-        Container medianHouseValue = ContainerBuilder.builder()
+        medianHouseValue = ContainerBuilder.builder()
                 .withSummarizerQualifier(createPracticallyWorthless(data))
                 .withSummarizerQualifier(createLowValueHomes(data))
                 .withSummarizerQualifier(createModeratelyPricedHomes(data))
@@ -118,7 +233,7 @@ public class SSForm1Controller {
                 .withSummarizerQualifier(createHighValueResidentialAreas(data))
                 .withSummarizerQualifier(createLuxuryEstates(data))
                 .build();
-        Container distanceLA = ContainerBuilder.builder()
+        distanceLA = ContainerBuilder.builder()
                 .withSummarizerQualifier(createWithinCityBoundsLA(data))
                 .withSummarizerQualifier(createSuburbanProximityLA(data))
                 .withSummarizerQualifier(createDistantSuburbsLA(data))
@@ -126,7 +241,7 @@ public class SSForm1Controller {
                 .withSummarizerQualifier(createRuralFringeLA(data))
                 .withSummarizerQualifier(createFarFromCityLA(data))
                 .build();
-        Container distanceSF = ContainerBuilder.builder()
+        distanceSF = ContainerBuilder.builder()
                 .withSummarizerQualifier(createWithinCityBoundsSF(data))
                 .withSummarizerQualifier(createSuburbanProximitySF(data))
                 .withSummarizerQualifier(createDistantSuburbsSF(data))
@@ -157,18 +272,196 @@ public class SSForm1Controller {
         chosenSummarizer_4.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             updateSubComboBox(newValue, cb_chosenSummarizerLabel_4);
         });
+
+        setWeightsPanelInvisible();
+        setManySummarizatorInvisible();
+    }
+
+    @FXML
+    public void generateOptimalSummary() {
+        System.out.println("Generate Optimal Summary Clicked");
+        generatePrepare();
+
+        if (checkWeightsCorrectness()) {
+            System.out.println("Weights are correct");
+            summaries = genForm1.generateSummaries();
+            for (LinguisticSummary summary : summaries) {
+                System.out.println(summary);
+                genForm1.calculateQualityMeasures(weights, summary);
+            }
+            LinguisticSummary optimalSummary = genForm1.calculateOptimalSummary(summaries);
+            summaries = Collections.singletonList(optimalSummary);
+
+            System.out.println("Optimal summary: " + optimalSummary);
+            String text = textArea.getText();
+            text += optimalSummary.toString() + "\n";
+            textArea.setText(text);
+
+            saveSummariesButton.setDisable(false);
+            saveSummariesCSVButton.setDisable(false);
+        } else {
+            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
+            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
+        }
+    }
+
+    @FXML
+    public void generateBestSummaries() {
+        System.out.println("Generate Best Summary Clicked");
+        generatePrepare();
+
+        if (checkWeightsCorrectness()) {
+            System.out.println("Weights are correct");
+            summaries = Collections.singletonList(genForm1.generateBest());
+            generateAfter();
+        } else {
+            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
+            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
+        }
+    }
+
+    @FXML
+    public void generateAllSummaries() {
+        System.out.println("Generate All Summaries Clicked");
+        generatePrepare();
+
+        if (checkWeightsCorrectness()) {
+            System.out.println("Weights are correct");
+            summaries = genForm1.generateSummaries();
+            generateAfter();
+        } else {
+            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
+            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
+        }
+    }
+
+    public void generateAfter() {
+        for (LinguisticSummary summary : summaries) {
+            System.out.println(summary);
+            String text = textArea.getText();
+            text += summary.toString() + "\n";
+            textArea.setText(text);
+            genForm1.calculateQualityMeasures(weights, summary);
+        }
+        saveSummariesButton.setDisable(false);
+        saveSummariesCSVButton.setDisable(false);
+    }
+
+    public void generatePrepare() {
+        textArea.clear();
+        String quantifierStr = chosenQuantifier.getValue();
+        String summarizatorConj = summarizatorConjunction.getValue();
+
+        weights = new ArrayList<>(Arrays.asList(T_1Spinner.getValue(), T_2Spinner.getValue(),
+                T_3Spinner.getValue(), T_4Spinner.getValue(), T_5Spinner.getValue(), T_6Spinner.getValue(),
+                T_7Spinner.getValue(), T_8Spinner.getValue(), T_9Spinner.getValue(), T_10Spinner.getValue(),
+                T_11Spinner.getValue()));
+
+        List<String> summarizatorLabels = new ArrayList<>();
+        List<String> linguisticVariables = new ArrayList<>();
+        switch (numberSummarizerSpinner.getValue()) {
+            case 1:
+                summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
+                linguisticVariables.add(chosenSummarizer_1.getValue());
+                break;
+            case 2:
+                summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
+                summarizatorLabels.add(cb_chosenSummarizerLabel_2.getValue());
+                linguisticVariables.add(chosenSummarizer_1.getValue());
+                linguisticVariables.add(chosenSummarizer_2.getValue());
+                break;
+            case 3:
+                summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
+                summarizatorLabels.add(cb_chosenSummarizerLabel_2.getValue());
+                summarizatorLabels.add(cb_chosenSummarizerLabel_3.getValue());
+                linguisticVariables.add(chosenSummarizer_1.getValue());
+                linguisticVariables.add(chosenSummarizer_2.getValue());
+                linguisticVariables.add(chosenSummarizer_3.getValue());
+                break;
+            case 4:
+                summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
+                summarizatorLabels.add(cb_chosenSummarizerLabel_2.getValue());
+                summarizatorLabels.add(cb_chosenSummarizerLabel_3.getValue());
+                summarizatorLabels.add(cb_chosenSummarizerLabel_4.getValue());
+                linguisticVariables.add(chosenSummarizer_1.getValue());
+                linguisticVariables.add(chosenSummarizer_2.getValue());
+                linguisticVariables.add(chosenSummarizer_3.getValue());
+                linguisticVariables.add(chosenSummarizer_4.getValue());
+                break;
+            default:
+                break;
+        }
+
+
+        SummarizerQualifier summarizator = connectSummarizerQualifier(linguisticVariables.getFirst(), summarizatorLabels.getFirst());
+        for (int i = 1; i < summarizatorLabels.size(); i++) {
+            summarizator = summarizator.and(connectSummarizerQualifier(linguisticVariables.get(i), summarizatorLabels.get(i)));
+        }
+
+        FuzzyQuantifier quantifier = connectQuantifier(quantifierStr);
+
+        genForm1 = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.First)
+                .onSet(data).withSummarizator(summarizator)
+                .withQuantifier(quantifier)
+                .withSubject("Block Groups")
+                .withSummarizatorConjunction(summarizatorConj)
+                .build();
+    }
+
+    private SummarizerQualifier connectSummarizerQualifier(String linguisticVariable, String linguisticVariableLabel) {
+        return switch (linguisticVariable) {
+            case "Bedroom to room ratio" -> bedroomToRoomRatio.getLabel(linguisticVariableLabel);
+            case "Median house age" -> medianHouseAge.getLabel(linguisticVariableLabel);
+            case "Mean household type" -> meanHouseholdType.getLabel(linguisticVariableLabel);
+            case "Median income" -> medianIncome.getLabel(linguisticVariableLabel);
+            case "Population" -> population.getLabel(linguisticVariableLabel);
+            case "Total rooms count" -> totalRoomsCount.getLabel(linguisticVariableLabel);
+            case "Median house value" -> medianHouseValue.getLabel(linguisticVariableLabel);
+            case "Distance LA" -> distanceLA.getLabel(linguisticVariableLabel);
+            case "Distance SF" -> distanceSF.getLabel(linguisticVariableLabel);
+            default -> null;
+        };
+    }
+
+    private FuzzyQuantifier connectQuantifier(String quantifier) {
+        return switch (quantifier) {
+            case "Absolute" -> createAbsolute(data);
+            case "Relative" -> createRelative();
+            default -> null;
+        };
     }
 
     private void updateSubComboBox(String mainItem, ComboBox<String> comboBox) {
-        // TODO: make rest of labels but not hardcode them
         if (mainItem != null) {
             comboBox.getItems().clear();
             switch (mainItem) {
-                case "Median house age":
-                    comboBox.getItems().addAll("recently built", "new", "median age", "aged");
-                    break;
                 case "Bedroom to room ratio":
-                    comboBox.getItems().addAll("insufficient share of bedrooms", "balanced room distribution", "excessive share of bedrooms");
+                    comboBox.getItems().addAll(bedroomToRoomRatio.getLabels().keySet());
+                    break;
+                case "Median house age":
+                    comboBox.getItems().addAll(medianHouseAge.getLabels().keySet());
+                    break;
+                case "Mean household type":
+                    comboBox.getItems().addAll(meanHouseholdType.getLabels().keySet());
+                    break;
+                case "Median income":
+                    comboBox.getItems().addAll(medianIncome.getLabels().keySet());
+                    break;
+                case "Population":
+                    comboBox.getItems().addAll(population.getLabels().keySet());
+                    break;
+                case "Total rooms count":
+                    comboBox.getItems().addAll(totalRoomsCount.getLabels().keySet());
+                    break;
+                case "Median house value":
+                    comboBox.getItems().addAll(medianHouseValue.getLabels().keySet());
+                    break;
+                case "Distance LA":
+                    comboBox.getItems().addAll(distanceLA.getLabels().keySet());
+                    break;
+                case "Distance SF":
+                    comboBox.getItems().addAll(distanceSF.getLabels().keySet());
                     break;
                 default:
                     break;
@@ -177,7 +470,120 @@ public class SSForm1Controller {
     }
 
     @FXML
-    public void saveSummaryButtonClick() {
+    public void onCheckBoxChangeState() {
+        if (!defaultWeightsCheckBox.isSelected()) {
+            setWeightsPanelInvisible();
+        } else {
+            setWeightsPanelVisible();
+        }
+    }
+
+    public void setWeightsPanelVisible() {
+        descriptionOfWeights.setVisible(true);
+        resetWeightsButton.setVisible(true);
+        equalsWeightsButton.setVisible(true);
+        T_1Spinner.setVisible(true);
+        T_2Spinner.setVisible(true);
+        T_3Spinner.setVisible(true);
+        T_4Spinner.setVisible(true);
+        T_5Spinner.setVisible(true);
+        T_6Spinner.setVisible(true);
+        T_7Spinner.setVisible(true);
+        T_8Spinner.setVisible(true);
+        T_9Spinner.setVisible(true);
+        T_10Spinner.setVisible(true);
+        T_11Spinner.setVisible(true);
+        label_T_1.setVisible(true);
+        label_T_2.setVisible(true);
+        label_T_3.setVisible(true);
+        label_T_4.setVisible(true);
+        label_T_5.setVisible(true);
+        label_T_6.setVisible(true);
+        label_T_7.setVisible(true);
+        label_T_8.setVisible(true);
+        label_T_9.setVisible(true);
+        label_T_10.setVisible(true);
+        label_T_11.setVisible(true);
+    }
+
+    public void setWeightsPanelInvisible() {
+        descriptionOfWeights.setVisible(false);
+        resetWeightsButton.setVisible(false);
+        equalsWeightsButton.setVisible(false);
+        T_1Spinner.setVisible(false);
+        T_2Spinner.setVisible(false);
+        T_3Spinner.setVisible(false);
+        T_4Spinner.setVisible(false);
+        T_5Spinner.setVisible(false);
+        T_6Spinner.setVisible(false);
+        T_7Spinner.setVisible(false);
+        T_8Spinner.setVisible(false);
+        T_9Spinner.setVisible(false);
+        T_10Spinner.setVisible(false);
+        T_11Spinner.setVisible(false);
+        label_T_1.setVisible(false);
+        label_T_2.setVisible(false);
+        label_T_3.setVisible(false);
+        label_T_4.setVisible(false);
+        label_T_5.setVisible(false);
+        label_T_6.setVisible(false);
+        label_T_7.setVisible(false);
+        label_T_8.setVisible(false);
+        label_T_9.setVisible(false);
+        label_T_10.setVisible(false);
+        label_T_11.setVisible(false);
+    }
+
+    @FXML
+    public void setEqualsWeightsButtonClick() {
+        setEqualsWeights();
+    }
+
+    public void setEqualsWeights() {
+        T_1Spinner.getValueFactory().setValue(1.0 / 11.0);
+        T_2Spinner.getValueFactory().setValue(1.0 / 11.0);
+        T_3Spinner.getValueFactory().setValue(1.0 / 11.0);
+        T_4Spinner.getValueFactory().setValue(1.0 / 11.0);
+        T_5Spinner.getValueFactory().setValue(1.0 / 11.0);
+        T_6Spinner.getValueFactory().setValue(1.0 / 11.0);
+        T_7Spinner.getValueFactory().setValue(1.0 / 11.0);
+        T_8Spinner.getValueFactory().setValue(1.0 / 11.0);
+        T_9Spinner.getValueFactory().setValue(1.0 / 11.0);
+        T_10Spinner.getValueFactory().setValue(1.0 / 11.0);
+        T_11Spinner.getValueFactory().setValue(1.0 / 11.0);
+    }
+
+    @FXML
+    public void setDefaultWeightsButtonClick() {
+        setDefaultWeights();
+    }
+
+    public void setDefaultWeights() {
+        T_1Spinner.getValueFactory().setValue(0.3);
+        T_2Spinner.getValueFactory().setValue(0.07);
+        T_3Spinner.getValueFactory().setValue(0.07);
+        T_4Spinner.getValueFactory().setValue(0.07);
+        T_5Spinner.getValueFactory().setValue(0.07);
+        T_6Spinner.getValueFactory().setValue(0.07);
+        T_7Spinner.getValueFactory().setValue(0.07);
+        T_8Spinner.getValueFactory().setValue(0.07);
+        T_9Spinner.getValueFactory().setValue(0.07);
+        T_10Spinner.getValueFactory().setValue(0.07);
+        T_11Spinner.getValueFactory().setValue(0.07);
+    }
+
+    public boolean checkWeightsCorrectness() {
+        double sum = T_1Spinner.getValue() + T_2Spinner.getValue() + T_3Spinner.getValue() + T_4Spinner.getValue() + T_5Spinner.getValue() + T_6Spinner.getValue() + T_7Spinner.getValue() + T_8Spinner.getValue() + T_9Spinner.getValue() + T_10Spinner.getValue() + T_11Spinner.getValue();
+        System.out.println("Sum of weights = " + sum);
+        return isAlmostOne(sum, margin);
+    }
+
+    public boolean isAlmostOne(double number, double margin) {
+        return Math.abs(1.0 - number) <= margin;
+    }
+
+    @FXML
+    public void saveSummariesButtonClick() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select a file to save the results");
         File file = fileChooser.showSaveDialog(null);
@@ -191,6 +597,32 @@ public class SSForm1Controller {
                     status.setText("Saved. The file already exists: " + file.getAbsolutePath());
                 }
                 // Here, place the code that saves the results to the selected file
+                String content = textArea.getText();
+                Files.writeString(file.toPath(), content);
+            } catch (IOException e) {
+                System.out.println("An error occurred while creating the file: " + e.getMessage());
+                status.setText("An error occurred while creating the file: " + e.getMessage());
+            }
+        }
+    }
+
+    @FXML
+    public void saveSummariesCSVButtonClick() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select a file to save the results");
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                if (file.createNewFile()) {
+                    System.out.println("Saved. The file has been created: " + file.getAbsolutePath());
+                    status.setText("Saved. The file has been created: " + file.getAbsolutePath());
+                } else {
+                    System.out.println("Saved. The file already exists: " + file.getAbsolutePath());
+                    status.setText("Saved. The file already exists: " + file.getAbsolutePath());
+                }
+                // Here, place the code that saves the results to the selected file
+                CSV.saveSummariesCSV(String.valueOf(file.toPath()), summaries);
+
             } catch (IOException e) {
                 System.out.println("An error occurred while creating the file: " + e.getMessage());
                 status.setText("An error occurred while creating the file: " + e.getMessage());
@@ -205,15 +637,7 @@ public class SSForm1Controller {
         switch (spinnerValue) {
             case 1:
                 System.out.println("1");
-                chosenSummarizer_2.setVisible(false);
-                chosenSummarizer_3.setVisible(false);
-                chosenSummarizer_4.setVisible(false);
-                chosenSummarizerLabel_2.setVisible(false);
-                chosenSummarizerLabel_3.setVisible(false);
-                chosenSummarizerLabel_4.setVisible(false);
-                cb_chosenSummarizerLabel_2.setVisible(false);
-                cb_chosenSummarizerLabel_3.setVisible(false);
-                cb_chosenSummarizerLabel_4.setVisible(false);
+                setManySummarizatorInvisible();
                 break;
             case 2:
                 System.out.println("2");
@@ -257,6 +681,17 @@ public class SSForm1Controller {
         }
     }
 
+    public void setManySummarizatorInvisible() {
+        chosenSummarizer_2.setVisible(false);
+        chosenSummarizer_3.setVisible(false);
+        chosenSummarizer_4.setVisible(false);
+        chosenSummarizerLabel_2.setVisible(false);
+        chosenSummarizerLabel_3.setVisible(false);
+        chosenSummarizerLabel_4.setVisible(false);
+        cb_chosenSummarizerLabel_2.setVisible(false);
+        cb_chosenSummarizerLabel_3.setVisible(false);
+        cb_chosenSummarizerLabel_4.setVisible(false);
+    }
 
     static FuzzyQuantifier createAbsolute(List<BlockGroup> data) {
         return FuzzyQuantifierBuilder.builder()

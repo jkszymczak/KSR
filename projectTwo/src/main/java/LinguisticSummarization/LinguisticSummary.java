@@ -74,13 +74,14 @@ public class LinguisticSummary {
 
     @Override
     public String toString() {
-        return "( " + label + " , " + degreeOfTruth + " )";
+        return label + ". [ " + degreeOfTruth + " ]";
     }
+
     public String toStringFull() {
         return "LinguisticSummary{" +
                 "label='" + label + '\'' +
                 ", degree of truth= " + degreeOfTruth +
-                ", Quality measures= "+ this.qualityMeasures.toString() +
+                ", Quality measures= " + this.qualityMeasures.toString() +
                 ", summarizer=" + summarizer +
                 ", qualifier=" + qualifier +
                 ", quantifierLabel=" + quantifierLabel +
