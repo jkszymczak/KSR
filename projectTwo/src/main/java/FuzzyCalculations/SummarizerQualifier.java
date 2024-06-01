@@ -22,6 +22,9 @@ public class SummarizerQualifier {
         this.elementalParts.add(this);
     }
 
+    public SummarizerQualifier filterSummarizer(String label){
+        return new SummarizerQualifier(this.fuzzySet.removeOtherThan(label));
+    }
 
     public SummarizerQualifier and(SummarizerQualifier sum2){
         FuzzySet first = this.fuzzySet;
