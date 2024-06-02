@@ -12,6 +12,7 @@ import LinguisticSummarization.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -589,181 +590,61 @@ public class App {
                 .withSummarizerQualifier(createFarFromCitySF(data))
                 .build();
 
-        LinguisticSummaryGenerator genForm1 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.First)
-                .onSet(data).withSummarizator(medianIncome.getLabel("wealthy area"))
-                .withQuantifier(createRelative())
-                .withSubject("Block Groups")
-                .withSummarizatorConjunction("are in")
-                .build();
-        LinguisticSummaryGenerator gen2Form1 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.First)
-                .onSet(data).withSummarizator(meanHouseholdType.getLabel("predominantly single small family"))
-                .withQuantifier(createAbsolute(data))
-                .withSubject("houses in Block Groups")
-                .withSummarizatorConjunction("are")
-                .build();
-
-        LinguisticSummaryGenerator gen3Form1 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.First)
-                .onSet(data).withSummarizator(medianHouseAge.getLabel("recently built"))
-                .withQuantifier(createAbsolute(data))
-                .withSubject("houses in Block Groups")
-                .withSummarizatorConjunction("are")
-                .build();
-
-        LinguisticSummaryGenerator gen4Form1 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.First)
-                .onSet(data)
-                .withQuantifier(createAbsolute(data))
-                .withSubject("Block Groups")
-                .withSummarizatorConjunction("have")
-                .withSummarizator(bedroomToRoomRatio.getLabel("excessive share of bedrooms"))
-                .build();
-
-        LinguisticSummaryGenerator gen5Form1 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.First)
-                .onSet(data)
-                .withQuantifier(createAbsolute(data))
-                .withSubject("Block Groups")
-                .withSummarizatorConjunction("have")
-                .withSummarizator(population.getLabel("huge population"))
-                .build();
 
 
-        LinguisticSummaryGenerator gen1Form2 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.Second)
-                .withSummarizator(distanceSF.getLabel("nearby city(SF)"))
-                .withQualifier(medianHouseValue.getLabel("practically worthless"))
-                .withQuantifier(createRelative())
-                .withSubject("Block Groups")
-                .withSummarizatorConjunction("are")
-                .withQualifierConjunction("that are")
-                .build();
+        // s1 = aged
+        // s2 = single big family
+        // s3 = worthless
 
-        LinguisticSummaryGenerator gen2Form2 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.Second)
-                .withQuantifier(createRelative())
-                .withSubject("Block Groups")
-                .withQualifierConjunction("that are")
-                .withQualifier(population.getLabel("practically unpopulated"))
-                .withSummarizatorConjunction("are")
-                .withSummarizator(distanceLA.getLabel("within city bounds(LA)"))
-                .build();
-        LinguisticSummaryGenerator gen3Form2 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.Second)
-                .withQuantifier(createRelative())
-                .withSubject("Block Groups")
-                .withQualifierConjunction("where")
-                .withQualifier(meanHouseholdType.getLabel("studio apartments dominant"))
-                .withSummarizatorConjunction("are")
-                .withSummarizator(medianHouseValue.getLabel("practically worthless"))
-                .build();
-
-        LinguisticSummaryGenerator gen4Form2 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.Second)
-                .withQuantifier(createRelative())
-                .withSubject("houses in Block Groups")
-                .withQualifierConjunction("that are")
-                .withQualifier(medianHouseAge.getLabel("new"))
-                .withSummarizatorConjunction("have")
-                .withSummarizator(bedroomToRoomRatio.getLabel("balanced room distribution"))
-                .build();
-
-        LinguisticSummaryGenerator gen5Form2 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.Second)
-                .withQuantifier(createRelative())
-                .withSubject("Block Groups")
-                .withQualifierConjunction("that are in")
-                .withQualifier(medianIncome.getLabel("poor area"))
-                .withSummarizatorConjunction("have")
-                .withSummarizator(bedroomToRoomRatio.getLabel("insufficient share of bedrooms"))
-                .build();
-
-        LinguisticSummaryGenerator genForm1complex = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.First)
-                .onSet(data)
-                .withQuantifier(createAbsolute(data))
-                .withSubject("Block Groups")
-                .withSummarizatorConjunction("are in")
-                .withSummarizator(medianIncome.getLabel("wealthy area").and(distanceLA.getLabel("far from city(LA)")))
-                .build();
-
-        LinguisticSummaryGenerator genForm2complex = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.Second)
-                .withQuantifier(createRelative())
-                .withSubject("Block Groups")
-                .withQualifierConjunction("that are in")
-                .withQualifier(medianIncome.getLabel("poor area").and(bedroomToRoomRatio.getLabel("insufficient share of bedrooms")))
-                .withSummarizatorConjunction("are")
-                .withSummarizator(medianHouseValue.getLabel("practically worthless"))
-                .build();
-
-        LinguisticSummaryGenerator gen2Form2complex = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.Second)
-                .withQuantifier(createRelative())
-                .withSubject("Block Groups")
-                .withQualifierConjunction("that are")
-                .withQualifier(population.getLabel("practically unpopulated"))
-                .withSummarizatorConjunction("are")
-                .withSummarizator(distanceLA.getLabel("within city bounds(LA)").and(medianHouseValue.getLabel("luxury estates")))
-                .build();
+        SummarizerQualifier s1 = medianHouseAge.getLabel("aged");
+        SummarizerQualifier s2 = meanHouseholdType.getLabel("predominantly single big family");
+        SummarizerQualifier s3 = medianHouseValue.getLabel("practically worthless");
 
 
-        LinguisticSummaryGenerator gen4Form2complex = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.Second)
-                .withQuantifier(createRelative())
-                .withSubject("houses in Block Groups")
-                .withQualifierConjunction("that are")
-                .withQualifier(medianHouseAge.getLabel("new").and(meanHouseholdType.getLabel("multi family prevalent")))
-                .withSummarizatorConjunction("have")
-                .withSummarizator(bedroomToRoomRatio.getLabel("balanced room distribution").and(medianHouseValue.getLabel("moderately priced homes")))
-                .build();
 
+        Subject p2 = Subject.SUB_HOUR_OCEAN;
+        Subject p1 = Subject.INLAND;
+//        System.out.println("size after and: "+s1.filterSummarizer(p2.label).and(s2.filterSummarizer(p2.label)).getElements().size());
 
-        LinguisticSummaryGenerator genForm2_1 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.Second)
-                .withQuantifier(createRelative())
-                .withSubject("Block Groups")
-                .withQualifierConjunction("that are")
-                .withQualifier(medianHouseAge.getLabel("aged").and(medianHouseValue.getLabel("practically worthless")))
-                .withSummarizatorConjunction("have")
-                .withSummarizator(meanHouseholdType.getLabel("predominantly single big family"))
-                .build();
+//        SummarizerQualifier scenarios[][] = {
+//                {s1,s2,s3,s2.and(s3)},
+//                {s2,s1,s3,s1.and(s3)},
+//                {s3,s1,s2,s1.and(s2)},
+//                {s1.and(s2),s3},
+//                {s1.and(s3),s2},
+//                {s2.and(s3),s1}
+//
+//        };
+//        List<Pair<String,Double>> summaries = new LinkedList<>();
+//        for (SummarizerQualifier scenario[]:scenarios){
+//            TwoSubjectSummaryThird case1 = new TwoSubjectSummaryThird(p1,p2,
+//                    createRelative(),scenario[0],scenario[1],
+//                    data, "are","which are");
+//            summaries.add(case1.generateBest());
+//            if(scenario.length>2){
+//            TwoSubjectSummaryThird case2 = new TwoSubjectSummaryThird(p1,p2,
+//                    createRelative(),scenario[0],scenario[2],
+//                    data, "are","which are");
+//            summaries.add(case2.generateBest());
+//
+//                TwoSubjectSummaryThird case3 = new TwoSubjectSummaryThird(p1,p2,
+//                        createRelative(),scenario[0],scenario[3],
+//                        data, "are","which are");
+//                summaries.add(case3.generateBest());
+//            }
+//        }
+//        System.out.println(summaries.toString());
+//        CSV.save_pairs("outputs/MultiSubjects/Form3/p1.csv",summaries);
 
-        LinguisticSummaryGenerator genForm2_2 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.Second)
-                .withQuantifier(createRelative())
-                .withSubject("Block Groups")
-                .withQualifierConjunction("that have")
-                .withQualifier(meanHouseholdType.getLabel("predominantly single big family").and(medianHouseValue.getLabel("practically worthless")))
-                .withSummarizatorConjunction("are")
-                .withSummarizator(medianHouseAge.getLabel("aged"))
-                .build();
+        List<Pair<String,Double>> summaries = new LinkedList<>();
 
-        LinguisticSummaryGenerator genForm2_3 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.Second)
-                .withQuantifier(createRelative())
-                .withSubject("Block Groups")
-                .withQualifierConjunction("that are")
-                .withQualifier(medianHouseValue.getLabel("practically worthless"))
-                .withSummarizatorConjunction("are")
-                .withSummarizator(medianHouseAge.getLabel("aged").and(meanHouseholdType.getLabel("predominantly single big family")))
-                .build();
-
-
-        TwoSubjectSummaryFirst twoSubjectSummaryFirst = new TwoSubjectSummaryFirst(Subject.SUB_HOUR_OCEAN, Subject.INLAND, createRelative(), medianHouseAge.getLabel("aged").and(meanHouseholdType.getLabel("predominantly single big family")), data, "are");
-        List<Pair<String, Double>> summaries = twoSubjectSummaryFirst.generateSummaries();
-        System.out.println(summaries.toString());
-
-//        TwoSubjectSummaryForth tester2 = new TwoSubjectSummaryForth(Subject.INLAND,Subject.NEAR_BAY,population.getLabel("practically unpopulated").and(medianHouseValue.getLabel("practically worthless")),data);
-//        System.out.println(tester2.generateSummaries().toString());
-//        TwoSubjectSummarySecond tester3 = new TwoSubjectSummarySecond(Subject.NEAR_BAY,Subject.NEAR_OCEAN,createRelative(),population.getLabel("practically unpopulated"),medianHouseValue.getLabel("practically worthless"),data);
-//        System.out.println(tester3.generateSummaries().toString());
-//        TwoSubjectSummaryThird tester4 = new TwoSubjectSummaryThird(Subject.NEAR_BAY,Subject.NEAR_OCEAN,createRelative(),population.getLabel("practically unpopulated"),medianHouseValue.getLabel("practically worthless"),data);
-//        System.out.println(tester4.generateSummaries().toString());
-
-        CSV.save_pairs("outputs/MultiSubjects/Form1/P1-P2__S1_S2.csv", summaries);
+        SummarizerQualifier scenarios[] = {s1,s2,s3,s1.and(s2),s1.and(s3),s2.and(s3),s1.and(s2).and(s3)};
+        for (SummarizerQualifier scenario:scenarios){
+            TwoSubjectSummaryForth case1 = new TwoSubjectSummaryForth(p1,p2,scenario,data,"are");
+            summaries.add(case1.generateSummaries().getLast());
+        }
+//        System.out.println(summaries);
+        CSV.save_pairs("outputs/MultiSubjects/Form4/p2.csv",summaries);
 
     }
 }
