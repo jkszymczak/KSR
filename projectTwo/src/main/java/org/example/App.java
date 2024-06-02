@@ -38,7 +38,7 @@ public class App {
         return FuzzyQuantifierBuilder.builder()
                 .onRange(0, 1)
                 .withType(QuantifierType.relative)
-                .createLabel().withLabel("almost_none").createMembershipFunction().createTrapezoidal(0, 0, 0.05, 0.2).build().build()
+                .createLabel().withLabel("almost none").createMembershipFunction().createTrapezoidal(0, 0, 0.05, 0.2).build().build()
                 .createLabel().withLabel("around 20 %").createMembershipFunction().createGaussian(0.2, 0.05).build().build()
                 .createLabel().withLabel("nearly 1/3").createMembershipFunction().createTrapezoidal(0.25, 0.3, 0.36, 0.45).build().build()
                 .createLabel().withLabel("approximately half").createMembershipFunction().createTrapezoidal(0.35, 0.45, 0.55, 0.65).build().build()
