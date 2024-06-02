@@ -1,18 +1,17 @@
 package GUI;
 
 import Builders.ContainerBuilder;
-import Builders.FuzzyQuantifierBuilder;
 import Builders.LinguisticSummaryBuilder;
-import Builders.SummarizerQualifierBuilder;
 import Database.BlockGroup;
 import Database.CSV;
-import FuzzyCalculations.*;
+import FuzzyCalculations.Container;
+import FuzzyCalculations.FuzzyQuantifier;
+import FuzzyCalculations.SummarizerQualifier;
 import LinguisticSummarization.LinguisticSummary;
 import LinguisticSummarization.LinguisticSummaryGenerator;
 import LinguisticSummarization.LinguisticSummaryType;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -23,14 +22,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import GUI.LinguisticVariablesFunctions;
-
 import static GUI.LinguisticVariablesFunctions.*;
 
-public class SSForm1Controller {
+public class SSForm2Controller {
     // ================ Code's Variables ================
     // Generator
-    private LinguisticSummaryGenerator genForm1;
+    private LinguisticSummaryGenerator genForm2;
     private List<LinguisticSummary> summaries;
 
     // Variable for weights
@@ -60,6 +57,35 @@ public class SSForm1Controller {
     private ComboBox<String> chosenQuantifier;
     @FXML
     private ComboBox<String> summarizatorConjunction;
+    @FXML
+    private ComboBox<String> qualifierConjunction;
+
+
+    // Qualifier
+    @FXML
+    private Spinner<Integer> numberQualifierSpinner;
+    @FXML
+    private ComboBox<String> chosenQualifier_1;
+    @FXML
+    private ComboBox<String> chosenQualifier_2;
+    @FXML
+    private ComboBox<String> chosenQualifier_3;
+    @FXML
+    private ComboBox<String> chosenQualifier_4;
+    @FXML
+    private ComboBox<String> cb_chosenQualifierLabel_1;
+    @FXML
+    private ComboBox<String> cb_chosenQualifierLabel_2;
+    @FXML
+    private ComboBox<String> cb_chosenQualifierLabel_3;
+    @FXML
+    private ComboBox<String> cb_chosenQualifierLabel_4;
+    @FXML
+    private Label chosenQualifierLabel_2;
+    @FXML
+    private Label chosenQualifierLabel_3;
+    @FXML
+    private Label chosenQualifierLabel_4;
 
     // Summarizator
     @FXML
@@ -165,6 +191,12 @@ public class SSForm1Controller {
         // Read data from database
         data = CSV.readCSV(path);
 
+        // Number of Qualifiers Spinner
+        numberQualifierSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 4, 1));
+        numberQualifierSpinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+            numberQualifierConfirm();
+        });
+
         // Number of Summarizers Spinner
         numberSummarizerSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 4, 1));
         numberSummarizerSpinner.valueProperty().addListener((obs, oldValue, newValue) -> {
@@ -231,9 +263,37 @@ public class SSForm1Controller {
         initContainers();
 
         // Set up ComboBoxes for Quantifier and Conjunction
-        chosenQuantifier.getItems().addAll("Absolute", "Relative");
+        chosenQuantifier.getItems().addAll("Relative");
+        chosenQuantifier.setValue(chosenQuantifier.getItems().getFirst());
+
+        qualifierConjunction.getItems().addAll("being", "that are", "that have", "that are in", "where");
+        qualifierConjunction.setValue(qualifierConjunction.getItems().getFirst());
+
         summarizatorConjunction.getItems().addAll("are", "have", "are in");
         summarizatorConjunction.setValue(summarizatorConjunction.getItems().getFirst());
+
+
+        // Set up ComboBoxes for Qualifiers
+        chosenQualifier_1.getItems().addAll(linguisticVariables);
+        chosenQualifier_1.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            updateSubComboBox(newValue, cb_chosenQualifierLabel_1);
+        });
+
+        chosenQualifier_2.getItems().addAll(linguisticVariables);
+        chosenQualifier_2.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            updateSubComboBox(newValue, cb_chosenQualifierLabel_2);
+        });
+
+        chosenQualifier_3.getItems().addAll(linguisticVariables);
+        chosenQualifier_3.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            updateSubComboBox(newValue, cb_chosenQualifierLabel_3);
+        });
+
+        chosenQualifier_4.getItems().addAll(linguisticVariables);
+        chosenQualifier_4.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            updateSubComboBox(newValue, cb_chosenQualifierLabel_4);
+        });
+
 
         // Set up ComboBoxes for Summarizers
         chosenSummarizer_1.getItems().addAll(linguisticVariables);
@@ -258,6 +318,7 @@ public class SSForm1Controller {
 
         // Set items invisible
         setWeightsPanelInvisible();
+        setManyQualifierInvisible();
         setManySummarizatorInvisible();
     }
 
@@ -270,12 +331,12 @@ public class SSForm1Controller {
 
         if (checkWeightsCorrectness()) {
             System.out.println("Weights are correct");
-            summaries = genForm1.generateSummaries();
+            summaries = genForm2.generateSummaries();
             for (LinguisticSummary summary : summaries) {
                 System.out.println(summary);
-                genForm1.calculateQualityMeasures(weights, summary);
+                genForm2.calculateQualityMeasures(weights, summary);
             }
-            LinguisticSummary optimalSummary = genForm1.calculateOptimalSummary(summaries);
+            LinguisticSummary optimalSummary = genForm2.calculateOptimalSummary(summaries);
             summaries = Collections.singletonList(optimalSummary);
 
             System.out.println("Optimal summary: " + optimalSummary);
@@ -298,7 +359,7 @@ public class SSForm1Controller {
 
         if (checkWeightsCorrectness()) {
             System.out.println("Weights are correct");
-            summaries = Collections.singletonList(genForm1.generateBest());
+            summaries = Collections.singletonList(genForm2.generateBest());
             generateAfter();
         } else {
             System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
@@ -313,7 +374,7 @@ public class SSForm1Controller {
 
         if (checkWeightsCorrectness()) {
             System.out.println("Weights are correct");
-            summaries = genForm1.generateSummaries();
+            summaries = genForm2.generateSummaries();
             generateAfter();
         } else {
             System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
@@ -389,6 +450,59 @@ public class SSForm1Controller {
                 System.out.println("An error occurred while creating the file: " + e.getMessage());
                 status.setText("An error occurred while creating the file: " + e.getMessage());
             }
+        }
+    }
+
+
+    // Number of Qualifiers
+    @FXML
+    public void numberQualifierConfirm() {
+        System.out.println("Number of Qualifiers Confirm Clicked");
+        Integer spinnerValue = numberQualifierSpinner.getValue();
+        switch (spinnerValue) {
+            case 1:
+                System.out.println("1");
+                setManyQualifierInvisible();
+                break;
+            case 2:
+                System.out.println("2");
+                chosenQualifier_2.setVisible(true);
+                chosenQualifier_3.setVisible(false);
+                chosenQualifier_4.setVisible(false);
+                chosenQualifierLabel_2.setVisible(true);
+                chosenQualifierLabel_3.setVisible(false);
+                chosenQualifierLabel_4.setVisible(false);
+                cb_chosenQualifierLabel_2.setVisible(true);
+                cb_chosenQualifierLabel_3.setVisible(false);
+                cb_chosenQualifierLabel_4.setVisible(false);
+                break;
+            case 3:
+                System.out.println("3");
+                chosenQualifier_2.setVisible(true);
+                chosenQualifier_3.setVisible(true);
+                chosenQualifier_4.setVisible(false);
+                chosenQualifierLabel_2.setVisible(true);
+                chosenQualifierLabel_3.setVisible(true);
+                chosenQualifierLabel_4.setVisible(false);
+                cb_chosenQualifierLabel_2.setVisible(true);
+                cb_chosenQualifierLabel_3.setVisible(true);
+                cb_chosenQualifierLabel_4.setVisible(false);
+                break;
+            case 4:
+                System.out.println("4");
+                chosenQualifier_2.setVisible(true);
+                chosenQualifier_3.setVisible(true);
+                chosenQualifier_4.setVisible(true);
+                chosenQualifierLabel_2.setVisible(true);
+                chosenQualifierLabel_3.setVisible(true);
+                chosenQualifierLabel_4.setVisible(true);
+                cb_chosenQualifierLabel_2.setVisible(true);
+                cb_chosenQualifierLabel_3.setVisible(true);
+                cb_chosenQualifierLabel_4.setVisible(true);
+                break;
+            default:
+                System.out.println("Error of Spinner Value");
+                break;
         }
     }
 
@@ -572,7 +686,7 @@ public class SSForm1Controller {
             String text = textArea.getText();
             text += summary.toString() + "\n";
             textArea.setText(text);
-            genForm1.calculateQualityMeasures(weights, summary);
+            genForm2.calculateQualityMeasures(weights, summary);
         }
         saveSummariesButton.setDisable(false);
         saveSummariesCSVButton.setDisable(false);
@@ -581,6 +695,7 @@ public class SSForm1Controller {
     public void generatePrepare() {
         textArea.clear();
         String quantifierStr = chosenQuantifier.getValue();
+        String qualifierConj = qualifierConjunction.getValue();
         String summarizatorConj = summarizatorConjunction.getValue();
 
         weights = new ArrayList<>(Arrays.asList(T_1Spinner.getValue(), T_2Spinner.getValue(),
@@ -588,55 +703,99 @@ public class SSForm1Controller {
                 T_7Spinner.getValue(), T_8Spinner.getValue(), T_9Spinner.getValue(), T_10Spinner.getValue(),
                 T_11Spinner.getValue()));
 
+
+        List<String> qualifierLabels = new ArrayList<>();
+        List<String> linguisticVariablesQualifier = new ArrayList<>();
+        switch (numberQualifierSpinner.getValue()) {
+            case 1:
+                qualifierLabels.add(cb_chosenQualifierLabel_1.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_1.getValue());
+                break;
+            case 2:
+                qualifierLabels.add(cb_chosenQualifierLabel_1.getValue());
+                qualifierLabels.add(cb_chosenQualifierLabel_2.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_1.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_2.getValue());
+                break;
+            case 3:
+                qualifierLabels.add(cb_chosenQualifierLabel_1.getValue());
+                qualifierLabels.add(cb_chosenQualifierLabel_2.getValue());
+                qualifierLabels.add(cb_chosenQualifierLabel_3.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_1.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_2.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_3.getValue());
+                break;
+            case 4:
+                qualifierLabels.add(cb_chosenQualifierLabel_1.getValue());
+                qualifierLabels.add(cb_chosenQualifierLabel_2.getValue());
+                qualifierLabels.add(cb_chosenQualifierLabel_3.getValue());
+                qualifierLabels.add(cb_chosenQualifierLabel_4.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_1.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_2.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_3.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_4.getValue());
+                break;
+            default:
+                break;
+        }
+
+        SummarizerQualifier qualifier = connectSummarizerQualifier(linguisticVariablesQualifier.getFirst(), qualifierLabels.getFirst());
+        for (int i = 1; i < qualifierLabels.size(); i++) {
+            qualifier = qualifier.and(connectSummarizerQualifier(linguisticVariablesQualifier.get(i), qualifierLabels.get(i)));
+        }
+
+
         List<String> summarizatorLabels = new ArrayList<>();
-        List<String> linguisticVariables = new ArrayList<>();
+        List<String> linguisticVariablesSummarizator = new ArrayList<>();
         switch (numberSummarizerSpinner.getValue()) {
             case 1:
                 summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
-                linguisticVariables.add(chosenSummarizer_1.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_1.getValue());
                 break;
             case 2:
                 summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
                 summarizatorLabels.add(cb_chosenSummarizerLabel_2.getValue());
-                linguisticVariables.add(chosenSummarizer_1.getValue());
-                linguisticVariables.add(chosenSummarizer_2.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_1.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_2.getValue());
                 break;
             case 3:
                 summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
                 summarizatorLabels.add(cb_chosenSummarizerLabel_2.getValue());
                 summarizatorLabels.add(cb_chosenSummarizerLabel_3.getValue());
-                linguisticVariables.add(chosenSummarizer_1.getValue());
-                linguisticVariables.add(chosenSummarizer_2.getValue());
-                linguisticVariables.add(chosenSummarizer_3.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_1.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_2.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_3.getValue());
                 break;
             case 4:
                 summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
                 summarizatorLabels.add(cb_chosenSummarizerLabel_2.getValue());
                 summarizatorLabels.add(cb_chosenSummarizerLabel_3.getValue());
                 summarizatorLabels.add(cb_chosenSummarizerLabel_4.getValue());
-                linguisticVariables.add(chosenSummarizer_1.getValue());
-                linguisticVariables.add(chosenSummarizer_2.getValue());
-                linguisticVariables.add(chosenSummarizer_3.getValue());
-                linguisticVariables.add(chosenSummarizer_4.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_1.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_2.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_3.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_4.getValue());
                 break;
             default:
                 break;
         }
 
 
-        SummarizerQualifier summarizator = connectSummarizerQualifier(linguisticVariables.getFirst(), summarizatorLabels.getFirst());
+        SummarizerQualifier summarizator = connectSummarizerQualifier(linguisticVariablesSummarizator.getFirst(), summarizatorLabels.getFirst());
         for (int i = 1; i < summarizatorLabels.size(); i++) {
-            summarizator = summarizator.and(connectSummarizerQualifier(linguisticVariables.get(i), summarizatorLabels.get(i)));
+            summarizator = summarizator.and(connectSummarizerQualifier(linguisticVariablesSummarizator.get(i), summarizatorLabels.get(i)));
         }
 
         FuzzyQuantifier quantifier = connectQuantifier(quantifierStr);
 
-        genForm1 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.First)
-                .onSet(data).withSummarizator(summarizator)
+        genForm2 = LinguisticSummaryBuilder.builder()
+                .withLinguisticSummaryType(LinguisticSummaryType.Second)
                 .withQuantifier(quantifier)
                 .withSubject("Block Groups")
+                .withQualifierConjunction(qualifierConj)
+                .withQualifier(qualifier)
                 .withSummarizatorConjunction(summarizatorConj)
+                .withSummarizator(summarizator)
                 .build();
     }
 
@@ -656,15 +815,23 @@ public class SSForm1Controller {
     }
 
     private FuzzyQuantifier connectQuantifier(String quantifier) {
-        return switch (quantifier) {
-            case "Absolute" -> createAbsolute(data);
-            case "Relative" -> createRelative();
-            default -> null;
-        };
+        return quantifier.equals("Relative") ? createRelative() : null;
     }
 
 
     // Visible functions
+    public void setManyQualifierInvisible() {
+        chosenQualifier_2.setVisible(false);
+        chosenQualifier_3.setVisible(false);
+        chosenQualifier_4.setVisible(false);
+        chosenQualifierLabel_2.setVisible(false);
+        chosenQualifierLabel_3.setVisible(false);
+        chosenQualifierLabel_4.setVisible(false);
+        cb_chosenQualifierLabel_2.setVisible(false);
+        cb_chosenQualifierLabel_3.setVisible(false);
+        cb_chosenQualifierLabel_4.setVisible(false);
+    }
+
     public void setManySummarizatorInvisible() {
         chosenSummarizer_2.setVisible(false);
         chosenSummarizer_3.setVisible(false);
