@@ -27,6 +27,11 @@ public class TwoSubjectSummaryFirst extends TwoSubjectSummaryForth{
 //        return 1.0;
     }
 
+    public Pair<String,Double> generateBest(){
+        List<Pair<String,Double>> summaries = generateSummaries();
+        return summaries.stream().max((p1,p2) -> Double.compare(p1.second, p2.second)).get();
+    }
+
     @Override
     public List<Pair<String, Double>> generateSummaries() {
         List<Pair<String, Double>> results = new LinkedList<>();

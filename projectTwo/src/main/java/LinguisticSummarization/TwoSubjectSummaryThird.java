@@ -10,7 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class TwoSubjectSummaryThird extends TwoSubjectSummarySecond {
-    public TwoSubjectSummaryThird(Subject first, Subject second, FuzzyQuantifier quantifier, SummarizerQualifier summarizer, SummarizerQualifier qualifier, List<BlockGroup> all, String summarizerConjunction, String qualifierConjunction) {
+    public TwoSubjectSummaryThird(Subject first, Subject second, FuzzyQuantifier quantifier,
+                                  SummarizerQualifier summarizer, SummarizerQualifier qualifier,
+                                  List<BlockGroup> all, String summarizerConjunction, String qualifierConjunction) {
         super(first, second, quantifier, summarizer, qualifier, all, summarizerConjunction, qualifierConjunction);
     }
 
