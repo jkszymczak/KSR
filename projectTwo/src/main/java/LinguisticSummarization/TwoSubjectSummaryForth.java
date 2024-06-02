@@ -21,39 +21,42 @@ public class TwoSubjectSummaryForth {
     SummarizerQualifier summarizerSecond;
     Double degreeOfTruth;
     String label = "More";
+    String summarizerConjunction;
 
-    public TwoSubjectSummaryForth(Subject first,Subject second,SummarizerQualifier summarizer,List<BlockGroup> all){
-        this.first=first;
-        this.second=second;
+    public TwoSubjectSummaryForth(Subject first, Subject second, SummarizerQualifier summarizer, List<BlockGroup> all, String summarizerConjunction) {
+        this.first = first;
+        this.second = second;
         splitToSubjects(all);
-        System.out.println("Summarizer elements"+summarizer.getElements().size());
+        System.out.println("Summarizer elements" + summarizer.getElements().size());
         this.summarizerFirst = summarizer.filterSummarizer(this.first.label);
-        System.out.println("Summarizer elements"+summarizer.getElements().size());
+        System.out.println("Summarizer elements" + summarizer.getElements().size());
         this.summarizerSecond = summarizer.filterSummarizer(this.second.label);
-        System.out.println("Number of elements in first subject: "+summarizerFirst.getElements().size());
-        System.out.println("Number of elements in second subject: "+summarizerSecond.getElements().size());
+        System.out.println("Number of elements in first subject: " + summarizerFirst.getElements().size());
+        System.out.println("Number of elements in second subject: " + summarizerSecond.getElements().size());
+        this.summarizerConjunction = summarizerConjunction;
         this.degreeOfTruth = calculateDegreeOfTruth();
     }
 
-    private void splitToSubjects(List<BlockGroup> all){
+    private void splitToSubjects(List<BlockGroup> all) {
         this.firstSubject = all.stream().filter(blockGroup -> blockGroup.getLabel().equals(first.label)).toList();
         this.secondSubject = all.stream().filter(blockGroup -> blockGroup.getLabel().equals(second.label)).toList();
     }
-    private Double calculateDegreeOfTruth(){
+
+    private Double calculateDegreeOfTruth() {
 //        this.degreeOfTruth = 0.0;
 
 
-        return 1-raisenbach(summarizerFirst.cardinal()/summarizerFirst.getElements().size(),summarizerSecond.cardinal()/summarizerSecond.getElements().size());
+        return 1 - raisenbach(summarizerFirst.cardinal() / summarizerFirst.getElements().size(), summarizerSecond.cardinal() / summarizerSecond.getElements().size());
     }
 
-    private double raisenbach(Double a,Double b){
-        return 1 - a + a*b;
+    private double raisenbach(Double a, Double b) {
+        return 1 - a + a * b;
     }
 
-    public List<Pair<String,Double>> generateSummaries(){
-        List<Pair<String,Double>> result = new LinkedList<>();
-        String first = this.label+" Block Groups "+this.first.label+" than Block Groups "+this.second.label+" are "+this.summarizerFirst.getLabel();
-        result.add(new Pair<>(first,this.degreeOfTruth));
+    public List<Pair<String, Double>> generateSummaries() {
+        List<Pair<String, Double>> result = new LinkedList<>();
+        String first = this.label + " Block Groups " + this.first.label + " than Block Groups " + this.second.label + " " + this.summarizerConjunction + " " + this.summarizerFirst.getLabel();
+        result.add(new Pair<>(first, this.degreeOfTruth));
         return result;
     }
 }
