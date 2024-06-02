@@ -721,8 +721,6 @@ public class App {
                 .build();
 
 
-
-
         LinguisticSummaryGenerator genForm2_1 = LinguisticSummaryBuilder.builder()
                 .withLinguisticSummaryType(LinguisticSummaryType.Second)
                 .withQuantifier(createRelative())
@@ -754,27 +752,18 @@ public class App {
                 .build();
 
 
-        double weight = 1. / 11.;
-        List<Double> weights = new ArrayList<>(Arrays.asList(weight, weight, weight, weight, weight, weight, weight, weight, weight, weight, weight));
+        TwoSubjectSummaryFirst twoSubjectSummaryFirst = new TwoSubjectSummaryFirst(Subject.SUB_HOUR_OCEAN, Subject.INLAND, createRelative(), medianHouseAge.getLabel("aged").and(meanHouseholdType.getLabel("predominantly single big family")), data, "are");
+        List<Pair<String, Double>> summaries = twoSubjectSummaryFirst.generateSummaries();
+        System.out.println(summaries.toString());
 
-        List<LinguisticSummary> summaries = genForm2_2.generateSummaries();
-        for (LinguisticSummary summary : summaries) {
-            System.out.println(summary);
-            genForm1.calculateQualityMeasures(weights, summary);
-        }
-//        System.out.println("\n\n");
-//        System.out.println(genForm2complex.generateBest());
-//        System.out.println(genForm2complex.calculateOptimalSummary(summaries));
-
-//        TwoSubjectSummaryFirst tester = new TwoSubjectSummaryFirst(Subject.NEAR_BAY,Subject.NEAR_OCEAN,createRelative(),population.getLabel("practically unpopulated"),data);
-//        System.out.println(tester.generateSummaries().toString());
-        TwoSubjectSummaryForth tester2 = new TwoSubjectSummaryForth(Subject.INLAND,Subject.NEAR_BAY,population.getLabel("practically unpopulated").and(medianHouseValue.getLabel("practically worthless")),data);
-        System.out.println(tester2.generateSummaries().toString());
+//        TwoSubjectSummaryForth tester2 = new TwoSubjectSummaryForth(Subject.INLAND,Subject.NEAR_BAY,population.getLabel("practically unpopulated").and(medianHouseValue.getLabel("practically worthless")),data);
+//        System.out.println(tester2.generateSummaries().toString());
 //        TwoSubjectSummarySecond tester3 = new TwoSubjectSummarySecond(Subject.NEAR_BAY,Subject.NEAR_OCEAN,createRelative(),population.getLabel("practically unpopulated"),medianHouseValue.getLabel("practically worthless"),data);
 //        System.out.println(tester3.generateSummaries().toString());
 //        TwoSubjectSummaryThird tester4 = new TwoSubjectSummaryThird(Subject.NEAR_BAY,Subject.NEAR_OCEAN,createRelative(),population.getLabel("practically unpopulated"),medianHouseValue.getLabel("practically worthless"),data);
 //        System.out.println(tester4.generateSummaries().toString());
-//        CSV.save_pairs("testing.csv",tester4.generateSummaries());
-        CSV.saveSummariesCSV("outputs/table3/form2_W2_W3_S1.csv", summaries);
+
+        CSV.save_pairs("outputs/MultiSubjects/Form1/P1-P2__S1_S2.csv", summaries);
+
     }
 }
