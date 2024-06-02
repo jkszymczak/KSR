@@ -8,7 +8,7 @@ import org.example.Pair;
 
 import java.util.LinkedList;
 import java.util.List;
-
+//TODO zmodyfikować 1,2 i 3 forme by wykorzystywały że ich forma jest praktycznie identyczna
 public class TwoSubjectSummaryFirst extends TwoSubjectSummaryForth{
 
     FuzzyQuantifier quantifier;
