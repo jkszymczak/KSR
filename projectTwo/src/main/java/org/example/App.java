@@ -7,9 +7,7 @@ import Builders.SummarizerQualifierBuilder;
 import Database.BlockGroup;
 import Database.CSV;
 import FuzzyCalculations.*;
-import LinguisticSummarization.LinguisticSummary;
-import LinguisticSummarization.LinguisticSummaryGenerator;
-import LinguisticSummarization.LinguisticSummaryType;
+import LinguisticSummarization.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -768,7 +766,15 @@ public class App {
 //        System.out.println(genForm2complex.generateBest());
 //        System.out.println(genForm2complex.calculateOptimalSummary(summaries));
 
-
+//        TwoSubjectSummaryFirst tester = new TwoSubjectSummaryFirst(Subject.NEAR_BAY,Subject.NEAR_OCEAN,createRelative(),population.getLabel("practically unpopulated"),data);
+//        System.out.println(tester.generateSummaries().toString());
+        TwoSubjectSummaryForth tester2 = new TwoSubjectSummaryForth(Subject.INLAND,Subject.NEAR_BAY,population.getLabel("practically unpopulated").and(medianHouseValue.getLabel("practically worthless")),data);
+        System.out.println(tester2.generateSummaries().toString());
+//        TwoSubjectSummarySecond tester3 = new TwoSubjectSummarySecond(Subject.NEAR_BAY,Subject.NEAR_OCEAN,createRelative(),population.getLabel("practically unpopulated"),medianHouseValue.getLabel("practically worthless"),data);
+//        System.out.println(tester3.generateSummaries().toString());
+//        TwoSubjectSummaryThird tester4 = new TwoSubjectSummaryThird(Subject.NEAR_BAY,Subject.NEAR_OCEAN,createRelative(),population.getLabel("practically unpopulated"),medianHouseValue.getLabel("practically worthless"),data);
+//        System.out.println(tester4.generateSummaries().toString());
+//        CSV.save_pairs("testing.csv",tester4.generateSummaries());
         CSV.saveSummariesCSV("outputs/table3/form2_W2_W3_S1.csv", summaries);
     }
 }
