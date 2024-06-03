@@ -124,6 +124,8 @@ public class MSForm2Controller {
     // Swap
     @FXML
     private CheckBox generateWithSwapCheckBox;
+    @FXML
+    private CheckBox generateWithSwapSubjectsCheckBox;
 
     // Saving functionality
     @FXML
@@ -250,8 +252,12 @@ public class MSForm2Controller {
     // Generating summaries
     @FXML
     public void generateBestSummaries() {
-        if (generateWithSwapCheckBox.isSelected()) {
+        if (generateWithSwapCheckBox.isSelected() && generateWithSwapSubjectsCheckBox.isSelected()) {
+            multiSwapBest();
+        } else if (generateWithSwapCheckBox.isSelected()) {
             generateBestSummariesWithSwap();
+        } else if (generateWithSwapSubjectsCheckBox.isSelected()) {
+            generateBestSummariesWithSwapSubjects();
         } else {
             generateBestSummariesNormal();
         }
@@ -259,79 +265,16 @@ public class MSForm2Controller {
 
     @FXML
     public void generateAllSummaries() {
-        if (generateWithSwapCheckBox.isSelected()) {
+        if (generateWithSwapCheckBox.isSelected() && generateWithSwapSubjectsCheckBox.isSelected()) {
+            multiSwap();
+        } else if (generateWithSwapCheckBox.isSelected()) {
             generateAllSummariesWithSwap();
+        } else if (generateWithSwapSubjectsCheckBox.isSelected()) {
+            generateAllSummariesWithSwapSubjects();
         } else {
             generateAllSummariesNormal();
         }
     }
-
-
-
-
-    public void generateBestSummariesNormal() {
-        System.out.println("Generate Best Summary (Normal mode) Clicked");
-
-        generatePrepare();
-        summaries = Collections.singletonList(genForm2.generateBest());
-        generateAfter();
-    }
-
-    public void generateBestSummariesWithSwap() {
-        System.out.println("Generate Best Summary (Swap mode) Clicked");
-        List<Pair<String, Double>> summaries_1;
-        List<Pair<String, Double>> summaries_2;
-
-        generatePrepare();
-        summaries_1 = Collections.singletonList(genForm2.generateBest());
-
-        swapWwithS();
-        generatePrepare();
-        summaries_2 = Collections.singletonList(genForm2.generateBest());
-        swapWwithS();
-
-        summaries = new ArrayList<>();
-        for (int i = 0; i < summaries_1.size(); i++) {
-            summaries.add(summaries_1.get(i));
-            summaries.add(summaries_2.get(i));
-        }
-
-        generateAfter();
-    }
-
-    public void generateAllSummariesNormal() {
-        System.out.println("Generate All Summaries (Normal mode) Clicked");
-
-        generatePrepare();
-        summaries = genForm2.generateSummaries();
-        generateAfter();
-    }
-
-    public void generateAllSummariesWithSwap() {
-        System.out.println("Generate All Summaries (Swap mode) Clicked");
-        List<Pair<String, Double>> summaries_1;
-        List<Pair<String, Double>> summaries_2;
-
-        generatePrepare();
-        summaries_1 = genForm2.generateSummaries();
-
-        swapWwithS();
-        generatePrepare();
-        summaries_2 = genForm2.generateSummaries();
-        swapWwithS();
-
-        summaries = new ArrayList<>();
-        for (int i = 0; i < summaries_1.size(); i++) {
-            summaries.add(summaries_1.get(i));
-            summaries.add(summaries_2.get(i));
-        }
-
-        generateAfter();
-    }
-
-
-
-
 
 
     // Display functions
@@ -482,6 +425,14 @@ public class MSForm2Controller {
             default:
                 break;
         }
+    }
+
+    @FXML
+    public void swapP1withP2() {
+        String subject1Str = chosenSubject1.getValue();
+        String subject2Str = chosenSubject2.getValue();
+        chosenSubject1.setValue(subject2Str);
+        chosenSubject2.setValue(subject1Str);
     }
 
 
@@ -870,6 +821,192 @@ public class MSForm2Controller {
         genForm2 = new TwoSubjectSummarySecond(subject1, subject2, quantifier, summarizator, qualifier, data, summarizatorConj, qualifierConj);
     }
 
+
+    // Swap functions
+    public void generateBestSummariesNormal() {
+        System.out.println("Generate Best Summary (Normal mode) Clicked");
+
+        generatePrepare();
+        summaries = Collections.singletonList(genForm2.generateBest());
+        generateAfter();
+    }
+
+    public void generateBestSummariesWithSwap() {
+        System.out.println("Generate Best Summary (Swap mode) Clicked");
+        List<Pair<String, Double>> summaries_1;
+        List<Pair<String, Double>> summaries_2;
+
+        generatePrepare();
+        summaries_1 = Collections.singletonList(genForm2.generateBest());
+
+        swapWwithS();
+        generatePrepare();
+        summaries_2 = Collections.singletonList(genForm2.generateBest());
+        swapWwithS();
+
+        summaries = new ArrayList<>();
+        for (int i = 0; i < summaries_1.size(); i++) {
+            summaries.add(summaries_1.get(i));
+            summaries.add(summaries_2.get(i));
+        }
+
+        generateAfter();
+    }
+
+    public void generateBestSummariesWithSwapSubjects() {
+        System.out.println("Generate Best Summary (Swap Subjects mode) Clicked");
+
+        List<Pair<String, Double>> summaries_1;
+        List<Pair<String, Double>> summaries_2;
+
+        generatePrepare();
+        summaries_1 = Collections.singletonList(genForm2.generateBest());
+
+        swapP1withP2();
+        generatePrepare();
+        summaries_2 = Collections.singletonList(genForm2.generateBest());
+        swapP1withP2();
+
+        summaries = new ArrayList<>();
+        for (int i = 0; i < summaries_1.size(); i++) {
+            summaries.add(summaries_1.get(i));
+            summaries.add(summaries_2.get(i));
+        }
+
+        generateAfter();
+    }
+
+    public void multiSwapBest() {
+        System.out.println("Generate Best Summary (Both mode) Clicked");
+
+        List<Pair<String, Double>> summaries_1;
+        List<Pair<String, Double>> summaries_2;
+        List<Pair<String, Double>> summaries_3;
+        List<Pair<String, Double>> summaries_4;
+
+        generatePrepare();
+        summaries_1 = Collections.singletonList(genForm2.generateBest());
+
+        swapWwithS();
+        generatePrepare();
+        summaries_2 = Collections.singletonList(genForm2.generateBest());
+        swapWwithS();
+
+        swapP1withP2();
+
+        generatePrepare();
+        summaries_3 = Collections.singletonList(genForm2.generateBest());
+
+        swapWwithS();
+        generatePrepare();
+        summaries_4 = Collections.singletonList(genForm2.generateBest());
+        swapWwithS();
+
+        swapP1withP2();
+
+        summaries = new ArrayList<>();
+        for (int i = 0; i < summaries_1.size(); i++) {
+            summaries.add(summaries_1.get(i));
+            summaries.add(summaries_2.get(i));
+            summaries.add(summaries_3.get(i));
+            summaries.add(summaries_4.get(i));
+        }
+
+        generateAfter();
+    }
+
+    public void generateAllSummariesNormal() {
+        System.out.println("Generate All Summaries (Normal mode) Clicked");
+
+        generatePrepare();
+        summaries = genForm2.generateSummaries();
+        generateAfter();
+    }
+
+    public void generateAllSummariesWithSwap() {
+        System.out.println("Generate All Summaries (Swap mode) Clicked");
+        List<Pair<String, Double>> summaries_1;
+        List<Pair<String, Double>> summaries_2;
+
+        generatePrepare();
+        summaries_1 = genForm2.generateSummaries();
+
+        swapWwithS();
+        generatePrepare();
+        summaries_2 = genForm2.generateSummaries();
+        swapWwithS();
+
+        summaries = new ArrayList<>();
+        for (int i = 0; i < summaries_1.size(); i++) {
+            summaries.add(summaries_1.get(i));
+            summaries.add(summaries_2.get(i));
+        }
+
+        generateAfter();
+    }
+
+    public void generateAllSummariesWithSwapSubjects() {
+        System.out.println("Generate All Summaries (Swap Subjects mode) Clicked");
+        List<Pair<String, Double>> summaries_1;
+        List<Pair<String, Double>> summaries_2;
+
+        generatePrepare();
+        summaries_1 = genForm2.generateSummaries();
+
+        swapP1withP2();
+        generatePrepare();
+        summaries_2 = genForm2.generateSummaries();
+        swapP1withP2();
+
+        summaries = new ArrayList<>();
+        for (int i = 0; i < summaries_1.size(); i++) {
+            summaries.add(summaries_1.get(i));
+            summaries.add(summaries_2.get(i));
+        }
+
+        generateAfter();
+    }
+
+    public void multiSwap() {
+        System.out.println("Generate All Summaries (Both mode) Clicked");
+        List<Pair<String, Double>> summaries_1;
+        List<Pair<String, Double>> summaries_2;
+        List<Pair<String, Double>> summaries_3;
+        List<Pair<String, Double>> summaries_4;
+
+        generatePrepare();
+        summaries_1 = genForm2.generateSummaries();
+
+        swapWwithS();
+        generatePrepare();
+        summaries_2 = genForm2.generateSummaries();
+        swapWwithS();
+
+        swapP1withP2();
+
+        generatePrepare();
+        summaries_3 = genForm2.generateSummaries();
+
+        swapWwithS();
+        generatePrepare();
+        summaries_4 = genForm2.generateSummaries();
+        swapWwithS();
+
+        swapP1withP2();
+
+        summaries = new ArrayList<>();
+        for (int i = 0; i < summaries_1.size(); i++) {
+            summaries.add(summaries_1.get(i));
+            summaries.add(summaries_2.get(i));
+            summaries.add(summaries_3.get(i));
+            summaries.add(summaries_4.get(i));
+        }
+
+        generateAfter();
+    }
+
+
+    // Connected functionality
     private SummarizerQualifier connectSummarizerQualifier(String linguisticVariable, String linguisticVariableLabel) {
         return switch (linguisticVariable) {
             case "Bedroom to room ratio" -> bedroomToRoomRatio.getLabel(linguisticVariableLabel);

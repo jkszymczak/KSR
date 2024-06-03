@@ -194,6 +194,16 @@ public class MSForm4Controller {
     }
 
 
+    // Swap
+    @FXML
+    public void swapP1withP2() {
+        String subject1Str = chosenSubject1.getValue();
+        String subject2Str = chosenSubject2.getValue();
+        chosenSubject1.setValue(subject2Str);
+        chosenSubject2.setValue(subject1Str);
+    }
+
+
     // Saving functionality
     @FXML
     public void saveSummariesButtonClick() {

@@ -395,165 +395,6 @@ public class SSForm2Controller {
         }
     }
 
-    public void generateOptimalSummaryNormal() {
-        System.out.println("Generate Optimal Summary (Normal mode) Clicked");
-        generatePrepare();
-
-        if (checkWeightsCorrectness()) {
-            System.out.println("Weights are correct");
-            summaries = genForm2.generateSummaries();
-            for (LinguisticSummary summary : summaries) {
-                System.out.println(summary);
-                genForm2.calculateQualityMeasures(weights, summary);
-            }
-            LinguisticSummary optimalSummary = genForm2.calculateOptimalSummary(summaries);
-            summaries = Collections.singletonList(optimalSummary);
-
-            System.out.println("Optimal summary: " + optimalSummary);
-            String text = textArea.getText();
-            text += optimalSummary.toString() + "\n";
-            textArea.setText(text);
-
-            if (generateDetailedCheckBox.isSelected()) {
-                String tempText = qualityMeasuresTextArea.getText();
-                tempText += LinguisticSummary.toStringDetailed(summaries);
-                qualityMeasuresTextArea.setText(tempText);
-            }
-
-            saveSummariesButton.setDisable(false);
-            saveSummariesCSVButton.setDisable(false);
-        } else {
-            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
-            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
-        }
-    }
-
-    public void generateOptimalSummaryWithSwap() {
-        System.out.println("Generate Optimal Summary (Swap mode) Clicked");
-        List<LinguisticSummary> summaries_1;
-        List<LinguisticSummary> summaries_2;
-        generatePrepare();
-
-        if (checkWeightsCorrectness()) {
-            System.out.println("Weights are correct");
-            summaries_1 = genForm2.generateSummaries();
-            for (LinguisticSummary summary : summaries_1) {
-                System.out.println(summary);
-                genForm2.calculateQualityMeasures(weights, summary);
-            }
-            LinguisticSummary optimalSummary = genForm2.calculateOptimalSummary(summaries_1);
-            summaries_1 = Collections.singletonList(optimalSummary);
-            System.out.println("Optimal summary: " + optimalSummary);
-
-            swapWwithS();
-            generatePrepare();
-            swapWwithS();
-
-            summaries_2 = genForm2.generateSummaries();
-            for (LinguisticSummary summary : summaries_2) {
-                System.out.println(summary);
-                genForm2.calculateQualityMeasures(weights, summary);
-            }
-            optimalSummary = genForm2.calculateOptimalSummary(summaries_2);
-            summaries_2 = Collections.singletonList(optimalSummary);
-            System.out.println("Optimal summary: " + optimalSummary);
-
-
-            summaries = new ArrayList<>();
-            for (int i = 0; i < summaries_1.size(); i++) {
-                summaries.add(summaries_1.get(i));
-                summaries.add(summaries_2.get(i));
-            }
-
-            generateAfter();
-        } else {
-            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
-            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
-        }
-    }
-
-    public void generateBestSummariesNormal() {
-        System.out.println("Generate Best Summary (Normal mode) Clicked");
-        generatePrepare();
-
-        if (checkWeightsCorrectness()) {
-            System.out.println("Weights are correct");
-            summaries = Collections.singletonList(genForm2.generateBest());
-            generateAfter();
-        } else {
-            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
-            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
-        }
-    }
-
-    public void generateBestSummariesWithSwap() {
-        System.out.println("Generate Best Summary (Swap mode) Clicked");
-        List<LinguisticSummary> summaries_1;
-        List<LinguisticSummary> summaries_2;
-        generatePrepare();
-
-        if (checkWeightsCorrectness()) {
-            System.out.println("Weights are correct");
-            summaries_1 = Collections.singletonList(genForm2.generateBest());
-            swapWwithS();
-            generatePrepare();
-            summaries_2 = Collections.singletonList(genForm2.generateBest());
-            swapWwithS();
-
-            summaries = new ArrayList<>();
-            for (int i = 0; i < summaries_1.size(); i++) {
-                summaries.add(summaries_1.get(i));
-                summaries.add(summaries_2.get(i));
-            }
-
-            generateAfter();
-        } else {
-            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
-            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
-        }
-    }
-
-    public void generateAllSummariesNormal() {
-        System.out.println("Generate All Summaries (Normal mode) Clicked");
-        generatePrepare();
-
-        if (checkWeightsCorrectness()) {
-            System.out.println("Weights are correct");
-            summaries = genForm2.generateSummaries();
-            generateAfter();
-        } else {
-            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
-            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
-        }
-    }
-
-    public void generateAllSummariesWithSwap() {
-        System.out.println("Generate All Summaries (Swap mode) Clicked");
-        List<LinguisticSummary> summaries_1;
-        List<LinguisticSummary> summaries_2;
-        generatePrepare();
-
-        if (checkWeightsCorrectness()) {
-            System.out.println("Weights are correct");
-            summaries_1 = genForm2.generateSummaries();
-            swapWwithS();
-            generatePrepare();
-            summaries_2 = genForm2.generateSummaries();
-            swapWwithS();
-
-            summaries = new ArrayList<>();
-            for (int i = 0; i < summaries_1.size(); i++) {
-                summaries.add(summaries_1.get(i));
-                summaries.add(summaries_2.get(i));
-            }
-
-            generateAfter();
-        } else {
-            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
-            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
-        }
-    }
-
 
     // Display detailed function
     @FXML
@@ -1154,6 +995,169 @@ public class SSForm2Controller {
                 .build();
     }
 
+
+    // Swap functions
+    public void generateOptimalSummaryNormal() {
+        System.out.println("Generate Optimal Summary (Normal mode) Clicked");
+        generatePrepare();
+
+        if (checkWeightsCorrectness()) {
+            System.out.println("Weights are correct");
+            summaries = genForm2.generateSummaries();
+            for (LinguisticSummary summary : summaries) {
+                System.out.println(summary);
+                genForm2.calculateQualityMeasures(weights, summary);
+            }
+            LinguisticSummary optimalSummary = genForm2.calculateOptimalSummary(summaries);
+            summaries = Collections.singletonList(optimalSummary);
+
+            System.out.println("Optimal summary: " + optimalSummary);
+            String text = textArea.getText();
+            text += optimalSummary.toString() + "\n";
+            textArea.setText(text);
+
+            if (generateDetailedCheckBox.isSelected()) {
+                String tempText = qualityMeasuresTextArea.getText();
+                tempText += LinguisticSummary.toStringDetailed(summaries);
+                qualityMeasuresTextArea.setText(tempText);
+            }
+
+            saveSummariesButton.setDisable(false);
+            saveSummariesCSVButton.setDisable(false);
+        } else {
+            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
+            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
+        }
+    }
+
+    public void generateOptimalSummaryWithSwap() {
+        System.out.println("Generate Optimal Summary (Swap mode) Clicked");
+        List<LinguisticSummary> summaries_1;
+        List<LinguisticSummary> summaries_2;
+        generatePrepare();
+
+        if (checkWeightsCorrectness()) {
+            System.out.println("Weights are correct");
+            summaries_1 = genForm2.generateSummaries();
+            for (LinguisticSummary summary : summaries_1) {
+                System.out.println(summary);
+                genForm2.calculateQualityMeasures(weights, summary);
+            }
+            LinguisticSummary optimalSummary = genForm2.calculateOptimalSummary(summaries_1);
+            summaries_1 = Collections.singletonList(optimalSummary);
+            System.out.println("Optimal summary: " + optimalSummary);
+
+            swapWwithS();
+            generatePrepare();
+            swapWwithS();
+
+            summaries_2 = genForm2.generateSummaries();
+            for (LinguisticSummary summary : summaries_2) {
+                System.out.println(summary);
+                genForm2.calculateQualityMeasures(weights, summary);
+            }
+            optimalSummary = genForm2.calculateOptimalSummary(summaries_2);
+            summaries_2 = Collections.singletonList(optimalSummary);
+            System.out.println("Optimal summary: " + optimalSummary);
+
+
+            summaries = new ArrayList<>();
+            for (int i = 0; i < summaries_1.size(); i++) {
+                summaries.add(summaries_1.get(i));
+                summaries.add(summaries_2.get(i));
+            }
+
+            generateAfter();
+        } else {
+            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
+            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
+        }
+    }
+
+    public void generateBestSummariesNormal() {
+        System.out.println("Generate Best Summary (Normal mode) Clicked");
+        generatePrepare();
+
+        if (checkWeightsCorrectness()) {
+            System.out.println("Weights are correct");
+            summaries = Collections.singletonList(genForm2.generateBest());
+            generateAfter();
+        } else {
+            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
+            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
+        }
+    }
+
+    public void generateBestSummariesWithSwap() {
+        System.out.println("Generate Best Summary (Swap mode) Clicked");
+        List<LinguisticSummary> summaries_1;
+        List<LinguisticSummary> summaries_2;
+        generatePrepare();
+
+        if (checkWeightsCorrectness()) {
+            System.out.println("Weights are correct");
+            summaries_1 = Collections.singletonList(genForm2.generateBest());
+            swapWwithS();
+            generatePrepare();
+            summaries_2 = Collections.singletonList(genForm2.generateBest());
+            swapWwithS();
+
+            summaries = new ArrayList<>();
+            for (int i = 0; i < summaries_1.size(); i++) {
+                summaries.add(summaries_1.get(i));
+                summaries.add(summaries_2.get(i));
+            }
+
+            generateAfter();
+        } else {
+            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
+            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
+        }
+    }
+
+    public void generateAllSummariesNormal() {
+        System.out.println("Generate All Summaries (Normal mode) Clicked");
+        generatePrepare();
+
+        if (checkWeightsCorrectness()) {
+            System.out.println("Weights are correct");
+            summaries = genForm2.generateSummaries();
+            generateAfter();
+        } else {
+            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
+            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
+        }
+    }
+
+    public void generateAllSummariesWithSwap() {
+        System.out.println("Generate All Summaries (Swap mode) Clicked");
+        List<LinguisticSummary> summaries_1;
+        List<LinguisticSummary> summaries_2;
+        generatePrepare();
+
+        if (checkWeightsCorrectness()) {
+            System.out.println("Weights are correct");
+            summaries_1 = genForm2.generateSummaries();
+            swapWwithS();
+            generatePrepare();
+            summaries_2 = genForm2.generateSummaries();
+            swapWwithS();
+
+            summaries = new ArrayList<>();
+            for (int i = 0; i < summaries_1.size(); i++) {
+                summaries.add(summaries_1.get(i));
+                summaries.add(summaries_2.get(i));
+            }
+
+            generateAfter();
+        } else {
+            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
+            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
+        }
+    }
+
+
+    // Connected functionality
     private SummarizerQualifier connectSummarizerQualifier(String linguisticVariable, String linguisticVariableLabel) {
         return switch (linguisticVariable) {
             case "Bedroom to room ratio" -> bedroomToRoomRatio.getLabel(linguisticVariableLabel);
