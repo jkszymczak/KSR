@@ -1,6 +1,7 @@
 package LinguisticSummarization;
 
 public enum Subject {
+    ALL_DATABASE(null),
     SUB_HOUR_OCEAN("<1H OCEAN"),
     INLAND("INLAND"),
     NEAR_OCEAN("NEAR OCEAN"),

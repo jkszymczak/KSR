@@ -10,6 +10,7 @@ import FuzzyCalculations.*;
 import LinguisticSummarization.LinguisticSummary;
 import LinguisticSummarization.LinguisticSummaryGenerator;
 import LinguisticSummarization.LinguisticSummaryType;
+import LinguisticSummarization.Subject;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
@@ -55,6 +56,10 @@ public class SSForm1Controller {
 
 
     // ================ View's Variables ================
+    // Subject
+    @FXML
+    private ComboBox<String> chosenSubject;
+
     // Quantifier and Conjunction
     @FXML
     private ComboBox<String> chosenQuantifier;
@@ -233,6 +238,10 @@ public class SSForm1Controller {
 
         // Made containers for linguisticVariables
         initContainers();
+
+        // Set up subject
+        chosenSubject.getItems().addAll("All database", "<1H OCEAN", "INLAND", "NEAR OCEAN", "NEAR BAY", "ISLAND");
+        chosenSubject.setValue(chosenSubject.getItems().getFirst());
 
         // Set up ComboBoxes for Quantifier and Conjunction
         chosenQuantifier.getItems().addAll("Absolute", "Relative");
@@ -610,6 +619,9 @@ public class SSForm1Controller {
         textArea.clear();
         qualityMeasuresTextArea.clear();
 
+        String subjectStr = chosenSubject.getValue();
+        Subject subject = connectSubject(subjectStr); // TODO make subject usefully
+
         String quantifierStr = chosenQuantifier.getValue();
         String summarizatorConj = summarizatorConjunction.getValue();
 
@@ -661,11 +673,23 @@ public class SSForm1Controller {
 
         FuzzyQuantifier quantifier = connectQuantifier(quantifierStr);
 
+        List<BlockGroup> subjectData;
+        String subjectConj;
+
+        if (subjectStr.equals("All database")) {
+            subjectConj ="Block Groups";
+            subjectData = data;
+        } else {
+            subjectConj = " Block Groups " + subject.label;
+            subjectData = data.stream().filter(blockGroup -> blockGroup.getLabel().equals(subject.label)).toList();
+        }
+
+        System.out.println("Subject data size: " + subjectData.size());
         genForm1 = LinguisticSummaryBuilder.builder()
                 .withLinguisticSummaryType(LinguisticSummaryType.First)
-                .onSet(data).withSummarizator(summarizator)
+                .onSet(subjectData).withSummarizator(summarizator)
                 .withQuantifier(quantifier)
-                .withSubject("Block Groups")
+                .withSubject(subjectConj)
                 .withSummarizatorConjunction(summarizatorConj)
                 .build();
     }
@@ -689,6 +713,18 @@ public class SSForm1Controller {
         return switch (quantifier) {
             case "Absolute" -> createAbsolute(data);
             case "Relative" -> createRelative();
+            default -> null;
+        };
+    }
+
+    public Subject connectSubject(String subjectStr) {
+        return switch (subjectStr) {
+            case "All database" -> Subject.ALL_DATABASE;
+            case "<1H OCEAN" -> Subject.SUB_HOUR_OCEAN;
+            case "INLAND" -> Subject.INLAND;
+            case "NEAR OCEAN" -> Subject.NEAR_OCEAN;
+            case "NEAR BAY" -> Subject.NEAR_BAY;
+            case "ISLAND" -> Subject.ISLAND;
             default -> null;
         };
     }
