@@ -9,20 +9,25 @@
         <Insets bottom="20.0" top="-457" />
     </padding>
     <children>
-        <MenuBar>
+        <MenuBar prefWidth="1080.0">
             <menus>
                 <Menu mnemonicParsing="false" text="Single-subject">
                     <items>
                         <MenuItem fx:id="ss_form1" mnemonicParsing="false" text="Form 1" />
-                        <MenuItem mnemonicParsing="false" text="Form 2" />
+                        <MenuItem fx:id="ss_form2" mnemonicParsing="false" text="Form 2" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Multi-subject">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Form 1" />
-                        <MenuItem mnemonicParsing="false" text="Form 2" />
-                        <MenuItem mnemonicParsing="false" text="Form 3" />
-                        <MenuItem mnemonicParsing="false" text="Form 4" />
+                        <MenuItem fx:id="ms_form1" mnemonicParsing="false" text="Form 1" />
+                        <MenuItem fx:id="ms_form2" mnemonicParsing="false" text="Form 2" />
+                        <MenuItem fx:id="ms_form3" mnemonicParsing="false" text="Form 3" />
+                        <MenuItem fx:id="ms_form4" mnemonicParsing="false" text="Form 4" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Label creator">
+                    <items>
+                        <MenuItem fx:id="create_label" mnemonicParsing="false" text="Create label" />
                     </items>
                 </Menu>
             </menus>

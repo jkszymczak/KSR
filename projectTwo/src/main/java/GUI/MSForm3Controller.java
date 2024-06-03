@@ -10,8 +10,12 @@ import LinguisticSummarization.Subject;
 import LinguisticSummarization.TwoSubjectSummarySecond;
 import LinguisticSummarization.TwoSubjectSummaryThird;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.example.Pair;
 
 import java.io.File;
@@ -126,6 +130,22 @@ public class MSForm3Controller {
     @FXML
     private Label status;
 
+    // Menu
+    @FXML
+    private MenuItem ss_form1;
+    @FXML
+    private MenuItem ss_form2;
+    @FXML
+    private MenuItem ms_form1;
+    @FXML
+    private MenuItem ms_form2;
+    @FXML
+    private MenuItem ms_form3;
+    @FXML
+    private MenuItem ms_form4;
+    @FXML
+    private MenuItem create_label;
+
 
 
     // ================ View's Functions ================
@@ -134,6 +154,9 @@ public class MSForm3Controller {
     public void initialize() {
         // Read data from database
         data = CSV.readCSV(path);
+
+        // Init menu
+        initMenu();
 
         // Number of Qualifiers Spinner
         numberQualifierSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 4, 1));
@@ -682,5 +705,99 @@ public class MSForm3Controller {
         cb_chosenSummarizerLabel_4.setVisible(false);
     }
 
+
+    // Init menu
+    public void initMenu() {
+        ss_form1.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ss_form1.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) ss_form1.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        ss_form2.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ss_form2.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) ss_form2.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        ms_form1.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ms_form1.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) ms_form1.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        ms_form2.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ms_form2.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) ms_form2.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        ms_form3.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ms_form3.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) ms_form3.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        ms_form4.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ms_form4.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) ms_form4.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        create_label.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("create_label.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) create_label.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }
 

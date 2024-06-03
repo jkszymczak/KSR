@@ -12,8 +12,11 @@ import LinguisticSummarization.LinguisticSummaryGenerator;
 import LinguisticSummarization.LinguisticSummaryType;
 import LinguisticSummarization.Subject;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -25,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 
 import GUI.LinguisticVariablesFunctions;
+import javafx.stage.Stage;
 
 import static GUI.LinguisticVariablesFunctions.*;
 
@@ -166,6 +170,22 @@ public class SSForm1Controller {
     @FXML
     private Label label_T_11;
 
+    // Menu
+    @FXML
+    private MenuItem ss_form1;
+    @FXML
+    private MenuItem ss_form2;
+    @FXML
+    private MenuItem ms_form1;
+    @FXML
+    private MenuItem ms_form2;
+    @FXML
+    private MenuItem ms_form3;
+    @FXML
+    private MenuItem ms_form4;
+    @FXML
+    private MenuItem create_label;
+
 
     // ================ View's Functions ================
     // Init functions
@@ -173,6 +193,9 @@ public class SSForm1Controller {
     public void initialize() {
         // Read data from database
         data = CSV.readCSV(path);
+
+        // Init menu
+        initMenu();
 
         // Number of Summarizers Spinner
         numberSummarizerSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 4, 1));
@@ -864,6 +887,100 @@ public class SSForm1Controller {
     private void calculateSumOfWeights() {
         double sum = T_1Spinner.getValue() + T_2Spinner.getValue() + T_3Spinner.getValue() + T_4Spinner.getValue() + T_5Spinner.getValue() + T_6Spinner.getValue() + T_7Spinner.getValue() + T_8Spinner.getValue() + T_9Spinner.getValue() + T_10Spinner.getValue() + T_11Spinner.getValue();
         label_SumWeights.setText(String.format("%.2f", sum));
+    }
+
+    // Init menu
+    public void initMenu() {
+        ss_form1.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ss_form1.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) ss_form1.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        ss_form2.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ss_form2.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) ss_form2.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        ms_form1.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ms_form1.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) ms_form1.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        ms_form2.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ms_form2.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) ms_form2.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        ms_form3.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ms_form3.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) ms_form3.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        ms_form4.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ms_form4.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) ms_form4.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        create_label.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("create_label.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) create_label.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 }
