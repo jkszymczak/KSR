@@ -58,7 +58,7 @@
                   <Spinner fx:id="numberQualifierSpinner" layoutX="174.0" layoutY="210.0" prefHeight="25.0" prefWidth="60.0" />
                   <Button fx:id="generateAllSummariesButton" layoutX="16.0" layoutY="465.0" mnemonicParsing="false" onAction="#generateAllSummaries" prefHeight="36.0" prefWidth="163.0" text="Generate All Summaries" />
                   <Button fx:id="saveSummariesButton" disable="true" layoutX="264.0" layoutY="757.0" mnemonicParsing="false" onAction="#saveSummariesButtonClick" prefHeight="25.0" prefWidth="100.0" text="Save Summries" />
-                  <TextArea fx:id="textArea" layoutX="14.0" layoutY="520.0" prefHeight="222.0" prefWidth="1050.0" />
+                  <TextArea fx:id="textArea" layoutX="14.0" layoutY="520.0" prefHeight="222.0" prefWidth="525.0" />
                   <Label layoutX="14.0" layoutY="757.0" prefHeight="25.0" prefWidth="250.0" text="Save summray to entered file with all detailes" />
                   <Button fx:id="generateOptimalSummaryButton" layoutX="406.0" layoutY="465.0" mnemonicParsing="false" onAction="#generateOptimalSummary" prefHeight="36.0" prefWidth="174.0" text="Generate Optimal Summary" textAlignment="CENTER" wrapText="true" />
                   <Button fx:id="generateBestSummaryButton" layoutX="210.0" layoutY="465.0" mnemonicParsing="false" onAction="#generateBestSummaries" prefHeight="36.0" prefWidth="163.0" text="Generate Best Summary" />
@@ -112,6 +112,10 @@
                   <ComboBox fx:id="qualifierConjunction" layoutX="174.0" layoutY="136.0" prefWidth="100.0" />
                   <Label layoutX="259.0" layoutY="205.0" prefHeight="36.0" prefWidth="163.0" text="Number of summarizers" />
                   <Spinner fx:id="numberSummarizerSpinner" layoutX="422.0" layoutY="211.0" prefHeight="25.0" prefWidth="60.0" />
+                  <CheckBox fx:id="generateDetailedCheckBox" layoutX="600.0" layoutY="475.0" mnemonicParsing="false" onAction="#onCheckBoxGenerateDetailedChangeState" text="Generate Detailed" />
+                  <TextArea fx:id="qualityMeasuresTextArea" layoutX="543.0" layoutY="520.0" prefHeight="222.0" prefWidth="525.0" />
+                  <Label layoutX="330.0" layoutY="90.0" prefHeight="36.0" prefWidth="163.0" text="Choose Subject" />
+                  <ComboBox fx:id="chosenSubject" layoutX="330.0" layoutY="125.0" prefWidth="120.0" />
                     </children>
                 </Pane>
             </children>

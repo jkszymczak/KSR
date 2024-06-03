@@ -698,7 +698,6 @@ public class SSForm1Controller {
 
         List<BlockGroup> subjectData;
         String subjectConj;
-
         if (subjectStr.equals("All database")) {
             subjectConj ="Block Groups";
             subjectData = data;
@@ -707,7 +706,6 @@ public class SSForm1Controller {
             subjectData = data.stream().filter(blockGroup -> blockGroup.getLabel().equals(subject.label)).toList();
         }
 
-        System.out.println("Subject data size: " + subjectData.size());
         genForm1 = LinguisticSummaryBuilder.builder()
                 .withLinguisticSummaryType(LinguisticSummaryType.First)
                 .onSet(subjectData).withSummarizator(summarizator)

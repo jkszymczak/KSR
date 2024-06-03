@@ -10,6 +10,7 @@ import FuzzyCalculations.SummarizerQualifier;
 import LinguisticSummarization.LinguisticSummary;
 import LinguisticSummarization.LinguisticSummaryGenerator;
 import LinguisticSummarization.LinguisticSummaryType;
+import LinguisticSummarization.Subject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -56,6 +57,10 @@ public class SSForm2Controller {
 
 
     // ================ View's Variables ================
+    // Subject
+    @FXML
+    private ComboBox<String> chosenSubject;
+
     // Quantifier and Conjunction
     @FXML
     private ComboBox<String> chosenQuantifier;
@@ -120,6 +125,10 @@ public class SSForm2Controller {
     // Display of results
     @FXML
     private TextArea textArea;
+    @FXML
+    private TextArea qualityMeasuresTextArea;
+    @FXML
+    private CheckBox generateDetailedCheckBox;
 
     // Saving functionality
     @FXML
@@ -285,6 +294,10 @@ public class SSForm2Controller {
         // Made containers for linguisticVariables
         initContainers();
 
+        // Set up subject
+        chosenSubject.getItems().addAll("All database", "<1H OCEAN", "INLAND", "NEAR OCEAN", "NEAR BAY", "ISLAND");
+        chosenSubject.setValue(chosenSubject.getItems().getFirst());
+
         // Set up ComboBoxes for Quantifier and Conjunction
         chosenQuantifier.getItems().addAll("Relative");
         chosenQuantifier.setValue(chosenQuantifier.getItems().getFirst());
@@ -343,6 +356,7 @@ public class SSForm2Controller {
         setWeightsPanelInvisible();
         setManyQualifierInvisible();
         setManySummarizatorInvisible();
+        setDetailedTextAreaInvisible();
     }
 
 
@@ -366,6 +380,12 @@ public class SSForm2Controller {
             String text = textArea.getText();
             text += optimalSummary.toString() + "\n";
             textArea.setText(text);
+
+            if (generateDetailedCheckBox.isSelected()) {
+                String tempText = qualityMeasuresTextArea.getText();
+                tempText += LinguisticSummary.toStringDetailed(summaries);
+                qualityMeasuresTextArea.setText(tempText);
+            }
 
             saveSummariesButton.setDisable(false);
             saveSummariesCSVButton.setDisable(false);
@@ -402,6 +422,17 @@ public class SSForm2Controller {
         } else {
             System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
             textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
+        }
+    }
+
+
+    // Display detailed function
+    @FXML
+    public void onCheckBoxGenerateDetailedChangeState() {
+        if (generateDetailedCheckBox.isSelected()) {
+            setDetailedTextAreaVisible();
+        } else {
+            setDetailedTextAreaInvisible();
         }
     }
 
@@ -711,12 +742,24 @@ public class SSForm2Controller {
             textArea.setText(text);
             genForm2.calculateQualityMeasures(weights, summary);
         }
+
+        if (generateDetailedCheckBox.isSelected()) {
+            String text = qualityMeasuresTextArea.getText();
+            text += LinguisticSummary.toStringDetailed(summaries);
+            qualityMeasuresTextArea.setText(text);
+        }
+
         saveSummariesButton.setDisable(false);
         saveSummariesCSVButton.setDisable(false);
     }
 
     public void generatePrepare() {
         textArea.clear();
+        qualityMeasuresTextArea.clear();
+
+        String subjectStr = chosenSubject.getValue();
+        Subject subject = connectSubject(subjectStr); // TODO make subject usefully
+
         String quantifierStr = chosenQuantifier.getValue();
         String qualifierConj = qualifierConjunction.getValue();
         String summarizatorConj = summarizatorConjunction.getValue();
@@ -811,10 +854,20 @@ public class SSForm2Controller {
 
         FuzzyQuantifier quantifier = connectQuantifier(quantifierStr);
 
+        List<BlockGroup> subjectData;
+        String subjectConj;
+        if (subjectStr.equals("All database")) {
+            subjectConj ="Block Groups";
+            subjectData = data;
+        } else {
+            subjectConj = " Block Groups " + subject.label;
+            subjectData = data.stream().filter(blockGroup -> blockGroup.getLabel().equals(subject.label)).toList();
+        }
+
         genForm2 = LinguisticSummaryBuilder.builder()
                 .withLinguisticSummaryType(LinguisticSummaryType.Second)
                 .withQuantifier(quantifier)
-                .withSubject("Block Groups")
+                .withSubject(subjectConj)
                 .withQualifierConjunction(qualifierConj)
                 .withQualifier(qualifier)
                 .withSummarizatorConjunction(summarizatorConj)
@@ -839,6 +892,18 @@ public class SSForm2Controller {
 
     private FuzzyQuantifier connectQuantifier(String quantifier) {
         return quantifier.equals("Relative") ? createRelative() : null;
+    }
+
+    public Subject connectSubject(String subjectStr) {
+        return switch (subjectStr) {
+            case "All database" -> Subject.ALL_DATABASE;
+            case "<1H OCEAN" -> Subject.SUB_HOUR_OCEAN;
+            case "INLAND" -> Subject.INLAND;
+            case "NEAR OCEAN" -> Subject.NEAR_OCEAN;
+            case "NEAR BAY" -> Subject.NEAR_BAY;
+            case "ISLAND" -> Subject.ISLAND;
+            default -> null;
+        };
     }
 
 
@@ -925,6 +990,16 @@ public class SSForm2Controller {
         label_T_9.setVisible(false);
         label_T_10.setVisible(false);
         label_T_11.setVisible(false);
+    }
+
+    public void setDetailedTextAreaVisible() {
+        qualityMeasuresTextArea.setVisible(true);
+        textArea.setPrefWidth(525);
+    }
+
+    public void setDetailedTextAreaInvisible() {
+        qualityMeasuresTextArea.setVisible(false);
+        textArea.setPrefWidth(1050);
     }
 
 
