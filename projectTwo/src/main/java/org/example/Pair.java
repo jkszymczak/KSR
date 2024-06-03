@@ -13,4 +13,8 @@ public class Pair <F,S> {
     public String toString() {
         return "( " + first.toString() + ", " + second.toString() + " )";
     }
+
+    public String toWrite() {
+        return first.toString() + ". [ " + second.toString() + " ]";
+    }
 }

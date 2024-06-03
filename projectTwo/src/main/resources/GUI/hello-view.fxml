@@ -20,10 +20,10 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Multi-subject">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Form 1" />
-                        <MenuItem mnemonicParsing="false" text="Form 2" />
-                        <MenuItem mnemonicParsing="false" text="Form 3" />
-                        <MenuItem mnemonicParsing="false" text="Form 4" />
+                        <MenuItem fx:id="ms_form1" mnemonicParsing="false" text="Form 1" />
+                        <MenuItem fx:id="ms_form2" mnemonicParsing="false" text="Form 2" />
+                        <MenuItem fx:id="ms_form3" mnemonicParsing="false" text="Form 3" />
+                        <MenuItem fx:id="ms_form4" mnemonicParsing="false" text="Form 4" />
                     </items>
                 </Menu>
             </menus>

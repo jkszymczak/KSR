@@ -28,7 +28,7 @@ public class TwoSubjectSummaryThird extends TwoSubjectSummarySecond {
     public List<Pair<String, Double>> generateSummaries() {
         List<Pair<String, Double>> results = new LinkedList<>();
         quantifier.getLabels().forEach(quantifier -> {
-            String label = quantifier.getLabel() + " Block Groups " + this.second.label + ", " + this.qualifierConjunction + " " + this.qualifier.getLabel() + ", compared to Block Groups " + this.first.label + ", " + this.summarizerConjunction + " " + this.summarizerFirst.getLabel();
+            String label = quantifier.getLabel() + " Block Groups " + this.second.label + " " + this.qualifierConjunction + " " + this.qualifier.getLabel() + " compared to Block Groups " + this.first.label + " " + this.summarizerConjunction + " " + this.summarizerFirst.getLabel();
             results.add(new Pair<>(label, this.calculateDegreeOfTruth(quantifier)));
         });
         return results;
