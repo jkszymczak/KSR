@@ -263,6 +263,157 @@ public class MSForm2Controller {
     }
 
 
+    // Display functions
+    @FXML
+    public void swapWwithS() {
+        List<String> qualifierLabels = new ArrayList<>();
+        List<String> linguisticVariablesQualifier = new ArrayList<>();
+        Integer numberQualifier = numberQualifierSpinner.getValue();
+        Integer numberSummarizer = numberSummarizerSpinner.getValue();
+
+        switch (numberQualifier) {
+            case 1:
+                qualifierLabels.add(cb_chosenQualifierLabel_1.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_1.getValue());
+                break;
+            case 2:
+                qualifierLabels.add(cb_chosenQualifierLabel_1.getValue());
+                qualifierLabels.add(cb_chosenQualifierLabel_2.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_1.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_2.getValue());
+                break;
+            case 3:
+                qualifierLabels.add(cb_chosenQualifierLabel_1.getValue());
+                qualifierLabels.add(cb_chosenQualifierLabel_2.getValue());
+                qualifierLabels.add(cb_chosenQualifierLabel_3.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_1.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_2.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_3.getValue());
+                break;
+            case 4:
+                qualifierLabels.add(cb_chosenQualifierLabel_1.getValue());
+                qualifierLabels.add(cb_chosenQualifierLabel_2.getValue());
+                qualifierLabels.add(cb_chosenQualifierLabel_3.getValue());
+                qualifierLabels.add(cb_chosenQualifierLabel_4.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_1.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_2.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_3.getValue());
+                linguisticVariablesQualifier.add(chosenQualifier_4.getValue());
+                break;
+            default:
+                break;
+        }
+
+        List<String> summarizatorLabels = new ArrayList<>();
+        List<String> linguisticVariablesSummarizator = new ArrayList<>();
+        switch (numberSummarizer) {
+            case 1:
+                summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_1.getValue());
+                break;
+            case 2:
+                summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
+                summarizatorLabels.add(cb_chosenSummarizerLabel_2.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_1.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_2.getValue());
+                break;
+            case 3:
+                summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
+                summarizatorLabels.add(cb_chosenSummarizerLabel_2.getValue());
+                summarizatorLabels.add(cb_chosenSummarizerLabel_3.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_1.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_2.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_3.getValue());
+                break;
+            case 4:
+                summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
+                summarizatorLabels.add(cb_chosenSummarizerLabel_2.getValue());
+                summarizatorLabels.add(cb_chosenSummarizerLabel_3.getValue());
+                summarizatorLabels.add(cb_chosenSummarizerLabel_4.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_1.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_2.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_3.getValue());
+                linguisticVariablesSummarizator.add(chosenSummarizer_4.getValue());
+                break;
+            default:
+                break;
+        }
+
+        numberQualifierSpinner.getValueFactory().setValue(numberSummarizer);
+        numberSummarizerSpinner.getValueFactory().setValue(numberQualifier);
+        numberQualifierConfirm();
+        numberSummarizerConfirm();
+        numberQualifier = numberQualifierSpinner.getValue();
+        numberSummarizer = numberSummarizerSpinner.getValue();
+
+        switch (numberSummarizer) {
+            case 1:
+                chosenSummarizer_1.setValue(linguisticVariablesQualifier.get(0));
+                cb_chosenSummarizerLabel_1.setValue(qualifierLabels.get(0));
+                break;
+            case 2:
+                chosenSummarizer_1.setValue(linguisticVariablesQualifier.get(0));
+                chosenSummarizer_2.setValue(linguisticVariablesQualifier.get(1));
+                cb_chosenSummarizerLabel_1.setValue(qualifierLabels.get(0));
+                cb_chosenSummarizerLabel_2.setValue(qualifierLabels.get(1));
+                break;
+            case 3:
+                chosenSummarizer_1.setValue(linguisticVariablesQualifier.get(0));
+                chosenSummarizer_2.setValue(linguisticVariablesQualifier.get(1));
+                chosenSummarizer_3.setValue(linguisticVariablesQualifier.get(2));
+                cb_chosenSummarizerLabel_1.setValue(qualifierLabels.get(0));
+                cb_chosenSummarizerLabel_2.setValue(qualifierLabels.get(1));
+                cb_chosenSummarizerLabel_3.setValue(qualifierLabels.get(2));
+                break;
+            case 4:
+                chosenSummarizer_1.setValue(linguisticVariablesQualifier.get(0));
+                chosenSummarizer_2.setValue(linguisticVariablesQualifier.get(1));
+                chosenSummarizer_3.setValue(linguisticVariablesQualifier.get(2));
+                chosenSummarizer_4.setValue(linguisticVariablesQualifier.get(3));
+                cb_chosenSummarizerLabel_1.setValue(qualifierLabels.get(0));
+                cb_chosenSummarizerLabel_2.setValue(qualifierLabels.get(1));
+                cb_chosenSummarizerLabel_3.setValue(qualifierLabels.get(2));
+                cb_chosenSummarizerLabel_4.setValue(qualifierLabels.get(3));
+                break;
+            default:
+                break;
+        }
+
+        switch (numberQualifier) {
+            case 1:
+                chosenQualifier_1.setValue(linguisticVariablesSummarizator.get(0));
+                cb_chosenQualifierLabel_1.setValue(summarizatorLabels.get(0));
+                break;
+            case 2:
+                chosenQualifier_1.setValue(linguisticVariablesSummarizator.get(0));
+                chosenQualifier_2.setValue(linguisticVariablesSummarizator.get(1));
+                cb_chosenQualifierLabel_1.setValue(summarizatorLabels.get(0));
+                cb_chosenQualifierLabel_2.setValue(summarizatorLabels.get(1));
+                break;
+            case 3:
+                chosenQualifier_1.setValue(linguisticVariablesSummarizator.get(0));
+                chosenQualifier_2.setValue(linguisticVariablesSummarizator.get(1));
+                chosenQualifier_3.setValue(linguisticVariablesSummarizator.get(2));
+                cb_chosenQualifierLabel_1.setValue(summarizatorLabels.get(0));
+                cb_chosenQualifierLabel_2.setValue(summarizatorLabels.get(1));
+                cb_chosenQualifierLabel_3.setValue(summarizatorLabels.get(2));
+                break;
+            case 4:
+                chosenQualifier_1.setValue(linguisticVariablesSummarizator.get(0));
+                chosenQualifier_2.setValue(linguisticVariablesSummarizator.get(1));
+                chosenQualifier_3.setValue(linguisticVariablesSummarizator.get(2));
+                chosenQualifier_4.setValue(linguisticVariablesSummarizator.get(3));
+                cb_chosenQualifierLabel_1.setValue(summarizatorLabels.get(0));
+                cb_chosenQualifierLabel_2.setValue(summarizatorLabels.get(1));
+                cb_chosenQualifierLabel_3.setValue(summarizatorLabels.get(2));
+                cb_chosenQualifierLabel_4.setValue(summarizatorLabels.get(3));
+                break;
+            default:
+                break;
+        }
+    }
+
+
     // Saving functionality
     @FXML
     public void saveSummariesButtonClick() {
