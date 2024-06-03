@@ -121,6 +121,10 @@ public class MSForm2Controller {
     @FXML
     private TextArea textArea;
 
+    // Swap
+    @FXML
+    private CheckBox generateWithSwapCheckBox;
+
     // Saving functionality
     @FXML
     private Button saveSummariesButton;
@@ -146,13 +150,15 @@ public class MSForm2Controller {
     private MenuItem create_label;
 
 
-
     // ================ View's Functions ================
     // Init functions
     @FXML
     public void initialize() {
         // Read data from database
         data = CSV.readCSV(path);
+
+        // Init summaries
+        summaries = new ArrayList<>();
 
         // Init menu
         initMenu();
@@ -242,25 +248,90 @@ public class MSForm2Controller {
 
 
     // Generating summaries
-
-
     @FXML
     public void generateBestSummaries() {
-        System.out.println("Generate Best Summary Clicked");
+        if (generateWithSwapCheckBox.isSelected()) {
+            generateBestSummariesWithSwap();
+        } else {
+            generateBestSummariesNormal();
+        }
+    }
+
+    @FXML
+    public void generateAllSummaries() {
+        if (generateWithSwapCheckBox.isSelected()) {
+            generateAllSummariesWithSwap();
+        } else {
+            generateAllSummariesNormal();
+        }
+    }
+
+
+
+
+    public void generateBestSummariesNormal() {
+        System.out.println("Generate Best Summary (Normal mode) Clicked");
 
         generatePrepare();
         summaries = Collections.singletonList(genForm2.generateBest());
         generateAfter();
     }
 
-    @FXML
-    public void generateAllSummaries() {
-        System.out.println("Generate All Summaries Clicked");
+    public void generateBestSummariesWithSwap() {
+        System.out.println("Generate Best Summary (Swap mode) Clicked");
+        List<Pair<String, Double>> summaries_1;
+        List<Pair<String, Double>> summaries_2;
+
+        generatePrepare();
+        summaries_1 = Collections.singletonList(genForm2.generateBest());
+
+        swapWwithS();
+        generatePrepare();
+        summaries_2 = Collections.singletonList(genForm2.generateBest());
+        swapWwithS();
+
+        summaries = new ArrayList<>();
+        for (int i = 0; i < summaries_1.size(); i++) {
+            summaries.add(summaries_1.get(i));
+            summaries.add(summaries_2.get(i));
+        }
+
+        generateAfter();
+    }
+
+    public void generateAllSummariesNormal() {
+        System.out.println("Generate All Summaries (Normal mode) Clicked");
 
         generatePrepare();
         summaries = genForm2.generateSummaries();
         generateAfter();
     }
+
+    public void generateAllSummariesWithSwap() {
+        System.out.println("Generate All Summaries (Swap mode) Clicked");
+        List<Pair<String, Double>> summaries_1;
+        List<Pair<String, Double>> summaries_2;
+
+        generatePrepare();
+        summaries_1 = genForm2.generateSummaries();
+
+        swapWwithS();
+        generatePrepare();
+        summaries_2 = genForm2.generateSummaries();
+        swapWwithS();
+
+        summaries = new ArrayList<>();
+        for (int i = 0; i < summaries_1.size(); i++) {
+            summaries.add(summaries_1.get(i));
+            summaries.add(summaries_2.get(i));
+        }
+
+        generateAfter();
+    }
+
+
+
+
 
 
     // Display functions
@@ -454,7 +525,7 @@ public class MSForm2Controller {
                     status.setText("Saved. The file already exists: " + file.getAbsolutePath());
                 }
                 // Here, place the code that saves the results to the selected file
-               CSV.save_pairs(String.valueOf(file.toPath()), summaries);
+                CSV.save_pairs(String.valueOf(file.toPath()), summaries);
             } catch (IOException e) {
                 System.out.println("An error occurred while creating the file: " + e.getMessage());
                 status.setText("An error occurred while creating the file: " + e.getMessage());

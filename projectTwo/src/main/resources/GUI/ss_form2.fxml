@@ -118,6 +118,7 @@
                   <ComboBox fx:id="chosenSubject" layoutX="330.0" layoutY="125.0" prefWidth="120.0" />
                   <Button fx:id="swapButton" layoutX="650.0" layoutY="471.0" mnemonicParsing="false" onAction="#swapWwithS" text="Swap W with S" />
                   <Separator layoutX="612.0" layoutY="459.0" orientation="VERTICAL" prefHeight="50.0" />
+                  <CheckBox fx:id="generateWithSwapCheckBox" layoutX="810.0" layoutY="475.0" mnemonicParsing="false" text="Generate with Swap" />
                     </children>
                 </Pane>
             </children>
