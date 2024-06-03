@@ -77,6 +77,33 @@ public class LinguisticSummary {
         return label + ". [ " + degreeOfTruth + " ]";
     }
 
+    public static String toStringDetailed(List<LinguisticSummary> summaries) {
+        StringBuilder wholeText = new StringBuilder();
+        wholeText.append(" ");
+        for (int i = 0; i < summaries.getFirst().getQualityMeasures().size(); i++) {
+            if (i == summaries.getFirst().getQualityMeasures().size() - 1) {
+                wholeText.append("|     T").append("    |");
+
+            } else if (i >= 9) {
+                wholeText.append("|  T ").append(i+1).append("  ");
+            } else {
+                wholeText.append("|   T ").append(i+1).append("   ");
+            }
+        }
+        wholeText.append("\n");
+
+
+        for (LinguisticSummary summary : summaries) {
+            StringBuilder text = new StringBuilder();
+
+            for (int i = 0; i < summary.getQualityMeasures().size(); i++) {
+                text.append(" | ").append("[").append(String.format("%.2f", summary.getQualityMeasures().get(i))).append("]");
+            }
+            wholeText.append(text).append(" |\n");
+        }
+        return wholeText.toString();
+    }
+
     public String toStringFull() {
         return "LinguisticSummary{" +
                 "label='" + label + '\'' +

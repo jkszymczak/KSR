@@ -26,6 +26,11 @@
                         <MenuItem fx:id="ms_form4" mnemonicParsing="false" text="Form 4" />
                     </items>
                 </Menu>
+                <Menu mnemonicParsing="false" text="Label creator">
+                    <items>
+                        <MenuItem fx:id="create_label" mnemonicParsing="false" text="Create label" />
+                    </items>
+                </Menu>
             </menus>
         </MenuBar>
         <AnchorPane prefHeight="200.0" prefWidth="200.0">

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" prefHeight="720" prefWidth="1080" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MSForm4Controller">
+    <padding>
+        <Insets bottom="20.0" top="-457" />
+    </padding>
+    <children>
+        <MenuBar>
+            <menus>
+                <Menu mnemonicParsing="false" text="Single-subject">
+                    <items>
+                        <MenuItem fx:id="ss_form1" mnemonicParsing="false" text="Form 1" />
+                        <MenuItem mnemonicParsing="false" text="Form 2" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Multi-subject">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Form 1" />
+                        <MenuItem mnemonicParsing="false" text="Form 2" />
+                        <MenuItem mnemonicParsing="false" text="Form 3" />
+                        <MenuItem mnemonicParsing="false" text="Form 4" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <children>
+                <Pane layoutY="-20.0" prefHeight="695.0" prefWidth="1080.0" AnchorPane.bottomAnchor="-475.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-20.0">
+                    <children>
+                        <Label alignment="CENTER" prefHeight="36.0" prefWidth="1080.0" text="Generator of multi-subject linguistic summaries in form 4">
+                        </Label>
+                  <Label layoutX="14.0" layoutY="36.0" prefHeight="48.0" prefWidth="369.0" text="Template: More P1 than P2 are/have S. [T_1]" />
+                  <Label layoutX="14.0" layoutY="198.0" prefHeight="36.0" prefWidth="163.0" text="Choose summarizer " />
+                  <Label layoutX="11.0" layoutY="126.0" prefHeight="36.0" prefWidth="163.0" text="Summarizator Conjunction" />
+                  <Label layoutX="11.0" layoutY="162.0" prefHeight="36.0" prefWidth="163.0" text="Number of summarizers" />
+                  <Label fx:id="chosenSummarizerLabel_2" layoutX="289.0" layoutY="198.0" prefHeight="36.0" prefWidth="163.0" text="Choose summarizer " />
+                  <Label fx:id="chosenSummarizerLabel_3" layoutX="555.0" layoutY="198.0" prefHeight="36.0" prefWidth="163.0" text="Choose summarizer " />
+                  <Label fx:id="chosenSummarizerLabel_4" layoutX="836.0" layoutY="198.0" prefHeight="36.0" prefWidth="163.0" text="Choose summarizer " />
+                  <Separator layoutY="30.0" prefHeight="12.0" prefWidth="1080.0" />
+                  <Separator layoutY="78.0" prefHeight="12.0" prefWidth="1080.0" />
+                  <ComboBox fx:id="summarizatorConjunction" layoutX="174.0" layoutY="132.0" prefWidth="100.0" />
+                  <ComboBox fx:id="chosenSummarizer_1" layoutX="11.0" layoutY="234.0" prefWidth="230.0" />
+                  <ComboBox fx:id="chosenSummarizer_2" layoutX="289.0" layoutY="234.0" prefWidth="230.0" />
+                  <ComboBox fx:id="chosenSummarizer_3" layoutX="555.0" layoutY="234.0" prefWidth="230.0" />
+                  <ComboBox fx:id="chosenSummarizer_4" layoutX="836.0" layoutY="234.0" prefWidth="230.0" />
+                  <Separator layoutY="305.0" prefHeight="12.0" prefWidth="1080.0" />
+                  <Spinner fx:id="numberSummarizerSpinner" layoutX="174.0" layoutY="168.0" prefHeight="25.0" prefWidth="60.0" />
+                  <Button fx:id="saveSummariesButton" disable="true" layoutX="264.0" layoutY="656.0" mnemonicParsing="false" onAction="#saveSummariesButtonClick" prefHeight="25.0" prefWidth="100.0" text="Save Summries" />
+                  <TextArea fx:id="textArea" layoutX="14.0" layoutY="385.0" prefHeight="256.0" prefWidth="1050.0" />
+                  <Label layoutX="14.0" layoutY="656.0" prefHeight="25.0" prefWidth="250.0" text="Save summray to entered file with all detailes" />
+                  <Button fx:id="generateBestSummaryButton" layoutX="14.0" layoutY="330.0" mnemonicParsing="false" onAction="#generateSummaries" prefHeight="36.0" prefWidth="163.0" text="Generate Summary" />
+                  <ComboBox fx:id="cb_chosenSummarizerLabel_1" layoutX="11.0" layoutY="270.0" prefWidth="230.0" />
+                  <ComboBox fx:id="cb_chosenSummarizerLabel_2" layoutX="289.0" layoutY="270.0" prefWidth="230.0" />
+                  <ComboBox fx:id="cb_chosenSummarizerLabel_3" layoutX="555.0" layoutY="270.0" prefWidth="230.0" />
+                  <ComboBox fx:id="cb_chosenSummarizerLabel_4" layoutX="836.0" layoutY="270.0" prefWidth="230.0" />
+                  <Label fx:id="status" layoutX="563.0" layoutY="660.0" prefHeight="17.0" prefWidth="500.0" />
+                  <Button fx:id="saveSummariesCSVButton" disable="true" layoutX="371.0" layoutY="656.0" mnemonicParsing="false" onAction="#saveSummariesCSVButtonClick" text="Save Summaries detailed (CSV)" />
+                  <Label layoutX="11.0" layoutY="90.0" prefHeight="36.0" prefWidth="163.0" text="Choose subject 1" />
+                  <ComboBox fx:id="chosenSubject1" layoutX="174.0" layoutY="96.0" prefWidth="120.0" />
+                  <Label layoutX="319.0" layoutY="90.0" prefHeight="36.0" prefWidth="163.0" text="Choose subject 2" />
+                  <ComboBox fx:id="chosenSubject2" layoutX="482.0" layoutY="96.0" prefWidth="120.0" />
+                  <Button fx:id="generatePairButton" layoutX="208.0" layoutY="330.0" mnemonicParsing="false" onAction="#generateSummariesPair" prefHeight="36.0" prefWidth="163.0" text="Generate Pair " />
+                    </children>
+                </Pane>
+            </children>
+        </AnchorPane>
+    </children>
+</VBox>

@@ -29,10 +29,6 @@ public class MSForm1Controller {
     private TwoSubjectSummaryFirst genForm1;
     private List<Pair<String, Double>> summaries;
 
-    // Variable for weights
-    private List<Double> weights;
-    private Double margin = 0.01;
-
     // Data
     private List<BlockGroup> data;
     String path = "dataBasePrep/prepared.csv";

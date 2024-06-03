@@ -22,6 +22,8 @@ public class MainAppController {
     private MenuItem ms_form3;
     @FXML
     private MenuItem ms_form4;
+    @FXML
+    private MenuItem create_label;
 
 
     @FXML
@@ -91,5 +93,30 @@ public class MainAppController {
             }
         });
 
+        ms_form4.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ms_form4.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) ms_form4.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        create_label.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("create_label.fxml"));
+                Pane newContent = loader.load();
+
+                Scene scene = new Scene(newContent);
+                Stage stage = (Stage) create_label.getParentPopup().getOwnerWindow();
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

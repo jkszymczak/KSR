@@ -1,41 +1,32 @@
 package GUI;
 
 import Builders.ContainerBuilder;
-import Builders.FuzzyQuantifierBuilder;
-import Builders.LinguisticSummaryBuilder;
-import Builders.SummarizerQualifierBuilder;
 import Database.BlockGroup;
 import Database.CSV;
-import FuzzyCalculations.*;
-import LinguisticSummarization.LinguisticSummary;
-import LinguisticSummarization.LinguisticSummaryGenerator;
-import LinguisticSummarization.LinguisticSummaryType;
+import FuzzyCalculations.Container;
+import FuzzyCalculations.SummarizerQualifier;
+import LinguisticSummarization.Subject;
+import LinguisticSummarization.TwoSubjectSummaryForth;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
+import org.example.Pair;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
-import GUI.LinguisticVariablesFunctions;
 
 import static GUI.LinguisticVariablesFunctions.*;
 
-public class SSForm1Controller {
+public class MSForm4Controller {
     // ================ Code's Variables ================
     // Generator
-    private LinguisticSummaryGenerator genForm1;
-    private List<LinguisticSummary> summaries;
-
-    // Variable for weights
-    private List<Double> weights;
-    private Double margin = 0.01;
+    private TwoSubjectSummaryForth genForm4_1;
+    private TwoSubjectSummaryForth genForm4_2;
+    private List<Pair<String, Double>> summaries;
 
     // Data
     private List<BlockGroup> data;
@@ -55,11 +46,15 @@ public class SSForm1Controller {
 
 
     // ================ View's Variables ================
-    // Quantifier and Conjunction
-    @FXML
-    private ComboBox<String> chosenQuantifier;
+    // Conjunction
     @FXML
     private ComboBox<String> summarizatorConjunction;
+
+    // Subjects
+    @FXML
+    private ComboBox<String> chosenSubject1;
+    @FXML
+    private ComboBox<String> chosenSubject2;
 
     // Summarizator
     @FXML
@@ -90,10 +85,6 @@ public class SSForm1Controller {
     // Display of results
     @FXML
     private TextArea textArea;
-    @FXML
-    private TextArea qualityMeasuresTextArea;
-    @FXML
-    private CheckBox generateDetailedCheckBox;
 
     // Saving functionality
     @FXML
@@ -103,63 +94,6 @@ public class SSForm1Controller {
     @FXML
     private Label status;
 
-    // Weights
-    @FXML
-    private CheckBox defaultWeightsCheckBox;
-    @FXML
-    private Label descriptionOfWeights;
-    @FXML
-    private Label label_actualSum;
-    @FXML
-    private Label label_SumWeights;
-    @FXML
-    private Button equalsWeightsButton;
-    @FXML
-    private Button resetWeightsButton;
-    @FXML
-    private Spinner<Double> T_1Spinner;
-    @FXML
-    private Spinner<Double> T_2Spinner;
-    @FXML
-    private Spinner<Double> T_3Spinner;
-    @FXML
-    private Spinner<Double> T_4Spinner;
-    @FXML
-    private Spinner<Double> T_5Spinner;
-    @FXML
-    private Spinner<Double> T_6Spinner;
-    @FXML
-    private Spinner<Double> T_7Spinner;
-    @FXML
-    private Spinner<Double> T_8Spinner;
-    @FXML
-    private Spinner<Double> T_9Spinner;
-    @FXML
-    private Spinner<Double> T_10Spinner;
-    @FXML
-    private Spinner<Double> T_11Spinner;
-    @FXML
-    private Label label_T_1;
-    @FXML
-    private Label label_T_2;
-    @FXML
-    private Label label_T_3;
-    @FXML
-    private Label label_T_4;
-    @FXML
-    private Label label_T_5;
-    @FXML
-    private Label label_T_6;
-    @FXML
-    private Label label_T_7;
-    @FXML
-    private Label label_T_8;
-    @FXML
-    private Label label_T_9;
-    @FXML
-    private Label label_T_10;
-    @FXML
-    private Label label_T_11;
 
 
     // ================ View's Functions ================
@@ -175,57 +109,6 @@ public class SSForm1Controller {
             numberSummarizerConfirm();
         });
 
-        // Weights Spinners
-        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory1 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory1.setAmountToStepBy(0.01);
-        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory2 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory2.setAmountToStepBy(0.01);
-        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory3 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory3.setAmountToStepBy(0.01);
-        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory4 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory4.setAmountToStepBy(0.01);
-        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory5 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory5.setAmountToStepBy(0.01);
-        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory6 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory6.setAmountToStepBy(0.01);
-        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory7 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory7.setAmountToStepBy(0.01);
-        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory8 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory8.setAmountToStepBy(0.01);
-        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory9 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory9.setAmountToStepBy(0.01);
-        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory10 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory10.setAmountToStepBy(0.01);
-        SpinnerValueFactory.DoubleSpinnerValueFactory doubleFactory11 = new SpinnerValueFactory.DoubleSpinnerValueFactory(0., 1., 0.);
-        doubleFactory11.setAmountToStepBy(0.01);
-
-        T_1Spinner.setValueFactory(doubleFactory1);
-        T_2Spinner.setValueFactory(doubleFactory2);
-        T_3Spinner.setValueFactory(doubleFactory3);
-        T_4Spinner.setValueFactory(doubleFactory4);
-        T_5Spinner.setValueFactory(doubleFactory5);
-        T_6Spinner.setValueFactory(doubleFactory6);
-        T_7Spinner.setValueFactory(doubleFactory7);
-        T_8Spinner.setValueFactory(doubleFactory8);
-        T_9Spinner.setValueFactory(doubleFactory9);
-        T_10Spinner.setValueFactory(doubleFactory10);
-        T_11Spinner.setValueFactory(doubleFactory11);
-        setDefaultWeights();
-
-        // Add listeners to weights spinners
-        addSpinnerListener(T_1Spinner);
-        addSpinnerListener(T_2Spinner);
-        addSpinnerListener(T_3Spinner);
-        addSpinnerListener(T_4Spinner);
-        addSpinnerListener(T_5Spinner);
-        addSpinnerListener(T_6Spinner);
-        addSpinnerListener(T_7Spinner);
-        addSpinnerListener(T_8Spinner);
-        addSpinnerListener(T_9Spinner);
-        addSpinnerListener(T_10Spinner);
-        addSpinnerListener(T_11Spinner);
-        calculateSumOfWeights();
-
 
         // Init linguisticVariables' names
         linguisticVariables = new ArrayList<>(Arrays.asList("Bedroom to room ratio", "Median house age", "Mean household type",
@@ -234,8 +117,11 @@ public class SSForm1Controller {
         // Made containers for linguisticVariables
         initContainers();
 
-        // Set up ComboBoxes for Quantifier and Conjunction
-        chosenQuantifier.getItems().addAll("Absolute", "Relative");
+        // Set up ComboBoxes for Subjects
+        chosenSubject1.getItems().addAll("<1H OCEAN", "INLAND", "NEAR OCEAN", "NEAR BAY", "ISLAND");
+        chosenSubject2.getItems().addAll("<1H OCEAN", "INLAND", "NEAR OCEAN", "NEAR BAY", "ISLAND");
+
+        // Set up ComboBoxes for Conjunction
         summarizatorConjunction.getItems().addAll("are", "have", "are in");
         summarizatorConjunction.setValue(summarizatorConjunction.getItems().getFirst());
 
@@ -261,106 +147,28 @@ public class SSForm1Controller {
         });
 
         // Set items invisible
-        setWeightsPanelInvisible();
         setManySummarizatorInvisible();
-        setDetailedTextAreaInvisible();
     }
 
 
     // Generating summaries
     @FXML
-    public void generateOptimalSummary() {
-        System.out.println("Generate Optimal Summary Clicked");
+    public void generateSummariesPair() {
+        System.out.println("Generate Summaries Pair Clicked");
+
         generatePrepare();
-
-        if (checkWeightsCorrectness()) {
-            System.out.println("Weights are correct");
-            summaries = genForm1.generateSummaries();
-            for (LinguisticSummary summary : summaries) {
-                System.out.println(summary);
-                genForm1.calculateQualityMeasures(weights, summary);
-            }
-            LinguisticSummary optimalSummary = genForm1.calculateOptimalSummary(summaries);
-            summaries = Collections.singletonList(optimalSummary);
-
-            System.out.println("Optimal summary: " + optimalSummary);
-            String text = textArea.getText();
-            text += optimalSummary.toString() + "\n";
-            textArea.setText(text);
-
-            if (generateDetailedCheckBox.isSelected()) {
-                String tempText = qualityMeasuresTextArea.getText();
-                tempText += LinguisticSummary.toStringDetailed(summaries);
-                qualityMeasuresTextArea.setText(tempText);
-            }
-
-            saveSummariesButton.setDisable(false);
-            saveSummariesCSVButton.setDisable(false);
-        } else {
-            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
-            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
-        }
+        summaries = genForm4_1.generateSummaries();
+        summaries.addAll(genForm4_2.generateSummaries());
+        generateAfter();
     }
 
     @FXML
-    public void generateBestSummaries() {
-        System.out.println("Generate Best Summary Clicked");
+    public void generateSummaries() {
+        System.out.println("Generate Summary Clicked");
+
         generatePrepare();
-
-        if (checkWeightsCorrectness()) {
-            System.out.println("Weights are correct");
-            summaries = Collections.singletonList(genForm1.generateBest());
-            generateAfter();
-        } else {
-            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
-            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
-        }
-    }
-
-    @FXML
-    public void generateAllSummaries() {
-        System.out.println("Generate All Summaries Clicked");
-        generatePrepare();
-
-        if (checkWeightsCorrectness()) {
-            System.out.println("Weights are correct");
-            summaries = genForm1.generateSummaries();
-            generateAfter();
-        } else {
-            System.out.println("Weights are incorrect !\nDo not sum up to 1.0 !");
-            textArea.setText("Weights are incorrect !\nDo not sum up to 1.0 !");
-        }
-    }
-
-
-    // Display detailed function
-    @FXML
-    public void onCheckBoxGenerateDetailedChangeState() {
-        if (generateDetailedCheckBox.isSelected()) {
-            setDetailedTextAreaVisible();
-        } else {
-            setDetailedTextAreaInvisible();
-        }
-    }
-
-    // Weights functions
-    @FXML
-    public void onCheckBoxChangeState() {
-        if (!defaultWeightsCheckBox.isSelected()) {
-            setWeightsPanelInvisible();
-        } else {
-            setWeightsPanelVisible();
-        }
-    }
-
-    @FXML
-    public void setEqualsWeightsButtonClick() {
-        setEqualsWeights();
-    }
-
-    @FXML
-    public void setDefaultWeightsButtonClick() {
-        setDefaultWeights();
+        summaries = genForm4_1.generateSummaries();
+        generateAfter();
     }
 
 
@@ -404,8 +212,7 @@ public class SSForm1Controller {
                     status.setText("Saved. The file already exists: " + file.getAbsolutePath());
                 }
                 // Here, place the code that saves the results to the selected file
-                CSV.saveSummariesCSV(String.valueOf(file.toPath()), summaries);
-
+                CSV.save_pairs(String.valueOf(file.toPath()), summaries);
             } catch (IOException e) {
                 System.out.println("An error occurred while creating the file: " + e.getMessage());
                 status.setText("An error occurred while creating the file: " + e.getMessage());
@@ -588,35 +395,24 @@ public class SSForm1Controller {
 
     // Generating summaries
     public void generateAfter() {
-        for (LinguisticSummary summary : summaries) {
+        for (Pair<String, Double> summary : summaries) {
             System.out.println(summary);
             String text = textArea.getText();
-            text += summary.toString() + "\n";
+            text += summary.toWrite() + "\n";
             textArea.setText(text);
-            genForm1.calculateQualityMeasures(weights, summary);
         }
-
-        if (generateDetailedCheckBox.isSelected()) {
-            String text = qualityMeasuresTextArea.getText();
-            text += LinguisticSummary.toStringDetailed(summaries);
-            qualityMeasuresTextArea.setText(text);
-        }
-
         saveSummariesButton.setDisable(false);
         saveSummariesCSVButton.setDisable(false);
     }
 
     public void generatePrepare() {
         textArea.clear();
-        qualityMeasuresTextArea.clear();
-
-        String quantifierStr = chosenQuantifier.getValue();
         String summarizatorConj = summarizatorConjunction.getValue();
 
-        weights = new ArrayList<>(Arrays.asList(T_1Spinner.getValue(), T_2Spinner.getValue(),
-                T_3Spinner.getValue(), T_4Spinner.getValue(), T_5Spinner.getValue(), T_6Spinner.getValue(),
-                T_7Spinner.getValue(), T_8Spinner.getValue(), T_9Spinner.getValue(), T_10Spinner.getValue(),
-                T_11Spinner.getValue()));
+        String subject1Str = chosenSubject1.getValue();
+        String subject2Str = chosenSubject2.getValue();
+        Subject subject1 = connectSubject(subject1Str);
+        Subject subject2 = connectSubject(subject2Str);
 
         List<String> summarizatorLabels = new ArrayList<>();
         List<String> linguisticVariables = new ArrayList<>();
@@ -659,15 +455,9 @@ public class SSForm1Controller {
             summarizator = summarizator.and(connectSummarizerQualifier(linguisticVariables.get(i), summarizatorLabels.get(i)));
         }
 
-        FuzzyQuantifier quantifier = connectQuantifier(quantifierStr);
+        genForm4_1 = new TwoSubjectSummaryForth(subject1, subject2, summarizator, data, summarizatorConj);
+        genForm4_2 = new TwoSubjectSummaryForth(subject2, subject1, summarizator, data, summarizatorConj);
 
-        genForm1 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.First)
-                .onSet(data).withSummarizator(summarizator)
-                .withQuantifier(quantifier)
-                .withSubject("Block Groups")
-                .withSummarizatorConjunction(summarizatorConj)
-                .build();
     }
 
     private SummarizerQualifier connectSummarizerQualifier(String linguisticVariable, String linguisticVariableLabel) {
@@ -685,10 +475,13 @@ public class SSForm1Controller {
         };
     }
 
-    private FuzzyQuantifier connectQuantifier(String quantifier) {
-        return switch (quantifier) {
-            case "Absolute" -> createAbsolute(data);
-            case "Relative" -> createRelative();
+    public Subject connectSubject(String subjectStr) {
+        return switch (subjectStr) {
+            case "<1H OCEAN" -> Subject.SUB_HOUR_OCEAN;
+            case "INLAND" -> Subject.INLAND;
+            case "NEAR OCEAN" -> Subject.NEAR_OCEAN;
+            case "NEAR BAY" -> Subject.NEAR_BAY;
+            case "ISLAND" -> Subject.ISLAND;
             default -> null;
         };
     }
@@ -705,129 +498,6 @@ public class SSForm1Controller {
         cb_chosenSummarizerLabel_2.setVisible(false);
         cb_chosenSummarizerLabel_3.setVisible(false);
         cb_chosenSummarizerLabel_4.setVisible(false);
-    }
-
-    public void setWeightsPanelVisible() {
-        descriptionOfWeights.setVisible(true);
-        resetWeightsButton.setVisible(true);
-        equalsWeightsButton.setVisible(true);
-        label_actualSum.setVisible(true);
-        label_SumWeights.setVisible(true);
-        T_1Spinner.setVisible(true);
-        T_2Spinner.setVisible(true);
-        T_3Spinner.setVisible(true);
-        T_4Spinner.setVisible(true);
-        T_5Spinner.setVisible(true);
-        T_6Spinner.setVisible(true);
-        T_7Spinner.setVisible(true);
-        T_8Spinner.setVisible(true);
-        T_9Spinner.setVisible(true);
-        T_10Spinner.setVisible(true);
-        T_11Spinner.setVisible(true);
-        label_T_1.setVisible(true);
-        label_T_2.setVisible(true);
-        label_T_3.setVisible(true);
-        label_T_4.setVisible(true);
-        label_T_5.setVisible(true);
-        label_T_6.setVisible(true);
-        label_T_7.setVisible(true);
-        label_T_8.setVisible(true);
-        label_T_9.setVisible(true);
-        label_T_10.setVisible(true);
-        label_T_11.setVisible(true);
-    }
-
-    public void setWeightsPanelInvisible() {
-        descriptionOfWeights.setVisible(false);
-        resetWeightsButton.setVisible(false);
-        equalsWeightsButton.setVisible(false);
-        label_actualSum.setVisible(false);
-        label_SumWeights.setVisible(false);
-        T_1Spinner.setVisible(false);
-        T_2Spinner.setVisible(false);
-        T_3Spinner.setVisible(false);
-        T_4Spinner.setVisible(false);
-        T_5Spinner.setVisible(false);
-        T_6Spinner.setVisible(false);
-        T_7Spinner.setVisible(false);
-        T_8Spinner.setVisible(false);
-        T_9Spinner.setVisible(false);
-        T_10Spinner.setVisible(false);
-        T_11Spinner.setVisible(false);
-        label_T_1.setVisible(false);
-        label_T_2.setVisible(false);
-        label_T_3.setVisible(false);
-        label_T_4.setVisible(false);
-        label_T_5.setVisible(false);
-        label_T_6.setVisible(false);
-        label_T_7.setVisible(false);
-        label_T_8.setVisible(false);
-        label_T_9.setVisible(false);
-        label_T_10.setVisible(false);
-        label_T_11.setVisible(false);
-    }
-
-    public void setDetailedTextAreaVisible() {
-        qualityMeasuresTextArea.setVisible(true);
-        textArea.setPrefWidth(525);
-    }
-
-    public void setDetailedTextAreaInvisible() {
-        qualityMeasuresTextArea.setVisible(false);
-        textArea.setPrefWidth(1050);
-    }
-
-
-    // Setting spinners values
-    public void setEqualsWeights() {
-        T_1Spinner.getValueFactory().setValue(1.0 / 11.0);
-        T_2Spinner.getValueFactory().setValue(1.0 / 11.0);
-        T_3Spinner.getValueFactory().setValue(1.0 / 11.0);
-        T_4Spinner.getValueFactory().setValue(1.0 / 11.0);
-        T_5Spinner.getValueFactory().setValue(1.0 / 11.0);
-        T_6Spinner.getValueFactory().setValue(1.0 / 11.0);
-        T_7Spinner.getValueFactory().setValue(1.0 / 11.0);
-        T_8Spinner.getValueFactory().setValue(1.0 / 11.0);
-        T_9Spinner.getValueFactory().setValue(1.0 / 11.0);
-        T_10Spinner.getValueFactory().setValue(1.0 / 11.0);
-        T_11Spinner.getValueFactory().setValue(1.0 / 11.0);
-    }
-
-    public void setDefaultWeights() {
-        T_1Spinner.getValueFactory().setValue(0.3);
-        T_2Spinner.getValueFactory().setValue(0.07);
-        T_3Spinner.getValueFactory().setValue(0.07);
-        T_4Spinner.getValueFactory().setValue(0.07);
-        T_5Spinner.getValueFactory().setValue(0.07);
-        T_6Spinner.getValueFactory().setValue(0.07);
-        T_7Spinner.getValueFactory().setValue(0.07);
-        T_8Spinner.getValueFactory().setValue(0.07);
-        T_9Spinner.getValueFactory().setValue(0.07);
-        T_10Spinner.getValueFactory().setValue(0.07);
-        T_11Spinner.getValueFactory().setValue(0.07);
-    }
-
-
-    // Weights functions
-    public boolean checkWeightsCorrectness() {
-        double sum = T_1Spinner.getValue() + T_2Spinner.getValue() + T_3Spinner.getValue() + T_4Spinner.getValue() + T_5Spinner.getValue() + T_6Spinner.getValue() + T_7Spinner.getValue() + T_8Spinner.getValue() + T_9Spinner.getValue() + T_10Spinner.getValue() + T_11Spinner.getValue();
-        System.out.println("Sum of weights = " + sum);
-        return isAlmostOne(sum, margin);
-    }
-
-    public boolean isAlmostOne(double number, double margin) {
-        return Math.abs(1.0 - number) <= margin;
-    }
-
-    private void addSpinnerListener(Spinner<Double> spinner) {
-        spinner.valueProperty().addListener((obs, oldValue, newValue) -> {
-            calculateSumOfWeights();
-        });
-    }
-
-    private void calculateSumOfWeights() {
-        double sum = T_1Spinner.getValue() + T_2Spinner.getValue() + T_3Spinner.getValue() + T_4Spinner.getValue() + T_5Spinner.getValue() + T_6Spinner.getValue() + T_7Spinner.getValue() + T_8Spinner.getValue() + T_9Spinner.getValue() + T_10Spinner.getValue() + T_11Spinner.getValue();
-        label_SumWeights.setText(String.format("%.2f", sum));
     }
 
 }
