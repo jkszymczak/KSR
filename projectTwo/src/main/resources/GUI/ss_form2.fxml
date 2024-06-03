@@ -112,10 +112,12 @@
                   <ComboBox fx:id="qualifierConjunction" layoutX="174.0" layoutY="136.0" prefWidth="100.0" />
                   <Label layoutX="259.0" layoutY="205.0" prefHeight="36.0" prefWidth="163.0" text="Number of summarizers" />
                   <Spinner fx:id="numberSummarizerSpinner" layoutX="422.0" layoutY="211.0" prefHeight="25.0" prefWidth="60.0" />
-                  <CheckBox fx:id="generateDetailedCheckBox" layoutX="600.0" layoutY="475.0" mnemonicParsing="false" onAction="#onCheckBoxGenerateDetailedChangeState" text="Generate Detailed" />
+                  <CheckBox fx:id="generateDetailedCheckBox" layoutX="949.0" layoutY="475.0" mnemonicParsing="false" onAction="#onCheckBoxGenerateDetailedChangeState" text="Generate Detailed" />
                   <TextArea fx:id="qualityMeasuresTextArea" layoutX="543.0" layoutY="520.0" prefHeight="222.0" prefWidth="525.0" />
                   <Label layoutX="330.0" layoutY="90.0" prefHeight="36.0" prefWidth="163.0" text="Choose Subject" />
                   <ComboBox fx:id="chosenSubject" layoutX="330.0" layoutY="125.0" prefWidth="120.0" />
+                  <Button fx:id="swapButton" layoutX="650.0" layoutY="471.0" mnemonicParsing="false" onAction="#swapWwithS" text="Swap W with S" />
+                  <Separator layoutX="612.0" layoutY="459.0" orientation="VERTICAL" prefHeight="50.0" />
                     </children>
                 </Pane>
             </children>

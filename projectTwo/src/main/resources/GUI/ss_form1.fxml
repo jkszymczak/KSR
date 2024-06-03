@@ -96,10 +96,11 @@
                   <Button fx:id="resetWeightsButton" layoutX="515.0" layoutY="173.0" mnemonicParsing="false" onAction="#setDefaultWeightsButtonClick" text="Reset weights" />
                   <Label fx:id="label_actualSum" layoutX="805.0" layoutY="52.0" text="Actual Sum:" />
                   <Label fx:id="label_SumWeights" layoutX="880.0" layoutY="52.0" />
-                  <CheckBox fx:id="generateDetailedCheckBox" layoutX="600.0" layoutY="339.0" mnemonicParsing="false" onAction="#onCheckBoxGenerateDetailedChangeState" text="Generate Detailed" />
+                  <CheckBox fx:id="generateDetailedCheckBox" layoutX="949.0" layoutY="340.0" mnemonicParsing="false" onAction="#onCheckBoxGenerateDetailedChangeState" text="Generate Detailed" />
                   <TextArea fx:id="qualityMeasuresTextArea" layoutX="543.0" layoutY="385.0" prefHeight="256.0" prefWidth="525.0" />
                   <Label layoutX="330.0" layoutY="90.0" prefHeight="36.0" prefWidth="163.0" text="Choose Subject" />
                   <ComboBox fx:id="chosenSubject" layoutX="330.0" layoutY="125.0" prefWidth="120.0" />
+                  <Separator layoutX="612.0" layoutY="324.0" orientation="VERTICAL" prefHeight="50.0" />
                     </children>
                 </Pane>
             </children>
