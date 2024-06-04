@@ -80,6 +80,8 @@ public class MSForm4Controller {
     @FXML
     private ComboBox<String> cb_chosenSummarizerLabel_4;
     @FXML
+    private Label chosenSummarizerLabel_1;
+    @FXML
     private Label chosenSummarizerLabel_2;
     @FXML
     private Label chosenSummarizerLabel_3;
@@ -113,6 +115,30 @@ public class MSForm4Controller {
     private MenuItem ms_form4;
     @FXML
     private MenuItem create_label;
+
+    // Other
+    @FXML
+    private CheckBox advancedOptionsCheckBox;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Label templateLabel;
+    @FXML
+    private Label chooseSubjectLabel;
+    @FXML
+    private Label summarizatorConjLabel;
+    @FXML
+    private Label numberSummarizersLabel;
+    @FXML
+    private Label saveLabel;
+    @FXML
+    private Button generateBestSummaryButton;
+    @FXML
+    private Button swapSubjectsButton;
+    @FXML
+    private Label chooseSubjectLabel2;
+    @FXML
+    private Button generatePairButton;
 
 
     // ================ View's Functions ================
@@ -170,6 +196,7 @@ public class MSForm4Controller {
 
         // Set items invisible
         setManySummarizatorInvisible();
+        advancedOptionsInvisible();
     }
 
 
@@ -302,6 +329,17 @@ public class MSForm4Controller {
             default:
                 System.out.println("Error of Spinner Value");
                 break;
+        }
+    }
+
+
+    // Advanced options
+    @FXML
+    public void advancedOptions() {
+        if (advancedOptionsCheckBox.isSelected()) {
+            advancedOptionsVisible();
+        } else {
+            advancedOptionsInvisible();
         }
     }
 
@@ -530,6 +568,44 @@ public class MSForm4Controller {
         cb_chosenSummarizerLabel_2.setVisible(false);
         cb_chosenSummarizerLabel_3.setVisible(false);
         cb_chosenSummarizerLabel_4.setVisible(false);
+    }
+
+
+    // Advanced options
+    public void advancedOptionsVisible() {
+        titleLabel.setText("Generator of multi-subject linguistic summaries in form 4");
+        templateLabel.setText("Template: More P1 than P2 are/have S. [T_1]");
+        chooseSubjectLabel.setText("Choose subject 1");
+        chooseSubjectLabel2.setText("Choose subject 2");
+        summarizatorConjLabel.setVisible(true);
+        summarizatorConjunction.setVisible(true);
+        numberSummarizersLabel.setText("Number of summarizers");
+        chosenSummarizerLabel_1.setText("Choose summarizer 1");
+        chosenSummarizerLabel_2.setText("Choose summarizer 2");
+        chosenSummarizerLabel_3.setText("Choose summarizer 3");
+        chosenSummarizerLabel_4.setText("Choose summarizer 4");
+        saveSummariesButton.setVisible(true);
+        saveSummariesCSVButton.setVisible(true);
+        saveLabel.setVisible(true);
+        swapSubjectsButton.setText("Swap P1 with P2");
+    }
+
+    public void advancedOptionsInvisible() {
+        titleLabel.setText("Generator of summaries like as in the template below");
+        templateLabel.setText("Template: More P1 than P2 are/have S. [T_1]\tE.g.: More Block Groups <1H OCEAN than Block Groups INLAND are/have few rooms. [0.1]");
+        chooseSubjectLabel.setText("Choose subject \n(this is P1 on Template)");
+        chooseSubjectLabel2.setText("Choose subject \n(this is P2 on Template)");
+        summarizatorConjLabel.setVisible(false);
+        summarizatorConjunction.setVisible(false);
+        numberSummarizersLabel.setText("Number of features");
+        chosenSummarizerLabel_1.setText("Choose attribute");
+        chosenSummarizerLabel_2.setText("Additionally");
+        chosenSummarizerLabel_3.setText("Additionally");
+        chosenSummarizerLabel_4.setText("Additionally");
+        saveSummariesButton.setVisible(false);
+        saveSummariesCSVButton.setVisible(false);
+        saveLabel.setVisible(false);
+        swapSubjectsButton.setText("Swap Subjects");
     }
 
 

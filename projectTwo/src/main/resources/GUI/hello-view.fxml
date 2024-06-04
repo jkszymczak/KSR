@@ -41,10 +41,16 @@
                      <font>
                         <Font size="20.0" />
                      </font></Label>
-                  <Label alignment="CENTER" layoutX="-1.0" layoutY="117.0" prefHeight="17.0" prefWidth="1080.0" text="Choose the optiion from Menu to start" textAlignment="CENTER">
+                  <Label alignment="CENTER" layoutY="70.0" prefHeight="17.0" prefWidth="1080.0" text="Choose the optiion from Menu to start" textAlignment="CENTER">
                      <font>
                         <Font size="14.0" />
                      </font></Label>
+                  <Label alignment="TOP_LEFT" contentDisplay="TOP" layoutX="7.0" layoutY="99.0" prefHeight="20.0" prefWidth="414.0" text="Single-subject:  Form1:  Most of the block groups have low income. [0.3]" />
+                  <Label layoutX="90.0" layoutY="119.0" prefHeight="17.0" prefWidth="323.0" text="Form2: Few rooms being cheap are small. [0.3]" />
+                  <Label layoutX="413.0" layoutY="101.0" prefHeight="17.0" prefWidth="611.0" text="Multi-subject:  Form1: Many Block Groups &lt;1H OCEAN compare to Block Groups INLAND are aged. [0.3]" />
+                  <Label layoutX="492.0" layoutY="119.0" prefHeight="17.0" prefWidth="516.0" text="Form2: Many BG &lt;1H OCEAN compare to BG INLAND which are man to man are aged. [0.2]" />
+                  <Label layoutX="492.0" layoutY="139.0" prefHeight="17.0" prefWidth="564.0" text="Form3: Almost none BG &lt;1H OCEAN which are man to man compared to BG INLAND are aged. [1.0]" />
+                  <Label layoutX="492.0" layoutY="158.0" prefHeight="17.0" prefWidth="516.0" text="Form4: More Block Groups &lt;1H OCEAN than Block Groups INLAND are/have few rooms. [0.1]" />
                     </children>
                 </Pane>
             </children>

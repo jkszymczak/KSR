@@ -3,27 +3,22 @@ package GUI;
 import Builders.ContainerBuilder;
 import Database.BlockGroup;
 import Database.CSV;
+import FuzzyCalculations.Columns;
 import FuzzyCalculations.Container;
-import FuzzyCalculations.FuzzyQuantifier;
-import FuzzyCalculations.SummarizerQualifier;
-import LinguisticSummarization.Subject;
 import LinguisticSummarization.TwoSubjectSummaryFirst;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.example.Pair;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static GUI.LinguisticVariablesFunctions.*;
 
@@ -51,53 +46,49 @@ public class CreateLabelController {
 
 
     // ================ View's Variables ================
-    // Quantifier and Conjunction
+    // Base Info
     @FXML
-    private ComboBox<String> chosenQuantifier;
+    private ComboBox<String> chosenAttribute;
     @FXML
-    private ComboBox<String> summarizatorConjunction;
+    private ComboBox<String> chosenFunction;
+    @FXML
+    private TextField enteredName;
+    @FXML
+    private Label domainShowLabel;
+    @FXML
+    private Label domainLabel;
+    @FXML
+    private Button createLabelButton;
 
-    // Subjects
+    // Function's Parameters
     @FXML
-    private ComboBox<String> chosenSubject1;
+    private Label functionParamLabel;
     @FXML
-    private ComboBox<String> chosenSubject2;
+    private Label paramA;
+    @FXML
+    private Label paramB;
+    @FXML
+    private Label paramC;
+    @FXML
+    private Label paramD;
+    @FXML
+    private Label paramA_Value;
+    @FXML
+    private Label paramB_Value;
+    @FXML
+    private Label paramC_Value;
+    @FXML
+    private Label paramD_Value;
+    @FXML
+    private Slider paramA_Slider;
+    @FXML
+    private Slider paramB_Slider;
+    @FXML
+    private Slider paramC_Slider;
+    @FXML
+    private Slider paramD_Slider;
 
-    // Summarizator
-    @FXML
-    private Spinner<Integer> numberSummarizerSpinner;
-    @FXML
-    private ComboBox<String> chosenSummarizer_1;
-    @FXML
-    private ComboBox<String> chosenSummarizer_2;
-    @FXML
-    private ComboBox<String> chosenSummarizer_3;
-    @FXML
-    private ComboBox<String> chosenSummarizer_4;
-    @FXML
-    private ComboBox<String> cb_chosenSummarizerLabel_1;
-    @FXML
-    private ComboBox<String> cb_chosenSummarizerLabel_2;
-    @FXML
-    private ComboBox<String> cb_chosenSummarizerLabel_3;
-    @FXML
-    private ComboBox<String> cb_chosenSummarizerLabel_4;
-    @FXML
-    private Label chosenSummarizerLabel_2;
-    @FXML
-    private Label chosenSummarizerLabel_3;
-    @FXML
-    private Label chosenSummarizerLabel_4;
-
-    // Display of results
-    @FXML
-    private TextArea textArea;
-
-    // Saving functionality
-    @FXML
-    private Button saveSummariesButton;
-    @FXML
-    private Button saveSummariesCSVButton;
+    // status
     @FXML
     private Label status;
 
@@ -118,7 +109,6 @@ public class CreateLabelController {
     private MenuItem create_label;
 
 
-
     // ================ View's Functions ================
     // Init functions
     @FXML
@@ -129,13 +119,6 @@ public class CreateLabelController {
         // Init menu
         initMenu();
 
-        // Number of Summarizers Spinner
-        numberSummarizerSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 4, 1));
-        numberSummarizerSpinner.valueProperty().addListener((obs, oldValue, newValue) -> {
-            numberSummarizerConfirm();
-        });
-
-
         // Init linguisticVariables' names
         linguisticVariables = new ArrayList<>(Arrays.asList("Bedroom to room ratio", "Median house age", "Mean household type",
                 "Median income", "Population", "Total rooms count", "Median house value", "Distance LA", "Distance SF"));
@@ -143,204 +126,33 @@ public class CreateLabelController {
         // Made containers for linguisticVariables
         initContainers();
 
-        // Set up ComboBoxes for Subjects
-        chosenSubject1.getItems().addAll("<1H OCEAN", "INLAND", "NEAR OCEAN", "NEAR BAY", "ISLAND");
-        chosenSubject2.getItems().addAll("<1H OCEAN", "INLAND", "NEAR OCEAN", "NEAR BAY", "ISLAND");
-
-        // Set up ComboBoxes for Quantifier and Conjunction
-        chosenQuantifier.getItems().addAll("Relative");
-        chosenQuantifier.setValue(chosenQuantifier.getItems().getFirst());
-
-        summarizatorConjunction.getItems().addAll("are", "have", "are in");
-        summarizatorConjunction.setValue(summarizatorConjunction.getItems().getFirst());
-
-        // Set up ComboBoxes for Summarizers
-        chosenSummarizer_1.getItems().addAll(linguisticVariables);
-        chosenSummarizer_1.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-            updateSubComboBox(newValue, cb_chosenSummarizerLabel_1);
+        // Set up ComboBoxes
+        chosenAttribute.getItems().addAll(linguisticVariables);
+        chosenAttribute.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            updateFunctionDomain();
         });
 
-        chosenSummarizer_2.getItems().addAll(linguisticVariables);
-        chosenSummarizer_2.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-            updateSubComboBox(newValue, cb_chosenSummarizerLabel_2);
+        chosenFunction.getItems().addAll("Triangle", "Trapezoidal", "Gaussian");
+        chosenFunction.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            updateFunctionParameters();
         });
 
-        chosenSummarizer_3.getItems().addAll(linguisticVariables);
-        chosenSummarizer_3.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-            updateSubComboBox(newValue, cb_chosenSummarizerLabel_3);
-        });
-
-        chosenSummarizer_4.getItems().addAll(linguisticVariables);
-        chosenSummarizer_4.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-            updateSubComboBox(newValue, cb_chosenSummarizerLabel_4);
-        });
-
-        // Set items invisible
-        setManySummarizatorInvisible();
+        setFunctionParametersInvisible();
+        setDomainInvisible();
     }
 
 
     // Generating summaries
 
-    @FXML
-    public void generateBestSummaries() {
-        System.out.println("Generate Best Summary Clicked");
-
-        generatePrepare();
-        summaries = Collections.singletonList(genForm1.generateBest());
-        generateAfter();
-    }
-
-    @FXML
-    public void generateAllSummaries() {
-        System.out.println("Generate All Summaries Clicked");
-
-        generatePrepare();
-        summaries = genForm1.generateSummaries();
-        generateAfter();
-    }
-
 
     // Saving functionality
-    @FXML
-    public void saveSummariesButtonClick() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select a file to save the results");
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            try {
-                if (file.createNewFile()) {
-                    System.out.println("Saved. The file has been created: " + file.getAbsolutePath());
-                    status.setText("Saved. The file has been created: " + file.getAbsolutePath());
-                } else {
-                    System.out.println("Saved. The file already exists: " + file.getAbsolutePath());
-                    status.setText("Saved. The file already exists: " + file.getAbsolutePath());
-                }
-                // Here, place the code that saves the results to the selected file
-                String content = textArea.getText();
-                Files.writeString(file.toPath(), content);
-            } catch (IOException e) {
-                System.out.println("An error occurred while creating the file: " + e.getMessage());
-                status.setText("An error occurred while creating the file: " + e.getMessage());
-            }
-        }
-    }
-
-    @FXML
-    public void saveSummariesCSVButtonClick() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select a file to save the results");
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            try {
-                if (file.createNewFile()) {
-                    System.out.println("Saved. The file has been created: " + file.getAbsolutePath());
-                    status.setText("Saved. The file has been created: " + file.getAbsolutePath());
-                } else {
-                    System.out.println("Saved. The file already exists: " + file.getAbsolutePath());
-                    status.setText("Saved. The file already exists: " + file.getAbsolutePath());
-                }
-                // Here, place the code that saves the results to the selected file
-                CSV.save_pairs(String.valueOf(file.toPath()), summaries);
-            } catch (IOException e) {
-                System.out.println("An error occurred while creating the file: " + e.getMessage());
-                status.setText("An error occurred while creating the file: " + e.getMessage());
-            }
-        }
-    }
 
 
     // Number of Summarizers
-    @FXML
-    public void numberSummarizerConfirm() {
-        System.out.println("Number Summarizer Confirm Clicked");
-        Integer spinnerValue = numberSummarizerSpinner.getValue();
-        switch (spinnerValue) {
-            case 1:
-                System.out.println("1");
-                setManySummarizatorInvisible();
-                break;
-            case 2:
-                System.out.println("2");
-                chosenSummarizer_2.setVisible(true);
-                chosenSummarizer_3.setVisible(false);
-                chosenSummarizer_4.setVisible(false);
-                chosenSummarizerLabel_2.setVisible(true);
-                chosenSummarizerLabel_3.setVisible(false);
-                chosenSummarizerLabel_4.setVisible(false);
-                cb_chosenSummarizerLabel_2.setVisible(true);
-                cb_chosenSummarizerLabel_3.setVisible(false);
-                cb_chosenSummarizerLabel_4.setVisible(false);
-                break;
-            case 3:
-                System.out.println("3");
-                chosenSummarizer_2.setVisible(true);
-                chosenSummarizer_3.setVisible(true);
-                chosenSummarizer_4.setVisible(false);
-                chosenSummarizerLabel_2.setVisible(true);
-                chosenSummarizerLabel_3.setVisible(true);
-                chosenSummarizerLabel_4.setVisible(false);
-                cb_chosenSummarizerLabel_2.setVisible(true);
-                cb_chosenSummarizerLabel_3.setVisible(true);
-                cb_chosenSummarizerLabel_4.setVisible(false);
-                break;
-            case 4:
-                System.out.println("4");
-                chosenSummarizer_2.setVisible(true);
-                chosenSummarizer_3.setVisible(true);
-                chosenSummarizer_4.setVisible(true);
-                chosenSummarizerLabel_2.setVisible(true);
-                chosenSummarizerLabel_3.setVisible(true);
-                chosenSummarizerLabel_4.setVisible(true);
-                cb_chosenSummarizerLabel_2.setVisible(true);
-                cb_chosenSummarizerLabel_3.setVisible(true);
-                cb_chosenSummarizerLabel_4.setVisible(true);
-                break;
-            default:
-                System.out.println("Error of Spinner Value");
-                break;
-        }
-    }
 
 
     // ================ Code's Functions ================
     // Init ComboBoxes
-    private void updateSubComboBox(String mainItem, ComboBox<String> comboBox) {
-        if (mainItem != null) {
-            comboBox.getItems().clear();
-            switch (mainItem) {
-                case "Bedroom to room ratio":
-                    comboBox.getItems().addAll(bedroomToRoomRatio.getLabels().keySet());
-                    break;
-                case "Median house age":
-                    comboBox.getItems().addAll(medianHouseAge.getLabels().keySet());
-                    break;
-                case "Mean household type":
-                    comboBox.getItems().addAll(meanHouseholdType.getLabels().keySet());
-                    break;
-                case "Median income":
-                    comboBox.getItems().addAll(medianIncome.getLabels().keySet());
-                    break;
-                case "Population":
-                    comboBox.getItems().addAll(population.getLabels().keySet());
-                    break;
-                case "Total rooms count":
-                    comboBox.getItems().addAll(totalRoomsCount.getLabels().keySet());
-                    break;
-                case "Median house value":
-                    comboBox.getItems().addAll(medianHouseValue.getLabels().keySet());
-                    break;
-                case "Distance LA":
-                    comboBox.getItems().addAll(distanceLA.getLabels().keySet());
-                    break;
-                case "Distance SF":
-                    comboBox.getItems().addAll(distanceSF.getLabels().keySet());
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
 
 
     // TODO : Make possible to add new labels into linguistic variables
@@ -422,116 +234,125 @@ public class CreateLabelController {
     }
 
 
-    // Generating summaries
-    public void generateAfter() {
-        for (Pair<String, Double> summary : summaries) {
-            System.out.println(summary);
-            String text = textArea.getText();
-            text += summary.toWrite() + "\n";
-            textArea.setText(text);
-        }
-        saveSummariesButton.setDisable(false);
-        saveSummariesCSVButton.setDisable(false);
-    }
+    public void updateFunctionDomain() {
+        setDomainVisible();
 
-    public void generatePrepare() {
-        textArea.clear();
-        String quantifierStr = chosenQuantifier.getValue();
-        String summarizatorConj = summarizatorConjunction.getValue();
+        linguisticVariables = new ArrayList<>(Arrays.asList("Bedroom to room ratio", "Median house age", "Mean household type",
+                "Median income", "Population", "Total rooms count", "Median house value", "Distance LA", "Distance SF"));
 
-        String subject1Str = chosenSubject1.getValue();
-        String subject2Str = chosenSubject2.getValue();
-        Subject subject1 = connectSubject(subject1Str);
-        Subject subject2 = connectSubject(subject2Str);
-
-        List<String> summarizatorLabels = new ArrayList<>();
-        List<String> linguisticVariables = new ArrayList<>();
-        switch (numberSummarizerSpinner.getValue()) {
-            case 1:
-                summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
-                linguisticVariables.add(chosenSummarizer_1.getValue());
+        Pair<Double, Double> domain = new Pair<>(0.0, 0.0);
+        String chosenLinguisticVariable = chosenAttribute.getValue();
+        switch (chosenLinguisticVariable) {
+            case "Bedroom to room ratio":
+                domain = bedroomToRoomRatio.getLabel("insufficient share of bedrooms").getRange();
                 break;
-            case 2:
-                summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
-                summarizatorLabels.add(cb_chosenSummarizerLabel_2.getValue());
-                linguisticVariables.add(chosenSummarizer_1.getValue());
-                linguisticVariables.add(chosenSummarizer_2.getValue());
+            case "Median house age":
+                domain = medianHouseAge.getLabel("new").getRange();
                 break;
-            case 3:
-                summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
-                summarizatorLabels.add(cb_chosenSummarizerLabel_2.getValue());
-                summarizatorLabels.add(cb_chosenSummarizerLabel_3.getValue());
-                linguisticVariables.add(chosenSummarizer_1.getValue());
-                linguisticVariables.add(chosenSummarizer_2.getValue());
-                linguisticVariables.add(chosenSummarizer_3.getValue());
+            case "Mean household type":
+                domain = meanHouseholdType.getLabel("studio apartments dominant").getRange();
                 break;
-            case 4:
-                summarizatorLabels.add(cb_chosenSummarizerLabel_1.getValue());
-                summarizatorLabels.add(cb_chosenSummarizerLabel_2.getValue());
-                summarizatorLabels.add(cb_chosenSummarizerLabel_3.getValue());
-                summarizatorLabels.add(cb_chosenSummarizerLabel_4.getValue());
-                linguisticVariables.add(chosenSummarizer_1.getValue());
-                linguisticVariables.add(chosenSummarizer_2.getValue());
-                linguisticVariables.add(chosenSummarizer_3.getValue());
-                linguisticVariables.add(chosenSummarizer_4.getValue());
+            case "Median income":
+                domain = medianIncome.getLabel("poor area").getRange();
+                break;
+            case "Population":
+                domain = population.getLabel("practically unpopulated").getRange();
+                break;
+            case "Total rooms count":
+                domain = totalRoomsCount.getLabel("few rooms").getRange();
+                break;
+            case "Median house value":
+                domain = medianHouseValue.getLabel("practically worthless").getRange();
+                break;
+            case "Distance LA":
+                domain = distanceLA.getLabel("within city bounds").getRange();
+                break;
+            case "Distance SF":
+                domain = distanceSF.getLabel("within city bounds").getRange();
                 break;
             default:
                 break;
         }
+        domainShowLabel.setText("From " + domain.first + " to " + domain.second);
 
-
-        SummarizerQualifier summarizator = connectSummarizerQualifier(linguisticVariables.getFirst(), summarizatorLabels.getFirst());
-        for (int i = 1; i < summarizatorLabels.size(); i++) {
-            summarizator = summarizator.and(connectSummarizerQualifier(linguisticVariables.get(i), summarizatorLabels.get(i)));
+        if (chosenFunction.getValue() != null) {
+            updateFunctionParameters();
         }
-
-        FuzzyQuantifier quantifier = connectQuantifier(quantifierStr);
-
-        genForm1 = new TwoSubjectSummaryFirst(subject1, subject2, quantifier, summarizator, data, summarizatorConj);
-    }
-
-    private SummarizerQualifier connectSummarizerQualifier(String linguisticVariable, String linguisticVariableLabel) {
-        return switch (linguisticVariable) {
-            case "Bedroom to room ratio" -> bedroomToRoomRatio.getLabel(linguisticVariableLabel);
-            case "Median house age" -> medianHouseAge.getLabel(linguisticVariableLabel);
-            case "Mean household type" -> meanHouseholdType.getLabel(linguisticVariableLabel);
-            case "Median income" -> medianIncome.getLabel(linguisticVariableLabel);
-            case "Population" -> population.getLabel(linguisticVariableLabel);
-            case "Total rooms count" -> totalRoomsCount.getLabel(linguisticVariableLabel);
-            case "Median house value" -> medianHouseValue.getLabel(linguisticVariableLabel);
-            case "Distance LA" -> distanceLA.getLabel(linguisticVariableLabel);
-            case "Distance SF" -> distanceSF.getLabel(linguisticVariableLabel);
-            default -> null;
-        };
-    }
-
-    private FuzzyQuantifier connectQuantifier(String quantifier) {
-        return quantifier.equals("Relative") ? createRelative() : null;
-    }
-
-    public Subject connectSubject(String subjectStr) {
-        return switch (subjectStr) {
-            case "<1H OCEAN" -> Subject.SUB_HOUR_OCEAN;
-            case "INLAND" -> Subject.INLAND;
-            case "NEAR OCEAN" -> Subject.NEAR_OCEAN;
-            case "NEAR BAY" -> Subject.NEAR_BAY;
-            case "ISLAND" -> Subject.ISLAND;
-            default -> null;
-        };
     }
 
 
-    // Visible functions
-    public void setManySummarizatorInvisible() {
-        chosenSummarizer_2.setVisible(false);
-        chosenSummarizer_3.setVisible(false);
-        chosenSummarizer_4.setVisible(false);
-        chosenSummarizerLabel_2.setVisible(false);
-        chosenSummarizerLabel_3.setVisible(false);
-        chosenSummarizerLabel_4.setVisible(false);
-        cb_chosenSummarizerLabel_2.setVisible(false);
-        cb_chosenSummarizerLabel_3.setVisible(false);
-        cb_chosenSummarizerLabel_4.setVisible(false);
+    public void updateFunctionParameters() {
+        if (!domainShowLabel.isVisible()) return;
+
+        setFunctionParametersInvisible();
+        setFunctionParametersVisible();
+        String functionShape = chosenFunction.getValue();
+        switch (functionShape) {
+            case "Triangle":
+                paramC.setVisible(true);
+                paramC_Slider.setVisible(true);
+                paramC_Value.setVisible(true);
+
+                paramA.setText("Start: ");
+                paramB.setText("Peek: ");
+                paramC.setText("End: ");
+                break;
+            case "Trapezoidal":
+                paramC.setVisible(true);
+                paramC_Slider.setVisible(true);
+                paramC_Value.setVisible(true);
+                paramD.setVisible(true);
+                paramD_Slider.setVisible(true);
+                paramD_Value.setVisible(true);
+
+                paramA.setText("Start: ");
+                paramB.setText("Start Peek: ");
+                paramC.setText("End Peek: ");
+                paramD.setText("End: ");
+                break;
+            case "Gaussian":
+                paramA.setText("C: ");
+                paramB.setText("Sigma: ");
+                break;
+        }
+    }
+
+    public void setFunctionParametersInvisible() {
+
+
+        functionParamLabel.setVisible(false);
+        paramA.setVisible(false);
+        paramB.setVisible(false);
+        paramC.setVisible(false);
+        paramD.setVisible(false);
+        paramA_Value.setVisible(false);
+        paramB_Value.setVisible(false);
+        paramC_Value.setVisible(false);
+        paramD_Value.setVisible(false);
+        paramA_Slider.setVisible(false);
+        paramB_Slider.setVisible(false);
+        paramC_Slider.setVisible(false);
+        paramD_Slider.setVisible(false);
+    }
+
+    public void setFunctionParametersVisible() {
+        functionParamLabel.setVisible(true);
+        paramA.setVisible(true);
+        paramB.setVisible(true);
+        paramA_Value.setVisible(true);
+        paramB_Value.setVisible(true);
+        paramA_Slider.setVisible(true);
+        paramB_Slider.setVisible(true);
+    }
+
+    public void setDomainInvisible() {
+        domainLabel.setVisible(false);
+        domainShowLabel.setVisible(false);
+    }
+
+    public void setDomainVisible() {
+        domainLabel.setVisible(true);
+        domainShowLabel.setVisible(true);
     }
 
 

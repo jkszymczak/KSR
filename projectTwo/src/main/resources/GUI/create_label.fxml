@@ -4,9 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="720" prefWidth="1080" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CreateLabelController">
+<VBox alignment="CENTER" prefHeight="388.0" prefWidth="1080" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CreateLabelController">
     <padding>
-        <Insets bottom="20.0" top="-457" />
+        <Insets bottom="20.0" top="-127" />
     </padding>
     <children>
         <MenuBar prefWidth="1080.0">
@@ -34,43 +34,39 @@
         </MenuBar>
         <AnchorPane prefHeight="200.0" prefWidth="200.0">
             <children>
-                <Pane layoutY="-20.0" prefHeight="695.0" prefWidth="1080.0" AnchorPane.bottomAnchor="-475.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-20.0">
+                <Pane layoutY="-20.0" prefHeight="341.0" prefWidth="1080.0" AnchorPane.bottomAnchor="-148.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-20.0">
                     <children>
                         <Label alignment="CENTER" prefHeight="36.0" prefWidth="1080.0" text="Label's creator">
                         </Label>
-                  <Label layoutX="14.0" layoutY="36.0" prefHeight="48.0" prefWidth="369.0" text="Template: Q P1 compare to P2  are/have S. [T_1]" />
-                  <Label layoutX="11.0" layoutY="90.0" prefHeight="36.0" prefWidth="163.0" text="Choose quantifier" />
-                  <Label layoutX="14.0" layoutY="198.0" prefHeight="36.0" prefWidth="163.0" text="Choose summarizer " />
-                  <Label layoutX="11.0" layoutY="126.0" prefHeight="36.0" prefWidth="163.0" text="Summarizator Conjunction" />
-                  <Label layoutX="11.0" layoutY="162.0" prefHeight="36.0" prefWidth="163.0" text="Number of summarizers" />
-                  <Label fx:id="chosenSummarizerLabel_2" layoutX="289.0" layoutY="198.0" prefHeight="36.0" prefWidth="163.0" text="Choose summarizer " />
-                  <Label fx:id="chosenSummarizerLabel_3" layoutX="555.0" layoutY="198.0" prefHeight="36.0" prefWidth="163.0" text="Choose summarizer " />
-                  <Label fx:id="chosenSummarizerLabel_4" layoutX="836.0" layoutY="198.0" prefHeight="36.0" prefWidth="163.0" text="Choose summarizer " />
+                  <Label layoutX="14.0" layoutY="36.0" prefHeight="48.0" prefWidth="526.0" text="Select what attribute you want to add a label to, and then provide the rest of the necessary data" />
                   <Separator layoutY="30.0" prefHeight="12.0" prefWidth="1080.0" />
                   <Separator layoutY="78.0" prefHeight="12.0" prefWidth="1080.0" />
-                  <ComboBox fx:id="chosenQuantifier" layoutX="174.0" layoutY="96.0" prefWidth="120.0" />
-                  <ComboBox fx:id="summarizatorConjunction" layoutX="174.0" layoutY="132.0" prefWidth="100.0" />
-                  <ComboBox fx:id="chosenSummarizer_1" layoutX="11.0" layoutY="234.0" prefWidth="230.0" />
-                  <ComboBox fx:id="chosenSummarizer_2" layoutX="289.0" layoutY="234.0" prefWidth="230.0" />
-                  <ComboBox fx:id="chosenSummarizer_3" layoutX="555.0" layoutY="234.0" prefWidth="230.0" />
-                  <ComboBox fx:id="chosenSummarizer_4" layoutX="836.0" layoutY="234.0" prefWidth="230.0" />
-                  <Separator layoutY="305.0" prefHeight="12.0" prefWidth="1080.0" />
-                  <Spinner fx:id="numberSummarizerSpinner" layoutX="174.0" layoutY="168.0" prefHeight="25.0" prefWidth="60.0" />
-                  <Button fx:id="generateAllSummariesButton" layoutX="14.0" layoutY="330.0" mnemonicParsing="false" onAction="#generateAllSummaries" prefHeight="36.0" prefWidth="163.0" text="Generate All Summaries" />
-                  <Button fx:id="saveSummariesButton" disable="true" layoutX="264.0" layoutY="656.0" mnemonicParsing="false" onAction="#saveSummariesButtonClick" prefHeight="25.0" prefWidth="100.0" text="Save Summries" />
-                  <TextArea fx:id="textArea" layoutX="14.0" layoutY="385.0" prefHeight="256.0" prefWidth="1050.0" />
-                  <Label layoutX="14.0" layoutY="656.0" prefHeight="25.0" prefWidth="250.0" text="Save summray to entered file with all detailes" />
-                  <Button fx:id="generateBestSummaryButton" layoutX="208.0" layoutY="330.0" mnemonicParsing="false" onAction="#generateBestSummaries" prefHeight="36.0" prefWidth="163.0" text="Generate Best Summary" />
-                  <ComboBox fx:id="cb_chosenSummarizerLabel_1" layoutX="11.0" layoutY="270.0" prefWidth="230.0" />
-                  <ComboBox fx:id="cb_chosenSummarizerLabel_2" layoutX="289.0" layoutY="270.0" prefWidth="230.0" />
-                  <ComboBox fx:id="cb_chosenSummarizerLabel_3" layoutX="555.0" layoutY="270.0" prefWidth="230.0" />
-                  <ComboBox fx:id="cb_chosenSummarizerLabel_4" layoutX="836.0" layoutY="270.0" prefWidth="230.0" />
-                  <Label fx:id="status" layoutX="563.0" layoutY="660.0" prefHeight="17.0" prefWidth="500.0" />
-                  <Button fx:id="saveSummariesCSVButton" disable="true" layoutX="371.0" layoutY="656.0" mnemonicParsing="false" onAction="#saveSummariesCSVButtonClick" text="Save Summaries detailed (CSV)" />
-                  <Label layoutX="319.0" layoutY="91.0" prefHeight="36.0" prefWidth="163.0" text="Choose subject 1" />
-                  <ComboBox fx:id="chosenSubject1" layoutX="482.0" layoutY="97.0" prefWidth="120.0" />
-                  <Label layoutX="319.0" layoutY="127.0" prefHeight="36.0" prefWidth="163.0" text="Choose subject 2" />
-                  <ComboBox fx:id="chosenSubject2" layoutX="482.0" layoutY="133.0" prefWidth="120.0" />
+                  <Separator layoutY="258.0" prefHeight="12.0" prefWidth="1080.0" />
+                  <TextField fx:id="enteredName" layoutX="94.0" layoutY="90.0" prefHeight="25.0" prefWidth="313.0" />
+                  <Label layoutX="14.0" layoutY="94.0" text="Name:" />
+                  <Label layoutX="14.0" layoutY="127.0" text="Attribute:" />
+                  <ComboBox fx:id="chosenAttribute" layoutX="93.0" layoutY="123.0" prefHeight="25.0" prefWidth="230.0" />
+                  <Label layoutX="14.0" layoutY="162.0" text="Function:" />
+                  <ComboBox fx:id="chosenFunction" layoutX="93.0" layoutY="158.0" prefWidth="150.0" />
+                  <Label fx:id="functionParamLabel" layoutX="540.0" layoutY="93.0" text="Function's parametrs:" />
+                  <Label fx:id="paramA" layoutX="541.0" layoutY="118.0" text="parametr a:" />
+                  <Label fx:id="paramB" layoutX="540.0" layoutY="149.0" text="parametr b:" />
+                  <Label fx:id="paramC" layoutX="540.0" layoutY="182.0" text="parametr c:" />
+                  <Label fx:id="paramD" layoutX="540.0" layoutY="215.0" text="parametr d:" />
+                  <Button fx:id="createLabelButton" layoutX="22.0" layoutY="278.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="120.0" text="Create label" />
+                  <Separator layoutY="325.0" prefHeight="12.0" prefWidth="1080.0" />
+                  <Label layoutX="17.0" layoutY="339.0" text="Status: " />
+                  <Label fx:id="domainLabel" layoutX="14.0" layoutY="215.0" text="Domain: " />
+                  <Label fx:id="domainShowLabel" layoutX="93.0" layoutY="215.0" text="&lt;Domain&gt;" />
+                  <Slider fx:id="paramA_Slider" layoutX="653.0" layoutY="120.0" prefHeight="14.0" prefWidth="293.0" />
+                  <Label fx:id="paramA_Value" layoutX="967.0" layoutY="118.0" text="&lt;Value&gt;" />
+                  <Slider fx:id="paramB_Slider" layoutX="653.0" layoutY="151.0" prefHeight="14.0" prefWidth="293.0" />
+                  <Label fx:id="paramB_Value" layoutX="967.0" layoutY="149.0" text="&lt;Value&gt;" />
+                  <Slider fx:id="paramC_Slider" layoutX="653.0" layoutY="184.0" prefHeight="14.0" prefWidth="293.0" />
+                  <Label fx:id="paramC_Value" layoutX="967.0" layoutY="182.0" text="&lt;Value&gt;" />
+                  <Slider fx:id="paramD_Slider" layoutX="653.0" layoutY="217.0" prefHeight="14.0" prefWidth="293.0" />
+                  <Label fx:id="paramD_Value" layoutX="967.0" layoutY="215.0" text="&lt;Value&gt;" />
+                  <Label fx:id="status" layoutX="68.0" layoutY="339.0" />
                     </children>
                 </Pane>
             </children>
