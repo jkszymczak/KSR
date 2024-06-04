@@ -90,6 +90,8 @@ public class SSForm2Controller {
     @FXML
     private ComboBox<String> cb_chosenQualifierLabel_4;
     @FXML
+    private Label chosenQualifierLabel_1;
+    @FXML
     private Label chosenQualifierLabel_2;
     @FXML
     private Label chosenQualifierLabel_3;
@@ -115,6 +117,8 @@ public class SSForm2Controller {
     private ComboBox<String> cb_chosenSummarizerLabel_3;
     @FXML
     private ComboBox<String> cb_chosenSummarizerLabel_4;
+    @FXML
+    private Label chosenSummarizerLabel_1;
     @FXML
     private Label chosenSummarizerLabel_2;
     @FXML
@@ -215,6 +219,36 @@ public class SSForm2Controller {
     private MenuItem ms_form4;
     @FXML
     private MenuItem create_label;
+
+    // Other
+    @FXML
+    private CheckBox advancedOptionsCheckBox;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Label templateLabel;
+    @FXML
+    private Label chooseSubjectLabel;
+    @FXML
+    private Label summarizatorConjLabel;
+    @FXML
+    private Label numberSummarizersLabel;
+    @FXML
+    private Label numberQualifiersLabel;
+    @FXML
+    private Label saveLabel;
+    @FXML
+    private Button generateAllSummariesButton;
+    @FXML
+    private Button generateOptimalSummaryButton;
+    @FXML
+    private Button generateBestSummaryButton;
+    @FXML
+    private Label chooseQuantifierLabel;
+    @FXML
+    private Button swapButton;
+    @FXML
+    private Label qualifierConjLabel;
 
 
     // ================ View's Functions ================
@@ -364,6 +398,7 @@ public class SSForm2Controller {
         setManyQualifierInvisible();
         setManySummarizatorInvisible();
         setDetailedTextAreaInvisible();
+        advancedOptionsInvisible();
     }
 
 
@@ -730,6 +765,16 @@ public class SSForm2Controller {
             default:
                 System.out.println("Error of Spinner Value");
                 break;
+        }
+    }
+
+    // Advanced options
+    @FXML
+    public void advancedOptions() {
+        if (advancedOptionsCheckBox.isSelected()) {
+            advancedOptionsVisible();
+        } else {
+            advancedOptionsInvisible();
         }
     }
 
@@ -1337,6 +1382,77 @@ public class SSForm2Controller {
         double sum = T_1Spinner.getValue() + T_2Spinner.getValue() + T_3Spinner.getValue() + T_4Spinner.getValue() + T_5Spinner.getValue() + T_6Spinner.getValue() + T_7Spinner.getValue() + T_8Spinner.getValue() + T_9Spinner.getValue() + T_10Spinner.getValue() + T_11Spinner.getValue();
         label_SumWeights.setText(String.format("%.2f", sum));
     }
+
+
+    // Advanced options
+    public void advancedOptionsVisible() {
+        titleLabel.setText("Generator of single-subject linguistic summaries in form 1");
+        templateLabel.setText("Template: Q P are/have S. [T_1]");
+        defaultWeightsCheckBox.setVisible(true);
+        chooseSubjectLabel.setLayoutX(330);
+        chooseSubjectLabel.setText("Choose subject");
+        chosenSubject.setLayoutY(chosenSubject.getLayoutY() - 10);
+        chosenSubject.setLayoutX(330);
+        summarizatorConjLabel.setVisible(true);
+        summarizatorConjunction.setVisible(true);
+        qualifierConjunction.setVisible(true);
+        qualifierConjLabel.setVisible(true);
+        numberSummarizersLabel.setText("Number of summarizers");
+        chosenSummarizerLabel_1.setText("Choose summarizer 1");
+        chosenSummarizerLabel_2.setText("Choose summarizer 2");
+        chosenSummarizerLabel_3.setText("Choose summarizer 3");
+        chosenSummarizerLabel_4.setText("Choose summarizer 4");
+        numberQualifiersLabel.setText("Number of qualifiers");
+        chosenQualifierLabel_1.setText("Choose qualifier 1");
+        chosenQualifierLabel_2.setText("Choose qualifier 2");
+        chosenQualifierLabel_3.setText("Choose qualifier 3");
+        chosenQualifierLabel_4.setText("Choose qualifier 4");
+        generateDetailedCheckBox.setVisible(true);
+        saveSummariesButton.setVisible(true);
+        saveSummariesCSVButton.setVisible(true);
+        saveLabel.setVisible(true);
+        generateAllSummariesButton.setText("Generate All Summaries");
+        generateBestSummaryButton.setText("Generate Best Summary");
+        generateOptimalSummaryButton.setText("Generate Optimal Summary");
+        chooseQuantifierLabel.setVisible(true);
+        chosenQuantifier.setVisible(true);
+        swapButton.setText("Swap W with S");
+    }
+
+    public void advancedOptionsInvisible() {
+        titleLabel.setText("Generator of summaries like as in the template below");
+        templateLabel.setText("Template: Q P being W are/have S. [T_1]\tE.g.: Few rooms being cheap are small. [0.3]");
+        defaultWeightsCheckBox.setVisible(false);
+        chooseSubjectLabel.setLayoutX(11);
+        chooseSubjectLabel.setText("Choose subject \n(this is P on Template)");
+        chosenSubject.setLayoutY(chosenSubject.getLayoutY() + 10);
+        chosenSubject.setLayoutX(11);
+        summarizatorConjLabel.setVisible(false);
+        summarizatorConjunction.setVisible(false);
+        qualifierConjunction.setVisible(false);
+        qualifierConjLabel.setVisible(false);
+        numberSummarizersLabel.setText("Number of features 2");
+        chosenSummarizerLabel_1.setText("Choose attribute 2");
+        chosenSummarizerLabel_2.setText("Additionally");
+        chosenSummarizerLabel_3.setText("Additionally");
+        chosenSummarizerLabel_4.setText("Additionally");
+        numberQualifiersLabel.setText("Number of features 1");
+        chosenQualifierLabel_1.setText("Choose attribute 1");
+        chosenQualifierLabel_2.setText("Additionally");
+        chosenQualifierLabel_3.setText("Additionally");
+        chosenQualifierLabel_4.setText("Additionally");
+        generateDetailedCheckBox.setVisible(false);
+        saveSummariesButton.setVisible(false);
+        saveSummariesCSVButton.setVisible(false);
+        saveLabel.setVisible(false);
+        generateAllSummariesButton.setText("Generate All");
+        generateBestSummaryButton.setText("Generate Best");
+        generateOptimalSummaryButton.setText("Generate Optimal");
+        chooseQuantifierLabel.setVisible(false);
+        chosenQuantifier.setVisible(false);
+        swapButton.setText("Swap Attributes");
+    }
+
 
     // Init menu
     public void initMenu() {

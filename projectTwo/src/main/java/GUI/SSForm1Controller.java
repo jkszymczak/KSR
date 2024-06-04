@@ -967,7 +967,7 @@ public class SSForm1Controller {
         chosenSubject.setLayoutY(chosenSubject.getLayoutY() + 10);
         summarizatorConjLabel.setVisible(false);
         summarizatorConjunction.setVisible(false);
-        numberSummarizersLabel.setText("Number of attributes");
+        numberSummarizersLabel.setText("Number of features");
         chosenSummarizerLabel_1.setText("Choose attribute");
         chosenSummarizerLabel_2.setText("Additionally");
         chosenSummarizerLabel_3.setText("Additionally");

@@ -39,10 +39,10 @@
                         <Label fx:id="titleLabel" alignment="CENTER" prefHeight="36.0" prefWidth="1080.0" text="Generator of single-subject linguistic summaries in form 2">
                         </Label>
                   <Label fx:id="templateLabel" layoutX="14.0" layoutY="36.0" prefHeight="48.0" prefWidth="579.0" text="Template: Q P being W are/have S. [T_1]" />
-                  <Label layoutX="11.0" layoutY="90.0" prefHeight="36.0" prefWidth="163.0" text="Choose quantifier" />
-                  <Label layoutX="14.0" layoutY="234.0" prefHeight="36.0" prefWidth="163.0" text="Choose qualifier" />
-                  <Label layoutX="11.0" layoutY="168.0" prefHeight="36.0" prefWidth="163.0" text="Summarizator Conjunction" />
-                  <Label layoutX="11.0" layoutY="204.0" prefHeight="36.0" prefWidth="163.0" text="Number of qualifiers" />
+                  <Label fx:id="chooseQuantifierLabel" layoutX="11.0" layoutY="90.0" prefHeight="36.0" prefWidth="163.0" text="Choose quantifier" />
+                  <Label fx:id="chosenQualifierLabel_1" layoutX="14.0" layoutY="234.0" prefHeight="36.0" prefWidth="163.0" text="Choose qualifier" />
+                  <Label fx:id="summarizatorConjLabel" layoutX="11.0" layoutY="168.0" prefHeight="36.0" prefWidth="163.0" text="Summarizator Conjunction" />
+                  <Label fx:id="numberQualifiersLabel" layoutX="11.0" layoutY="204.0" prefHeight="36.0" prefWidth="163.0" text="Number of qualifiers" />
                   <Label fx:id="chosenQualifierLabel_2" layoutX="289.0" layoutY="234.0" prefHeight="36.0" prefWidth="163.0" text="Choose qualifier" />
                   <Label fx:id="chosenQualifierLabel_3" layoutX="555.0" layoutY="234.0" prefHeight="36.0" prefWidth="163.0" text="Choose qualifier " />
                   <Label fx:id="chosenQualifierLabel_4" layoutX="836.0" layoutY="234.0" prefHeight="36.0" prefWidth="163.0" text="Choose qualifier " />
@@ -59,7 +59,7 @@
                   <Button fx:id="generateAllSummariesButton" layoutX="16.0" layoutY="465.0" mnemonicParsing="false" onAction="#generateAllSummaries" prefHeight="36.0" prefWidth="163.0" text="Generate All Summaries" />
                   <Button fx:id="saveSummariesButton" disable="true" layoutX="264.0" layoutY="757.0" mnemonicParsing="false" onAction="#saveSummariesButtonClick" prefHeight="25.0" prefWidth="100.0" text="Save Summries" />
                   <TextArea fx:id="textArea" layoutX="14.0" layoutY="520.0" prefHeight="222.0" prefWidth="525.0" />
-                  <Label layoutX="14.0" layoutY="757.0" prefHeight="25.0" prefWidth="250.0" text="Save summray to entered file with all detailes" />
+                  <Label fx:id="saveLabel" layoutX="14.0" layoutY="757.0" prefHeight="25.0" prefWidth="250.0" text="Save summray to entered file with all detailes" />
                   <Button fx:id="generateOptimalSummaryButton" layoutX="406.0" layoutY="465.0" mnemonicParsing="false" onAction="#generateOptimalSummary" prefHeight="36.0" prefWidth="174.0" text="Generate Optimal Summary" textAlignment="CENTER" wrapText="true" />
                   <Button fx:id="generateBestSummaryButton" layoutX="210.0" layoutY="465.0" mnemonicParsing="false" onAction="#generateBestSummaries" prefHeight="36.0" prefWidth="163.0" text="Generate Best Summary" />
                   <ComboBox fx:id="cb_chosenQualifierLabel_1" layoutX="11.0" layoutY="306.0" prefWidth="230.0" />
@@ -96,7 +96,7 @@
                   <Button fx:id="resetWeightsButton" layoutX="515.0" layoutY="174.0" mnemonicParsing="false" onAction="#setDefaultWeightsButtonClick" text="Reset weights" />
                   <Label fx:id="label_actualSum" layoutX="805.0" layoutY="52.0" text="Actual Sum:" />
                   <Label fx:id="label_SumWeights" layoutX="880.0" layoutY="52.0" />
-                  <Label layoutX="16.0" layoutY="337.0" prefHeight="36.0" prefWidth="163.0" text="Choose summarizer " />
+                  <Label fx:id="chosenSummarizerLabel_1" layoutX="16.0" layoutY="337.0" prefHeight="36.0" prefWidth="163.0" text="Choose summarizer " />
                   <Label fx:id="chosenSummarizerLabel_2" layoutX="291.0" layoutY="337.0" prefHeight="36.0" prefWidth="163.0" text="Choose summarizer " />
                   <Label fx:id="chosenSummarizerLabel_3" layoutX="557.0" layoutY="337.0" prefHeight="36.0" prefWidth="163.0" text="Choose summarizer " />
                   <Label fx:id="chosenSummarizerLabel_4" layoutX="838.0" layoutY="337.0" prefHeight="36.0" prefWidth="163.0" text="Choose summarizer " />
@@ -108,18 +108,18 @@
                   <ComboBox fx:id="cb_chosenSummarizerLabel_2" layoutX="291.0" layoutY="409.0" prefWidth="230.0" />
                   <ComboBox fx:id="cb_chosenSummarizerLabel_3" layoutX="557.0" layoutY="409.0" prefWidth="230.0" />
                   <ComboBox fx:id="cb_chosenSummarizerLabel_4" layoutX="838.0" layoutY="409.0" prefWidth="230.0" />
-                  <Label layoutX="11.0" layoutY="130.0" prefHeight="36.0" prefWidth="163.0" text="Qualifier Conjunction" />
+                  <Label fx:id="qualifierConjLabel" layoutX="11.0" layoutY="130.0" prefHeight="36.0" prefWidth="163.0" text="Qualifier Conjunction" />
                   <ComboBox fx:id="qualifierConjunction" layoutX="174.0" layoutY="136.0" prefWidth="100.0" />
-                  <Label layoutX="259.0" layoutY="205.0" prefHeight="36.0" prefWidth="163.0" text="Number of summarizers" />
+                  <Label fx:id="numberSummarizersLabel" layoutX="259.0" layoutY="205.0" prefHeight="36.0" prefWidth="163.0" text="Number of summarizers" />
                   <Spinner fx:id="numberSummarizerSpinner" layoutX="422.0" layoutY="211.0" prefHeight="25.0" prefWidth="60.0" />
                   <CheckBox fx:id="generateDetailedCheckBox" layoutX="949.0" layoutY="475.0" mnemonicParsing="false" onAction="#onCheckBoxGenerateDetailedChangeState" text="Generate Detailed" />
                   <TextArea fx:id="qualityMeasuresTextArea" layoutX="543.0" layoutY="520.0" prefHeight="222.0" prefWidth="525.0" />
-                  <Label layoutX="330.0" layoutY="90.0" prefHeight="36.0" prefWidth="163.0" text="Choose Subject" />
+                  <Label fx:id="chooseSubjectLabel" layoutX="330.0" layoutY="90.0" prefHeight="36.0" prefWidth="163.0" text="Choose Subject" />
                   <ComboBox fx:id="chosenSubject" layoutX="330.0" layoutY="125.0" prefWidth="120.0" />
                   <Button fx:id="swapButton" layoutX="650.0" layoutY="471.0" mnemonicParsing="false" onAction="#swapWwithS" text="Swap W with S" />
                   <Separator layoutX="612.0" layoutY="459.0" orientation="VERTICAL" prefHeight="50.0" />
                   <CheckBox fx:id="generateWithSwapCheckBox" layoutX="810.0" layoutY="475.0" mnemonicParsing="false" text="Generate with Swap" />
-                  <CheckBox fx:id="advancedOptionsCheckBox" layoutX="600.0" layoutY="52.0" mnemonicParsing="false" text="Advanced Options" />
+                  <CheckBox fx:id="advancedOptionsCheckBox" layoutX="600.0" layoutY="52.0" mnemonicParsing="false" onAction="#advancedOptions" text="Advanced Options" />
                     </children>
                 </Pane>
             </children>
