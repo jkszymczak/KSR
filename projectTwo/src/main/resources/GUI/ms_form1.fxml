@@ -36,9 +36,9 @@
             <children>
                 <Pane layoutY="-20.0" prefHeight="695.0" prefWidth="1080.0" AnchorPane.bottomAnchor="-475.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-20.0">
                     <children>
-                        <Label alignment="CENTER" prefHeight="36.0" prefWidth="1080.0" text="Generator of multi-subject linguistic summaries in form 1">
+                        <Label fx:id="titleLabel" alignment="CENTER" prefHeight="36.0" prefWidth="1080.0" text="Generator of multi-subject linguistic summaries in form 1">
                         </Label>
-                  <Label layoutX="14.0" layoutY="36.0" prefHeight="48.0" prefWidth="369.0" text="Template: Q P1 compare to P2  are/have S. [T_1]" />
+                  <Label fx:id="templateLabel" layoutX="14.0" layoutY="36.0" prefHeight="48.0" prefWidth="919.0" text="Template: Q P1 compare to P2  are/have S. [T_1]" />
                   <Label layoutX="11.0" layoutY="90.0" prefHeight="36.0" prefWidth="163.0" text="Choose quantifier" />
                   <Label layoutX="14.0" layoutY="198.0" prefHeight="36.0" prefWidth="163.0" text="Choose summarizer " />
                   <Label layoutX="11.0" layoutY="126.0" prefHeight="36.0" prefWidth="163.0" text="Summarizator Conjunction" />
@@ -74,6 +74,7 @@
                   <Separator layoutX="405.0" layoutY="324.0" orientation="VERTICAL" prefHeight="50.0" />
                   <Button fx:id="swapSubjectsButton" layoutX="443.0" layoutY="335.0" mnemonicParsing="false" onAction="#swapP1withP2" text="Swap P1 with P2" />
                   <CheckBox fx:id="generateWithSwapSubjectsCheckBox" layoutX="898.0" layoutY="340.0" mnemonicParsing="false" text="Generate with Swap: P1, P2" />
+                  <CheckBox fx:id="advancedOptionsCheckBox" layoutX="940.0" layoutY="52.0" mnemonicParsing="false" text="Advanced Options" />
                     </children>
                 </Pane>
             </children>

@@ -90,6 +90,8 @@ public class SSForm1Controller {
     @FXML
     private ComboBox<String> cb_chosenSummarizerLabel_4;
     @FXML
+    private Label chosenSummarizerLabel_1;
+    @FXML
     private Label chosenSummarizerLabel_2;
     @FXML
     private Label chosenSummarizerLabel_3;
@@ -186,6 +188,36 @@ public class SSForm1Controller {
     @FXML
     private MenuItem create_label;
 
+    // Other
+    @FXML
+    private CheckBox advancedOptionsCheckBox;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Label templateLabel;
+    @FXML
+    private Label chooseSubjectLabel;
+    @FXML
+    private Label summarizatorConjLabel;
+    @FXML
+    private Label numberSummarizersLabel;
+    @FXML
+    private Label saveLabel;
+    @FXML
+    private Button generateAllSummariesButton;
+    @FXML
+    private Button generateOptimalSummaryButton;
+    @FXML
+    private Button generateBestSummaryButton;
+    @FXML
+    private Label explainLabel;
+    @FXML
+    private Label chooseQuantifierLabel;
+
+
+
+
+
 
     // ================ View's Functions ================
     // Init functions
@@ -268,6 +300,8 @@ public class SSForm1Controller {
 
         // Set up ComboBoxes for Quantifier and Conjunction
         chosenQuantifier.getItems().addAll("Absolute", "Relative");
+        chosenQuantifier.setValue(chosenQuantifier.getItems().getFirst());
+
         summarizatorConjunction.getItems().addAll("are", "have", "are in");
         summarizatorConjunction.setValue(summarizatorConjunction.getItems().getFirst());
 
@@ -296,6 +330,7 @@ public class SSForm1Controller {
         setWeightsPanelInvisible();
         setManySummarizatorInvisible();
         setDetailedTextAreaInvisible();
+        advancedOptionsInvisible();
     }
 
 
@@ -495,6 +530,17 @@ public class SSForm1Controller {
             default:
                 System.out.println("Error of Spinner Value");
                 break;
+        }
+    }
+
+
+    // Advanced options
+    @FXML
+    public void advancedOptions() {
+        if (advancedOptionsCheckBox.isSelected()) {
+            advancedOptionsVisible();
+        } else {
+            advancedOptionsInvisible();
         }
     }
 
@@ -886,6 +932,57 @@ public class SSForm1Controller {
         double sum = T_1Spinner.getValue() + T_2Spinner.getValue() + T_3Spinner.getValue() + T_4Spinner.getValue() + T_5Spinner.getValue() + T_6Spinner.getValue() + T_7Spinner.getValue() + T_8Spinner.getValue() + T_9Spinner.getValue() + T_10Spinner.getValue() + T_11Spinner.getValue();
         label_SumWeights.setText(String.format("%.2f", sum));
     }
+
+
+    // Advanced options
+    public void advancedOptionsVisible() {
+        titleLabel.setText("Generator of single-subject linguistic summaries in form 1");
+        templateLabel.setText("Template: Q P are/have S. [T_1]");
+        defaultWeightsCheckBox.setVisible(true);
+        chooseSubjectLabel.setText("Choose subject");
+        chosenSubject.setLayoutY(chosenSubject.getLayoutY() - 10);
+        summarizatorConjLabel.setVisible(true);
+        summarizatorConjunction.setVisible(true);
+        numberSummarizersLabel.setText("Number of summarizers");
+        chosenSummarizerLabel_1.setText("Choose summarizer 1");
+        chosenSummarizerLabel_2.setText("Choose summarizer 2");
+        chosenSummarizerLabel_3.setText("Choose summarizer 3");
+        chosenSummarizerLabel_4.setText("Choose summarizer 4");
+        generateDetailedCheckBox.setVisible(true);
+        saveSummariesButton.setVisible(true);
+        saveSummariesCSVButton.setVisible(true);
+        saveLabel.setVisible(true);
+        generateAllSummariesButton.setText("Generate All Summaries");
+        generateBestSummaryButton.setText("Generate Best Summary");
+        generateOptimalSummaryButton.setText("Generate Optimal Summary");
+        explainLabel.setVisible(false);
+        chooseQuantifierLabel.setText("Choose quantifier");
+    }
+
+    public void advancedOptionsInvisible() {
+        titleLabel.setText("Generator of summaries like as in the template below");
+        templateLabel.setText("Template: Q P are/have S. [T_1]\tE.g.: Most of the block groups have low income. [0.3]");
+        defaultWeightsCheckBox.setVisible(false);
+        chooseSubjectLabel.setText("Choose subject \n(this is P on Template)");
+        chosenSubject.setLayoutY(chosenSubject.getLayoutY() + 10);
+        summarizatorConjLabel.setVisible(false);
+        summarizatorConjunction.setVisible(false);
+        numberSummarizersLabel.setText("Number of attributes");
+        chosenSummarizerLabel_1.setText("Choose attribute");
+        chosenSummarizerLabel_2.setText("Additionally");
+        chosenSummarizerLabel_3.setText("Additionally");
+        chosenSummarizerLabel_4.setText("Additionally");
+        generateDetailedCheckBox.setVisible(false);
+        saveSummariesButton.setVisible(false);
+        saveSummariesCSVButton.setVisible(false);
+        saveLabel.setVisible(false);
+        generateAllSummariesButton.setText("Generate All");
+        generateBestSummaryButton.setText("Generate Best");
+        generateOptimalSummaryButton.setText("Generate Optimal");
+        explainLabel.setVisible(true);
+        chooseQuantifierLabel.setText("Choose Absolute/Relative");
+    }
+
 
     // Init menu
     public void initMenu() {
