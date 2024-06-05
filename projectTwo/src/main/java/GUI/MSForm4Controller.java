@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static GUI.LinguisticVariablesFunctions.*;
+import static GUI.LinguisticVariables.*;
 
 public class MSForm4Controller {
     // ================ Code's Variables ================
@@ -37,16 +37,7 @@ public class MSForm4Controller {
     String path = "dataBasePrep/prepared.csv";
 
     // LinguisticVariables
-    private List<String> linguisticVariables;
-    private Container bedroomToRoomRatio;
-    private Container meanHouseholdType;
-    private Container medianHouseAge;
-    private Container medianIncome;
-    private Container population;
-    private Container totalRoomsCount;
-    private Container medianHouseValue;
-    private Container distanceLA;
-    private Container distanceSF;
+    private LinguisticVariables linguisticVariables;
 
 
     // ================ View's Variables ================
@@ -158,12 +149,7 @@ public class MSForm4Controller {
         });
 
 
-        // Init linguisticVariables' names
-        linguisticVariables = new ArrayList<>(Arrays.asList("Bedroom to room ratio", "Median house age", "Mean household type",
-                "Median income", "Population", "Total rooms count", "Median house value", "Distance LA", "Distance SF"));
-
-        // Made containers for linguisticVariables
-        initContainers();
+        linguisticVariables = LinguisticVariables.getInstance(data);
 
         // Set up ComboBoxes for Subjects
         chosenSubject1.getItems().addAll("<1H OCEAN", "INLAND", "NEAR OCEAN", "NEAR BAY", "ISLAND");
@@ -174,22 +160,22 @@ public class MSForm4Controller {
         summarizatorConjunction.setValue(summarizatorConjunction.getItems().getFirst());
 
         // Set up ComboBoxes for Summarizers
-        chosenSummarizer_1.getItems().addAll(linguisticVariables);
+        chosenSummarizer_1.getItems().addAll(linguisticVariables.getLinguisticVariables());
         chosenSummarizer_1.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             updateSubComboBox(newValue, cb_chosenSummarizerLabel_1);
         });
 
-        chosenSummarizer_2.getItems().addAll(linguisticVariables);
+        chosenSummarizer_2.getItems().addAll(linguisticVariables.getLinguisticVariables());
         chosenSummarizer_2.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             updateSubComboBox(newValue, cb_chosenSummarizerLabel_2);
         });
 
-        chosenSummarizer_3.getItems().addAll(linguisticVariables);
+        chosenSummarizer_3.getItems().addAll(linguisticVariables.getLinguisticVariables());
         chosenSummarizer_3.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             updateSubComboBox(newValue, cb_chosenSummarizerLabel_3);
         });
 
-        chosenSummarizer_4.getItems().addAll(linguisticVariables);
+        chosenSummarizer_4.getItems().addAll(linguisticVariables.getLinguisticVariables());
         chosenSummarizer_4.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             updateSubComboBox(newValue, cb_chosenSummarizerLabel_4);
         });
@@ -351,115 +337,36 @@ public class MSForm4Controller {
             comboBox.getItems().clear();
             switch (mainItem) {
                 case "Bedroom to room ratio":
-                    comboBox.getItems().addAll(bedroomToRoomRatio.getLabels().keySet());
+                    comboBox.getItems().addAll(linguisticVariables.getBedroomToRoomRatio().getLabels().keySet());
                     break;
                 case "Median house age":
-                    comboBox.getItems().addAll(medianHouseAge.getLabels().keySet());
+                    comboBox.getItems().addAll(linguisticVariables.getMedianHouseAge().getLabels().keySet());
                     break;
                 case "Mean household type":
-                    comboBox.getItems().addAll(meanHouseholdType.getLabels().keySet());
+                    comboBox.getItems().addAll(linguisticVariables.getMeanHouseholdType().getLabels().keySet());
                     break;
                 case "Median income":
-                    comboBox.getItems().addAll(medianIncome.getLabels().keySet());
+                    comboBox.getItems().addAll(linguisticVariables.getMedianIncome().getLabels().keySet());
                     break;
                 case "Population":
-                    comboBox.getItems().addAll(population.getLabels().keySet());
+                    comboBox.getItems().addAll(linguisticVariables.getPopulation().getLabels().keySet());
                     break;
                 case "Total rooms count":
-                    comboBox.getItems().addAll(totalRoomsCount.getLabels().keySet());
+                    comboBox.getItems().addAll(linguisticVariables.getTotalRoomsCount().getLabels().keySet());
                     break;
                 case "Median house value":
-                    comboBox.getItems().addAll(medianHouseValue.getLabels().keySet());
+                    comboBox.getItems().addAll(linguisticVariables.getMedianHouseValue().getLabels().keySet());
                     break;
                 case "Distance LA":
-                    comboBox.getItems().addAll(distanceLA.getLabels().keySet());
+                    comboBox.getItems().addAll(linguisticVariables.getDistanceLA().getLabels().keySet());
                     break;
                 case "Distance SF":
-                    comboBox.getItems().addAll(distanceSF.getLabels().keySet());
+                    comboBox.getItems().addAll(linguisticVariables.getDistanceSF().getLabels().keySet());
                     break;
                 default:
                     break;
             }
         }
-    }
-
-
-    // TODO : Make possible to add new labels into linguistic variables
-    // Init containers for linguistic variables
-    private void initContainers() {
-        bedroomToRoomRatio = ContainerBuilder.builder()
-                .withSummarizerQualifier(createInsufficientShareOfBedrooms(data))
-                .withSummarizerQualifier(createLowBedroomProportion(data))
-                .withSummarizerQualifier(createBalancedRoomDistribution(data))
-                .withSummarizerQualifier(createHighBedroomProportion(data))
-                .withSummarizerQualifier(createExcessiveShareOfBedrooms(data))
-                .build();
-
-        meanHouseholdType = ContainerBuilder.builder()
-                .withSummarizerQualifier(createStudioApartmentsDominant(data))
-                .withSummarizerQualifier(createPredominantlySingleSmallFamily(data))
-                .withSummarizerQualifier(createPredominantlySingleBigFamily(data))
-                .withSummarizerQualifier(createMultiFamilyPrevalent(data))
-                .build();
-
-        medianHouseAge = ContainerBuilder.builder()
-                .withSummarizerQualifier(createNewHouses(data))
-                .withSummarizerQualifier(createMiddleAgedHouses(data))
-                .withSummarizerQualifier(createRecentlyBuiltHouses(data))
-                .withSummarizerQualifier(createAgedHouses(data))
-                .build();
-
-        medianIncome = ContainerBuilder.builder()
-                .withSummarizerQualifier(createPoorArea(data))
-                .withSummarizerQualifier(createLowIncomeArea(data))
-                .withSummarizerQualifier(createBelowAverageIncome(data))
-                .withSummarizerQualifier(createAboveAverageIncome(data))
-                .withSummarizerQualifier(createWealthyArea(data))
-                .build();
-
-        population = ContainerBuilder.builder()
-                .withSummarizerQualifier(createPracticallyUnpopulated(data))
-                .withSummarizerQualifier(createLowPopulation(data))
-                .withSummarizerQualifier(createModeratelyPopulated(data))
-                .withSummarizerQualifier(createHighlyPopulated(data))
-                .withSummarizerQualifier(createHugePopulation(data))
-                .withSummarizerQualifier(createManToMan(data))
-                .build();
-
-        totalRoomsCount = ContainerBuilder.builder()
-                .withSummarizerQualifier(createFewRooms(data))
-                .withSummarizerQualifier(createSparseRoomDistribution(data))
-                .withSummarizerQualifier(createModerateRoomsCount(data))
-                .withSummarizerQualifier(createManyRooms(data))
-                .withSummarizerQualifier(createExtremelyHighRoomsCount(data))
-                .build();
-
-        medianHouseValue = ContainerBuilder.builder()
-                .withSummarizerQualifier(createPracticallyWorthless(data))
-                .withSummarizerQualifier(createLowValueHomes(data))
-                .withSummarizerQualifier(createModeratelyPricedHomes(data))
-                .withSummarizerQualifier(createAboveAverageHomeValue(data))
-                .withSummarizerQualifier(createHighValueResidentialAreas(data))
-                .withSummarizerQualifier(createLuxuryEstates(data))
-                .build();
-
-        distanceLA = ContainerBuilder.builder()
-                .withSummarizerQualifier(createWithinCityBoundsLA(data))
-                .withSummarizerQualifier(createSuburbanProximityLA(data))
-                .withSummarizerQualifier(createDistantSuburbsLA(data))
-                .withSummarizerQualifier(createNearbyCityLA(data))
-                .withSummarizerQualifier(createRuralFringeLA(data))
-                .withSummarizerQualifier(createFarFromCityLA(data))
-                .build();
-
-        distanceSF = ContainerBuilder.builder()
-                .withSummarizerQualifier(createWithinCityBoundsSF(data))
-                .withSummarizerQualifier(createSuburbanProximitySF(data))
-                .withSummarizerQualifier(createDistantSuburbsSF(data))
-                .withSummarizerQualifier(createNearbyCitySF(data))
-                .withSummarizerQualifier(createRuralFringeSF(data))
-                .withSummarizerQualifier(createFarFromCitySF(data))
-                .build();
     }
 
 
@@ -532,15 +439,15 @@ public class MSForm4Controller {
 
     private SummarizerQualifier connectSummarizerQualifier(String linguisticVariable, String linguisticVariableLabel) {
         return switch (linguisticVariable) {
-            case "Bedroom to room ratio" -> bedroomToRoomRatio.getLabel(linguisticVariableLabel);
-            case "Median house age" -> medianHouseAge.getLabel(linguisticVariableLabel);
-            case "Mean household type" -> meanHouseholdType.getLabel(linguisticVariableLabel);
-            case "Median income" -> medianIncome.getLabel(linguisticVariableLabel);
-            case "Population" -> population.getLabel(linguisticVariableLabel);
-            case "Total rooms count" -> totalRoomsCount.getLabel(linguisticVariableLabel);
-            case "Median house value" -> medianHouseValue.getLabel(linguisticVariableLabel);
-            case "Distance LA" -> distanceLA.getLabel(linguisticVariableLabel);
-            case "Distance SF" -> distanceSF.getLabel(linguisticVariableLabel);
+            case "Bedroom to room ratio" -> linguisticVariables.getBedroomToRoomRatio().getLabel(linguisticVariableLabel);
+            case "Median house age" -> linguisticVariables.getMedianHouseAge().getLabel(linguisticVariableLabel);
+            case "Mean household type" -> linguisticVariables.getMeanHouseholdType().getLabel(linguisticVariableLabel);
+            case "Median income" -> linguisticVariables.getMedianIncome().getLabel(linguisticVariableLabel);
+            case "Population" -> linguisticVariables.getPopulation().getLabel(linguisticVariableLabel);
+            case "Total rooms count" -> linguisticVariables.getTotalRoomsCount().getLabel(linguisticVariableLabel);
+            case "Median house value" -> linguisticVariables.getMedianHouseValue().getLabel(linguisticVariableLabel);
+            case "Distance LA" -> linguisticVariables.getDistanceLA().getLabel(linguisticVariableLabel);
+            case "Distance SF" -> linguisticVariables.getDistanceSF().getLabel(linguisticVariableLabel);
             default -> null;
         };
     }

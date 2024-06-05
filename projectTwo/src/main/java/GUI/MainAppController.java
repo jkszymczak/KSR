@@ -1,5 +1,7 @@
 package GUI;
 
+import Database.BlockGroup;
+import Database.CSV;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,8 +10,13 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MainAppController {
+    // Data
+    private List<BlockGroup> data;
+    String path = "dataBasePrep/prepared.csv";
+
     @FXML
     private MenuItem ss_form1;
     @FXML
@@ -28,6 +35,9 @@ public class MainAppController {
 
     @FXML
     public void initialize() {
+        data = CSV.readCSV(path);
+        LinguisticVariables linguisticVariables = LinguisticVariables.getInstance(data);
+
         ss_form1.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("ss_form1.fxml"));

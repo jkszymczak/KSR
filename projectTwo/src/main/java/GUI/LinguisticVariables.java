@@ -1,13 +1,196 @@
 package GUI;
 
+import Builders.ContainerBuilder;
 import Builders.FuzzyQuantifierBuilder;
 import Builders.SummarizerQualifierBuilder;
 import Database.BlockGroup;
 import FuzzyCalculations.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class LinguisticVariablesFunctions {
+public class LinguisticVariables {
+
+    private static LinguisticVariables instance = null;
+
+    private List<String> linguisticVariables;
+    private Container bedroomToRoomRatio;
+    private Container meanHouseholdType;
+    private Container medianHouseAge;
+    private Container medianIncome;
+    private Container population;
+    private Container totalRoomsCount;
+    private Container medianHouseValue;
+    private Container distanceLA;
+    private Container distanceSF;
+
+    public static LinguisticVariables getInstance(List<BlockGroup> data) {
+        if (instance == null) {
+            instance = new LinguisticVariables(data);
+            System.out.println("Create New Linguistic Variables");
+        }
+        return instance;
+    }
+
+    private LinguisticVariables(List<BlockGroup> data) {
+        // Init containers for linguistic variables
+
+        // Init linguisticVariables' names
+        linguisticVariables = new ArrayList<>(Arrays.asList("Bedroom to room ratio", "Median house age", "Mean household type",
+                "Median income", "Population", "Total rooms count", "Median house value", "Distance LA", "Distance SF"));
+
+        bedroomToRoomRatio = ContainerBuilder.builder()
+                .withSummarizerQualifier(createInsufficientShareOfBedrooms(data))
+                .withSummarizerQualifier(createLowBedroomProportion(data))
+                .withSummarizerQualifier(createBalancedRoomDistribution(data))
+                .withSummarizerQualifier(createHighBedroomProportion(data))
+                .withSummarizerQualifier(createExcessiveShareOfBedrooms(data))
+                .build();
+
+        meanHouseholdType = ContainerBuilder.builder()
+                .withSummarizerQualifier(createStudioApartmentsDominant(data))
+                .withSummarizerQualifier(createPredominantlySingleSmallFamily(data))
+                .withSummarizerQualifier(createPredominantlySingleBigFamily(data))
+                .withSummarizerQualifier(createMultiFamilyPrevalent(data))
+                .build();
+
+        medianHouseAge = ContainerBuilder.builder()
+                .withSummarizerQualifier(createNewHouses(data))
+                .withSummarizerQualifier(createMiddleAgedHouses(data))
+                .withSummarizerQualifier(createRecentlyBuiltHouses(data))
+                .withSummarizerQualifier(createAgedHouses(data))
+                .build();
+
+        medianIncome = ContainerBuilder.builder()
+                .withSummarizerQualifier(createPoorArea(data))
+                .withSummarizerQualifier(createLowIncomeArea(data))
+                .withSummarizerQualifier(createBelowAverageIncome(data))
+                .withSummarizerQualifier(createAboveAverageIncome(data))
+                .withSummarizerQualifier(createWealthyArea(data))
+                .build();
+
+        population = ContainerBuilder.builder()
+                .withSummarizerQualifier(createPracticallyUnpopulated(data))
+                .withSummarizerQualifier(createLowPopulation(data))
+                .withSummarizerQualifier(createModeratelyPopulated(data))
+                .withSummarizerQualifier(createHighlyPopulated(data))
+                .withSummarizerQualifier(createHugePopulation(data))
+                .withSummarizerQualifier(createManToMan(data))
+                .build();
+
+        totalRoomsCount = ContainerBuilder.builder()
+                .withSummarizerQualifier(createFewRooms(data))
+                .withSummarizerQualifier(createSparseRoomDistribution(data))
+                .withSummarizerQualifier(createModerateRoomsCount(data))
+                .withSummarizerQualifier(createManyRooms(data))
+                .withSummarizerQualifier(createExtremelyHighRoomsCount(data))
+                .build();
+
+        medianHouseValue = ContainerBuilder.builder()
+                .withSummarizerQualifier(createPracticallyWorthless(data))
+                .withSummarizerQualifier(createLowValueHomes(data))
+                .withSummarizerQualifier(createModeratelyPricedHomes(data))
+                .withSummarizerQualifier(createAboveAverageHomeValue(data))
+                .withSummarizerQualifier(createHighValueResidentialAreas(data))
+                .withSummarizerQualifier(createLuxuryEstates(data))
+                .build();
+
+        distanceLA = ContainerBuilder.builder()
+                .withSummarizerQualifier(createWithinCityBoundsLA(data))
+                .withSummarizerQualifier(createSuburbanProximityLA(data))
+                .withSummarizerQualifier(createDistantSuburbsLA(data))
+                .withSummarizerQualifier(createNearbyCityLA(data))
+                .withSummarizerQualifier(createRuralFringeLA(data))
+                .withSummarizerQualifier(createFarFromCityLA(data))
+                .build();
+
+        distanceSF = ContainerBuilder.builder()
+                .withSummarizerQualifier(createWithinCityBoundsSF(data))
+                .withSummarizerQualifier(createSuburbanProximitySF(data))
+                .withSummarizerQualifier(createDistantSuburbsSF(data))
+                .withSummarizerQualifier(createNearbyCitySF(data))
+                .withSummarizerQualifier(createRuralFringeSF(data))
+                .withSummarizerQualifier(createFarFromCitySF(data))
+                .build();
+
+    }
+
+    public List<String> getLinguisticVariables() {
+        return linguisticVariables;
+    }
+
+    public Container getBedroomToRoomRatio() {
+        return bedroomToRoomRatio;
+    }
+
+    public void setBedroomToRoomRatio(Container bedroomToRoomRatio) {
+        this.bedroomToRoomRatio = bedroomToRoomRatio;
+    }
+
+    public Container getMeanHouseholdType() {
+        return meanHouseholdType;
+    }
+
+    public void setMeanHouseholdType(Container meanHouseholdType) {
+        this.meanHouseholdType = meanHouseholdType;
+    }
+
+    public Container getMedianHouseAge() {
+        return medianHouseAge;
+    }
+
+    public void setMedianHouseAge(Container medianHouseAge) {
+        this.medianHouseAge = medianHouseAge;
+    }
+
+    public Container getMedianIncome() {
+        return medianIncome;
+    }
+
+    public void setMedianIncome(Container medianIncome) {
+        this.medianIncome = medianIncome;
+    }
+
+    public Container getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(Container population) {
+        this.population = population;
+    }
+
+    public Container getTotalRoomsCount() {
+        return totalRoomsCount;
+    }
+
+    public void setTotalRoomsCount(Container totalRoomsCount) {
+        this.totalRoomsCount = totalRoomsCount;
+    }
+
+    public Container getMedianHouseValue() {
+        return medianHouseValue;
+    }
+
+    public void setMedianHouseValue(Container medianHouseValue) {
+        this.medianHouseValue = medianHouseValue;
+    }
+
+    public Container getDistanceLA() {
+        return distanceLA;
+    }
+
+    public void setDistanceLA(Container distanceLA) {
+        this.distanceLA = distanceLA;
+    }
+
+    public Container getDistanceSF() {
+        return distanceSF;
+    }
+
+    public void setDistanceSF(Container distanceSF) {
+        this.distanceSF = distanceSF;
+    }
 
     // ================ Linguistic Variables Functions ================
 
