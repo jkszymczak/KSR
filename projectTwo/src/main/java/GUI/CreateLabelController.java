@@ -28,6 +28,8 @@ public class CreateLabelController {
     private TwoSubjectSummaryFirst genForm1;
     private List<Pair<String, Double>> summaries;
 
+    Pair<Double, Double> domain;
+
     // Data
     private List<BlockGroup> data;
     String path = "dataBasePrep/prepared.csv";
@@ -137,18 +139,23 @@ public class CreateLabelController {
             updateFunctionParameters();
         });
 
+        // Init sliders
+        paramA_Slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            paramA_Value.setText(String.format("%.2f", newValue.doubleValue()));
+        });
+        paramB_Slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            paramB_Value.setText(String.format("%.2f", newValue.doubleValue()));
+        });
+        paramC_Slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            paramC_Value.setText(String.format("%.2f", newValue.doubleValue()));
+        });
+        paramD_Slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            paramD_Value.setText(String.format("%.2f", newValue.doubleValue()));
+        });
+
         setFunctionParametersInvisible();
         setDomainInvisible();
     }
-
-
-    // Generating summaries
-
-
-    // Saving functionality
-
-
-    // Number of Summarizers
 
 
     // ================ Code's Functions ================
@@ -240,7 +247,7 @@ public class CreateLabelController {
         linguisticVariables = new ArrayList<>(Arrays.asList("Bedroom to room ratio", "Median house age", "Mean household type",
                 "Median income", "Population", "Total rooms count", "Median house value", "Distance LA", "Distance SF"));
 
-        Pair<Double, Double> domain = new Pair<>(0.0, 0.0);
+        domain = new Pair<>(0.0, 0.0);
         String chosenLinguisticVariable = chosenAttribute.getValue();
         switch (chosenLinguisticVariable) {
             case "Bedroom to room ratio":
@@ -265,10 +272,10 @@ public class CreateLabelController {
                 domain = medianHouseValue.getLabel("practically worthless").getRange();
                 break;
             case "Distance LA":
-                domain = distanceLA.getLabel("within city bounds").getRange();
+                domain = distanceLA.getLabel("within city bounds(LA)").getRange();
                 break;
             case "Distance SF":
-                domain = distanceSF.getLabel("within city bounds").getRange();
+                domain = distanceSF.getLabel("within city bounds(SF)").getRange();
                 break;
             default:
                 break;
@@ -284,6 +291,23 @@ public class CreateLabelController {
     public void updateFunctionParameters() {
         if (!domainShowLabel.isVisible()) return;
 
+        paramA_Slider.setMin(domain.first);
+        paramA_Slider.setMax(domain.second);
+
+        paramB_Slider.setMin(domain.first);
+        paramB_Slider.setMax(domain.second);
+
+        paramC_Slider.setMin(domain.first);
+        paramC_Slider.setMax(domain.second);
+
+        paramD_Slider.setMin(domain.first);
+        paramD_Slider.setMax(domain.second);
+
+        paramA_Slider.setBlockIncrement(domain.second - domain.first / 100);
+        paramB_Slider.setBlockIncrement(domain.second - domain.first / 100);
+        paramC_Slider.setBlockIncrement(domain.second - domain.first / 100);
+        paramD_Slider.setBlockIncrement(domain.second - domain.first / 100);
+
         setFunctionParametersInvisible();
         setFunctionParametersVisible();
         String functionShape = chosenFunction.getValue();
@@ -296,6 +320,10 @@ public class CreateLabelController {
                 paramA.setText("Start: ");
                 paramB.setText("Peek: ");
                 paramC.setText("End: ");
+
+                paramA_Slider.setValue(domain.first);
+                paramB_Slider.setValue((domain.second + domain.first) / 2);
+                paramC_Slider.setValue(domain.second);
                 break;
             case "Trapezoidal":
                 paramC.setVisible(true);
@@ -309,17 +337,27 @@ public class CreateLabelController {
                 paramB.setText("Start Peek: ");
                 paramC.setText("End Peek: ");
                 paramD.setText("End: ");
+
+                paramA_Slider.setValue(domain.first);
+                paramB_Slider.setValue((domain.second + domain.first) / 4);
+                paramC_Slider.setValue((domain.second + domain.first) / 4 * 3);
+                paramD_Slider.setValue(domain.second);
                 break;
             case "Gaussian":
                 paramA.setText("C: ");
                 paramB.setText("Sigma: ");
+
+                paramA_Slider.setValue(domain.first);
+                paramB_Slider.setValue(domain.second);
                 break;
+        }
+
+        if (domain.first == 0) {
+            paramA_Slider.setValue(0.0001);
         }
     }
 
     public void setFunctionParametersInvisible() {
-
-
         functionParamLabel.setVisible(false);
         paramA.setVisible(false);
         paramB.setVisible(false);
