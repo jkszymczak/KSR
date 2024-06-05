@@ -44,9 +44,12 @@ public class TwoSubjectSummaryForth {
 
     private Double calculateDegreeOfTruth() {
 //        this.degreeOfTruth = 0.0;
+        Double f = (!summarizerFirst.getElements().isEmpty())? summarizerFirst.cardinal() / summarizerFirst.getElements().size() : 0;
+        Double s = (!summarizerSecond.getElements().isEmpty())? summarizerSecond.cardinal() / summarizerSecond.getElements().size() : 0;
 
+        Double val =  raisenbach(f,s);
 
-        return 1 - raisenbach(summarizerFirst.cardinal() / summarizerFirst.getElements().size(), summarizerSecond.cardinal() / summarizerSecond.getElements().size());
+        return 1 - val;
     }
 
     private double raisenbach(Double a, Double b) {
