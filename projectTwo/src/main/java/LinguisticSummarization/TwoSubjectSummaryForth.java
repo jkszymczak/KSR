@@ -28,9 +28,9 @@ public class TwoSubjectSummaryForth {
         this.second = second;
         splitToSubjects(all);
         System.out.println("Summarizer elements" + summarizer.getElements().size());
-        this.summarizerFirst = summarizer.filterSummarizer(this.first.label);
+        this.summarizerFirst = summarizer.filterSummarizer(this.first);
         System.out.println("Summarizer elements" + summarizer.getElements().size());
-        this.summarizerSecond = summarizer.filterSummarizer(this.second.label);
+        this.summarizerSecond = summarizer.filterSummarizer(this.second);
         System.out.println("Number of elements in first subject: " + summarizerFirst.getElements().size());
         System.out.println("Number of elements in second subject: " + summarizerSecond.getElements().size());
         this.summarizerConjunction = summarizerConjunction;

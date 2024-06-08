@@ -6,8 +6,10 @@ import FuzzyCalculations.SummarizerQualifier;
 import LinguisticSummarization.LinguisticSummaryGenerator;
 import LinguisticSummarization.LinguisticSummaryType;
 import LinguisticSummarization.QualityMeasures;
+import LinguisticSummarization.Subject;
 
 import java.util.List;
+import java.util.Objects;
 
 public class LinguisticSummaryBuilder implements Builder<LinguisticSummaryGenerator, LinguisticSummaryGenerator> {
     private FuzzyQuantifier quantifier;
@@ -15,11 +17,12 @@ public class LinguisticSummaryBuilder implements Builder<LinguisticSummaryGenera
     private SummarizerQualifier qualifier;
     private String summarizatorConjunction;
     private String qualifierConjunction;
-    private String subject;
+    private String subjectText;
     private QualityMeasures qualityMeasures;
     private LinguisticSummaryType linguisticSummaryType;
     private int blockGroupCount;
     private List<BlockGroup> candidates;
+    private Subject subject;
 
     public static LinguisticSummaryBuilder builder() {
         return new LinguisticSummaryBuilder();
@@ -51,6 +54,11 @@ public class LinguisticSummaryBuilder implements Builder<LinguisticSummaryGenera
     }
 
     public LinguisticSummaryBuilder withSubject(String subject) {
+        this.subjectText = subject;
+        return this;
+    }
+
+    public LinguisticSummaryBuilder onSubject(Subject subject){
         this.subject = subject;
         return this;
     }
@@ -83,18 +91,23 @@ public class LinguisticSummaryBuilder implements Builder<LinguisticSummaryGenera
         return new FuzzyQuantifierBuilder(this);
     }
 
+    private List<BlockGroup> filterSubject(){
+        return this.candidates.stream().filter(c -> Objects.equals(c.getLabel(), this.subject.label)).toList();
+    }
     @Override
     public LinguisticSummaryGenerator build() {
+        List<BlockGroup> newCandidates = (subject!=null)? this.filterSubject() : this.candidates;
+        System.out.println("size of new candidates "+newCandidates.size());
         if(this.linguisticSummaryType==LinguisticSummaryType.First){
-            return new LinguisticSummaryGenerator(this.candidates,this.quantifier
-                    ,this.summarizator,
+            return new LinguisticSummaryGenerator(newCandidates,this.quantifier
+                    ,this.summarizator.filterSummarizer(subject),
                     this.summarizatorConjunction,
-                    this.subject);
+                    this.subjectText);
         }
-        return new LinguisticSummaryGenerator(this.quantifier, this.summarizator,
-                this.qualifier,this.summarizatorConjunction,
-                this.qualifierConjunction,this.subject,
-                this.linguisticSummaryType,this.candidates);
+        return new LinguisticSummaryGenerator(this.quantifier, this.summarizator.filterSummarizer(this.subject),
+                this.qualifier.filterSummarizer(this.subject),this.summarizatorConjunction,
+                this.qualifierConjunction,this.subjectText,
+                this.linguisticSummaryType,newCandidates);
 
     }
 

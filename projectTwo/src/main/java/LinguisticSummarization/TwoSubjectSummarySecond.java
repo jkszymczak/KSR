@@ -17,7 +17,7 @@ public class TwoSubjectSummarySecond extends TwoSubjectSummaryFirst {
     public TwoSubjectSummarySecond(Subject first, Subject second, FuzzyQuantifier quantifier, SummarizerQualifier summarizer, SummarizerQualifier qualifier, List<BlockGroup> all, String summarizerConjunction, String qualifierConjunction) {
         super(first, second, quantifier, summarizer, all, summarizerConjunction);
         this.qualifierConjunction = qualifierConjunction;
-        this.qualifier = qualifier.filterSummarizer(second.label);
+        this.qualifier = qualifier.filterSummarizer(second);
     }
 
     private Double calculateDegreeOfTruth(QuantifierLabel quantifier) {

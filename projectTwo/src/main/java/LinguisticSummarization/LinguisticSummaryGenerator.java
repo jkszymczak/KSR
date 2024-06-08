@@ -87,6 +87,7 @@ public class    LinguisticSummaryGenerator {
 
     public void calculateQualityMeasures(List<Double> weights, LinguisticSummary linguisticSummary) {
         linguisticSummary.setQualityMeasures(this.qualityMeasures.all_t(weights, linguisticSummary, this.wholeSet.size()));
+        System.out.println("size of whole set "+this.wholeSet.size());
     }
 
     private void generateQualifierWholeSet(List<BlockGroup> data) {

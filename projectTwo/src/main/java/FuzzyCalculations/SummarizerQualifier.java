@@ -3,6 +3,7 @@ package FuzzyCalculations;
 import Builders.FuzzySetBuilder;
 import Builders.SummarizerQualifierBuilder;
 import Database.BlockGroup;
+import LinguisticSummarization.Subject;
 import org.example.Pair;
 
 import java.util.LinkedList;
@@ -22,8 +23,19 @@ public class SummarizerQualifier {
         this.elementalParts.add(this);
     }
 
-    public SummarizerQualifier filterSummarizer(String label){
-        return new SummarizerQualifier(this.fuzzySet.removeOtherThan(label));
+
+
+    public SummarizerQualifier filterSummarizer(Subject subject){
+        List<SummarizerQualifier> parts = null;
+        if(this.isComplex()) {
+            parts = this.elementalParts.stream().map(p -> p.filter(subject)).toList();
+        }
+        SummarizerQualifier newSum = this.filter(subject);
+        newSum.elementalParts = parts;
+        return newSum;
+    }
+    private SummarizerQualifier filter(Subject subject){
+        return new SummarizerQualifier(new FuzzySet(this.fuzzySet,subject));
     }
 
     public SummarizerQualifier and(SummarizerQualifier sum2){

@@ -1,6 +1,7 @@
 package FuzzyCalculations;
 
 import Database.BlockGroup;
+import LinguisticSummarization.Subject;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,6 +26,12 @@ public class FuzzySet {
         this.elements = members;
         this.label = label;
     }
+    public FuzzySet(FuzzySet fuzzySet, Subject subject){
+        this.label = fuzzySet.label;
+        this.membershipFunction  = fuzzySet.membershipFunction;
+        this.elements = fuzzySet.removeOtherThan(subject.label).elements;
+    }
+
     /** This function calculates membership values for candidates, and removes every element with 0 value of membership,
      * to change it to not remove any members, delete filter */
     public void assignMemberships(List<BlockGroup> candidates){
