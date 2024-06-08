@@ -2,6 +2,7 @@ package LinguisticSummarization;
 
 import Database.BlockGroup;
 import FuzzyCalculations.FuzzyQuantifier;
+import FuzzyCalculations.Member;
 import FuzzyCalculations.QuantifierLabel;
 import FuzzyCalculations.SummarizerQualifier;
 import org.example.Pair;
@@ -11,7 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LinguisticSummaryGenerator {
+public class    LinguisticSummaryGenerator {
     FuzzyQuantifier quantifier;
     SummarizerQualifier summarizator;
     SummarizerQualifier qualifier;
@@ -20,6 +21,7 @@ public class LinguisticSummaryGenerator {
     String subject;
     QualityMeasures qualityMeasures;
     LinguisticSummaryType linguisticSummaryType;
+    List<BlockGroup> wholeSet;
     int blockGroupsCount;
 
     public FuzzyQuantifier getQuantifier() {
@@ -84,7 +86,7 @@ public class LinguisticSummaryGenerator {
     }
 
     public void calculateQualityMeasures(List<Double> weights, LinguisticSummary linguisticSummary) {
-        linguisticSummary.setQualityMeasures(this.qualityMeasures.all_t(weights, linguisticSummary, 10000));
+        linguisticSummary.setQualityMeasures(this.qualityMeasures.all_t(weights, linguisticSummary, this.wholeSet.size()));
     }
 
     private void generateQualifierWholeSet(List<BlockGroup> data) {
@@ -126,7 +128,7 @@ public class LinguisticSummaryGenerator {
                                       String qualifierConjunction,
                                       String subject,
                                       LinguisticSummaryType linguisticSummaryType,
-                                      int blockGroupsCount) {
+                                      List<BlockGroup> candidates) {
         this.quantifier = quantifier;
         this.summarizator = summarizator;
         this.qualifier = qualifier;
@@ -135,7 +137,8 @@ public class LinguisticSummaryGenerator {
         this.subject = subject;
         this.qualityMeasures = new QualityMeasures();
         this.linguisticSummaryType = linguisticSummaryType;
-        this.blockGroupsCount = blockGroupsCount;
+//        this.blockGroupsCount = blockGroupsCount;
+        this.wholeSet = candidates;
 
     }
 
@@ -152,8 +155,9 @@ public class LinguisticSummaryGenerator {
         this.subject = subject;
         this.qualityMeasures = new QualityMeasures();
         this.linguisticSummaryType = LinguisticSummaryType.First;
-        this.blockGroupsCount = candidates.size();
+//        this.blockGroupsCount = candidates.size();
         this.generateQualifierWholeSet(candidates);
+        this.wholeSet = candidates;
     }
 
 }
