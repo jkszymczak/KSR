@@ -1,9 +1,12 @@
 package GUI;
 
 import Builders.ContainerBuilder;
+import Builders.SummarizerQualifierBuilder;
 import Database.BlockGroup;
 import Database.CSV;
+import FuzzyCalculations.Columns;
 import FuzzyCalculations.Container;
+import FuzzyCalculations.SummarizerQualifier;
 import LinguisticSummarization.TwoSubjectSummaryFirst;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +26,7 @@ import static GUI.LinguisticVariables.*;
 public class CreateLabelController {
     // ================ Code's Variables ================
     Pair<Double, Double> domain;
+    Columns column;
 
     // Data
     private List<BlockGroup> data;
@@ -138,6 +142,92 @@ public class CreateLabelController {
     }
 
 
+    @FXML
+    public void createLabelButtonClicked() {
+        SummarizerQualifier newSummarizerQualifier;
+        double a;
+        double b;
+        double c;
+        double d;
+        String name = enteredName.getText();
+        String functionShape = chosenFunction.getValue();
+        switch (functionShape) {
+            case "Triangle":
+                a = paramA_Slider.getValue();
+                b = paramB_Slider.getValue();
+                c = paramC_Slider.getValue();
+
+                newSummarizerQualifier = SummarizerQualifierBuilder.builder()
+                        .onRange(domain.first, domain.second)
+                        .createFuzzySet().onColumn(column)
+                        .withCandidates(data).withLabel(name)
+                        .createMembershipFunction().createTriangle(a, b, c).build()
+                        .build().end();
+                break;
+            case "Trapezoidal":
+                a = paramA_Slider.getValue();
+                b = paramB_Slider.getValue();
+                c = paramC_Slider.getValue();
+                d = paramD_Slider.getValue();
+
+                newSummarizerQualifier = SummarizerQualifierBuilder.builder()
+                        .onRange(domain.first, domain.second)
+                        .createFuzzySet().onColumn(column)
+                        .withCandidates(data).withLabel(name)
+                        .createMembershipFunction().createTrapezoidal(a, b, c, d).build()
+                        .build().end();
+                break;
+            case "Gaussian":
+                a = paramA_Slider.getValue();
+                b = paramB_Slider.getValue();
+
+                newSummarizerQualifier = SummarizerQualifierBuilder.builder()
+                        .onRange(domain.first, domain.second)
+                        .createFuzzySet().onColumn(column)
+                        .withCandidates(data).withLabel(name)
+                        .createMembershipFunction().createGaussian(a, b).build()
+                        .build().end();
+                break;
+            default:
+                newSummarizerQualifier = null;
+        }
+
+        String chosenLinguisticVariable = chosenAttribute.getValue();
+        switch (chosenLinguisticVariable) {
+            case "Bedroom to room ratio":
+                linguisticVariables.getBedroomToRoomRatio().addLabel(newSummarizerQualifier);
+                break;
+            case "Median house age":
+                linguisticVariables.getMedianHouseAge().addLabel(newSummarizerQualifier);
+                break;
+            case "Mean household type":
+                linguisticVariables.getMeanHouseholdType().addLabel(newSummarizerQualifier);
+                break;
+            case "Median income":
+                linguisticVariables.getMedianIncome().addLabel(newSummarizerQualifier);
+                break;
+            case "Population":
+                linguisticVariables.getPopulation().addLabel(newSummarizerQualifier);
+                break;
+            case "Total rooms count":
+                linguisticVariables.getTotalRoomsCount().addLabel(newSummarizerQualifier);
+                break;
+            case "Median house value":
+                linguisticVariables.getMedianHouseValue().addLabel(newSummarizerQualifier);
+                break;
+            case "Distance LA":
+                linguisticVariables.getDistanceLA().addLabel(newSummarizerQualifier);
+                break;
+            case "Distance SF":
+                linguisticVariables.getDistanceSF().addLabel(newSummarizerQualifier);
+                break;
+            default:
+                break;
+        }
+
+        status.setText("Label created successfully");
+    }
+
     // ================ Code's Functions ================
     // Init ComboBoxes
 
@@ -150,30 +240,39 @@ public class CreateLabelController {
         switch (chosenLinguisticVariable) {
             case "Bedroom to room ratio":
                 domain = linguisticVariables.getBedroomToRoomRatio().getLabel("insufficient share of bedrooms").getRange();
+                column = Columns.ratio_rooms_bedrooms;
                 break;
             case "Median house age":
                 domain = linguisticVariables.getMedianHouseAge().getLabel("new").getRange();
+                column = Columns.housing_median_age;
                 break;
             case "Mean household type":
                 domain = linguisticVariables.getMeanHouseholdType().getLabel("studio apartments dominant").getRange();
+                column = Columns.households;
                 break;
             case "Median income":
                 domain = linguisticVariables.getMedianIncome().getLabel("poor area").getRange();
+                column = Columns.median_income;
                 break;
             case "Population":
                 domain = linguisticVariables.getPopulation().getLabel("practically unpopulated").getRange();
+                column = Columns.population;
                 break;
             case "Total rooms count":
                 domain = linguisticVariables.getTotalRoomsCount().getLabel("few rooms").getRange();
+                column = Columns.total_rooms;
                 break;
             case "Median house value":
                 domain = linguisticVariables.getMedianHouseValue().getLabel("practically worthless").getRange();
+                column = Columns.median_house_value;
                 break;
             case "Distance LA":
                 domain = linguisticVariables.getDistanceLA().getLabel("within city bounds(LA)").getRange();
+                column = Columns.distance_LA;
                 break;
             case "Distance SF":
                 domain = linguisticVariables.getDistanceSF().getLabel("within city bounds(SF)").getRange();
+                column = Columns.distance_SF;
                 break;
             default:
                 break;
@@ -242,11 +341,16 @@ public class CreateLabelController {
                 paramD_Slider.setValue(domain.second);
                 break;
             case "Gaussian":
-                paramA.setText("C: ");
+                paramA.setText("Mean: ");
                 paramB.setText("Sigma: ");
 
+                paramA_Slider.setMin(domain.first);
+                paramA_Slider.setMax(domain.second);
                 paramA_Slider.setValue(domain.first);
-                paramB_Slider.setValue(domain.second);
+
+                paramB_Slider.setMin(domain.first);
+                paramB_Slider.setMax(domain.second);
+                paramB_Slider.setValue(domain.first);
                 break;
         }
 

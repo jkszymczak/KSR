@@ -53,7 +53,7 @@
                   <Label fx:id="paramB" layoutX="540.0" layoutY="149.0" text="parametr b:" />
                   <Label fx:id="paramC" layoutX="540.0" layoutY="182.0" text="parametr c:" />
                   <Label fx:id="paramD" layoutX="540.0" layoutY="215.0" text="parametr d:" />
-                  <Button fx:id="createLabelButton" layoutX="22.0" layoutY="278.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="120.0" text="Create label" />
+                  <Button fx:id="createLabelButton" layoutX="22.0" layoutY="278.0" mnemonicParsing="false" onAction="#createLabelButtonClicked" prefHeight="36.0" prefWidth="120.0" text="Create label" />
                   <Separator layoutY="325.0" prefHeight="12.0" prefWidth="1080.0" />
                   <Label layoutX="17.0" layoutY="339.0" text="Status: " />
                   <Label fx:id="domainLabel" layoutX="14.0" layoutY="215.0" text="Domain: " />
