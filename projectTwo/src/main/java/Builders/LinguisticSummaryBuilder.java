@@ -94,7 +94,7 @@ public class LinguisticSummaryBuilder implements Builder<LinguisticSummaryGenera
         return new LinguisticSummaryGenerator(this.quantifier, this.summarizator,
                 this.qualifier,this.summarizatorConjunction,
                 this.qualifierConjunction,this.subject,
-                this.linguisticSummaryType,this.blockGroupCount);
+                this.linguisticSummaryType,this.candidates);
 
     }
 
