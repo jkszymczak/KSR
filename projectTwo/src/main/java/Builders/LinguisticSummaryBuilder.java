@@ -100,13 +100,17 @@ public class LinguisticSummaryBuilder implements Builder<LinguisticSummaryGenera
         System.out.println("size of new candidates "+newCandidates.size());
         if(this.linguisticSummaryType==LinguisticSummaryType.First){
             return new LinguisticSummaryGenerator(newCandidates,this.quantifier
-                    ,this.summarizator.filterSummarizer(subject),
+                    ,(this.subject != null)? this.summarizator.filterSummarizer(subject):this.summarizator,
                     this.summarizatorConjunction,
-                    this.subjectText);
+                    (this.subject != null)? this.subjectText+" "+this.subject.label : this.subjectText
+            );
         }
-        return new LinguisticSummaryGenerator(this.quantifier, this.summarizator.filterSummarizer(this.subject),
-                this.qualifier.filterSummarizer(this.subject),this.summarizatorConjunction,
-                this.qualifierConjunction,this.subjectText,
+        return new LinguisticSummaryGenerator(this.quantifier,
+                (this.subject != null)? this.summarizator.filterSummarizer(this.subject) : this.summarizator,
+                (this.subject != null)? this.qualifier.filterSummarizer(this.subject) : this.qualifier,
+                this.summarizatorConjunction,
+                this.qualifierConjunction,
+                (this.subject != null)? this.subjectText+" "+this.subject.label : this.subjectText,
                 this.linguisticSummaryType,newCandidates);
 
     }
