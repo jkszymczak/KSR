@@ -925,25 +925,31 @@ public class SSForm2Controller {
 
         FuzzyQuantifier quantifier = connectQuantifier(quantifierStr);
 
-        List<BlockGroup> subjectData;
-        String subjectConj;
+        String subjectConj = "Block Groups";
         if (subjectStr.equals("All database")) {
-            subjectConj = "Block Groups";
-            subjectData = data;
+            genForm2 = LinguisticSummaryBuilder.builder()
+                    .withLinguisticSummaryType(LinguisticSummaryType.Second)
+                    .onSet(data)
+                    .withQuantifier(quantifier)
+                    .withSubject(subjectConj)
+                    .withQualifierConjunction(qualifierConj)
+                    .withQualifier(qualifier)
+                    .withSummarizatorConjunction(summarizatorConj)
+                    .withSummarizator(summarizator)
+                    .build();
         } else {
-            subjectConj = " Block Groups " + subject.label;
-            subjectData = data.stream().filter(blockGroup -> blockGroup.getLabel().equals(subject.label)).toList();
+            genForm2 = LinguisticSummaryBuilder.builder()
+                    .withLinguisticSummaryType(LinguisticSummaryType.Second)
+                    .onSet(data)
+                    .withQuantifier(quantifier)
+                    .withSubject(subjectConj)
+                    .withQualifierConjunction(qualifierConj)
+                    .withQualifier(qualifier)
+                    .withSummarizatorConjunction(summarizatorConj)
+                    .withSummarizator(summarizator)
+                    .onSubject(subject)
+                    .build();
         }
-
-        genForm2 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.Second)
-                .withQuantifier(quantifier)
-                .withSubject(subjectConj)
-                .withQualifierConjunction(qualifierConj)
-                .withQualifier(qualifier)
-                .withSummarizatorConjunction(summarizatorConj)
-                .withSummarizator(summarizator)
-                .build();
     }
 
 

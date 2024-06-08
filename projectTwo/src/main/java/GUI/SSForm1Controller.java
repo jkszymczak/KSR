@@ -646,23 +646,25 @@ public class SSForm1Controller {
 
         FuzzyQuantifier quantifier = connectQuantifier(quantifierStr);
 
-        List<BlockGroup> subjectData;
-        String subjectConj;
+        String subjectConj ="Block Groups";
         if (subjectStr.equals("All database")) {
-            subjectConj ="Block Groups";
-            subjectData = data;
+            genForm1 = LinguisticSummaryBuilder.builder()
+                    .withLinguisticSummaryType(LinguisticSummaryType.First)
+                    .onSet(data).withSummarizator(summarizator)
+                    .withQuantifier(quantifier)
+                    .withSubject(subjectConj)
+                    .withSummarizatorConjunction(summarizatorConj)
+                    .build();
         } else {
-            subjectConj = " Block Groups " + subject.label;
-            subjectData = data.stream().filter(blockGroup -> blockGroup.getLabel().equals(subject.label)).toList();
+            genForm1 = LinguisticSummaryBuilder.builder()
+                    .withLinguisticSummaryType(LinguisticSummaryType.First)
+                    .onSet(data).withSummarizator(summarizator)
+                    .withQuantifier(quantifier)
+                    .withSubject(subjectConj)
+                    .withSummarizatorConjunction(summarizatorConj)
+                    .onSubject(subject)
+                    .build();
         }
-
-        genForm1 = LinguisticSummaryBuilder.builder()
-                .withLinguisticSummaryType(LinguisticSummaryType.First)
-                .onSet(subjectData).withSummarizator(summarizator)
-                .withQuantifier(quantifier)
-                .withSubject(subjectConj)
-                .withSummarizatorConjunction(summarizatorConj)
-                .build();
     }
 
     private SummarizerQualifier connectSummarizerQualifier(String linguisticVariable, String linguisticVariableLabel) {

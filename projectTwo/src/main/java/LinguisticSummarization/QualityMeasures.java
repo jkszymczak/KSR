@@ -5,7 +5,6 @@ import org.example.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-// TODO zapytać kogoś jak liczą range (universe of discurse) po and z sumaryzatorem
 public class QualityMeasures {
     double r(SummarizerQualifier summarizer, SummarizerQualifier qualifier, QuantifierType quantifierType) {
         SummarizerQualifier joined = summarizer.and(qualifier);
