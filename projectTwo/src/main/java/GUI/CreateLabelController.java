@@ -157,6 +157,11 @@ public class CreateLabelController {
                 b = paramB_Slider.getValue();
                 c = paramC_Slider.getValue();
 
+                if (b < a || b > c || a > c) {
+                    status.setText("Bad parameters' values");
+                    return;
+                }
+
                 newSummarizerQualifier = SummarizerQualifierBuilder.builder()
                         .onRange(domain.first, domain.second)
                         .createFuzzySet().onColumn(column)
@@ -169,6 +174,11 @@ public class CreateLabelController {
                 b = paramB_Slider.getValue();
                 c = paramC_Slider.getValue();
                 d = paramD_Slider.getValue();
+
+                if (a>b || d<c || b>c || b>d) {
+                    status.setText("Bad parameters' values");
+                    return;
+                }
 
                 newSummarizerQualifier = SummarizerQualifierBuilder.builder()
                         .onRange(domain.first, domain.second)
@@ -230,7 +240,6 @@ public class CreateLabelController {
 
     // ================ Code's Functions ================
     // Init ComboBoxes
-
 
 
     public void updateFunctionDomain() {
@@ -342,7 +351,7 @@ public class CreateLabelController {
                 break;
             case "Gaussian":
                 paramA.setText("Mean: ");
-                paramB.setText("Sigma: ");
+                paramB.setText("Sigjavafxma: ");
 
                 paramA_Slider.setMin(domain.first);
                 paramA_Slider.setMax(domain.second);
